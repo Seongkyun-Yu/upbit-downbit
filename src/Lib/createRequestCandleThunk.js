@@ -1,4 +1,4 @@
-const createRequestCandleThunk = (type, api) => {
+export default function createRequestCandleThunk(type, api) {
   const SUCCESS = `${type}_SUCCESS`;
   const ERROR = `${type}_FAILURE`;
 
@@ -19,4 +19,4 @@ const createRequestCandleThunk = (type, api) => {
       throw e;
     }
   };
-};
+}

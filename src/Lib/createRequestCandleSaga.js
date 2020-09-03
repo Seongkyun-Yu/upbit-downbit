@@ -1,6 +1,6 @@
 import { call, put } from "redux-saga/effects";
 
-const createRequestCandleSaga = (type, api) => {
+export default function createRequestCandleSaga(type, api) {
   const SUCCESS = `${type}_SUCCESS`;
   const ERROR = `${type}_ERROR`;
 
@@ -14,4 +14,4 @@ const createRequestCandleSaga = (type, api) => {
       throw e;
     }
   };
-};
+}
