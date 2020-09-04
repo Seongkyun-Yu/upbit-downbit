@@ -1,10 +1,11 @@
 import { call, put } from "redux-saga/effects";
 
-const candleObjMaker = (state, candles) => {
-  candles.map((candle) => {});
-  return {
-    ...state.data,
-  };
+// const candleDataUtils = {
+//   initial: () => {},
+// };
+
+const candleDataMaker = (state, candles) => {
+  candles.map((candle) => Object.keys(candle)[0]);
 };
 
 const candleReducerUtils = {
@@ -30,6 +31,7 @@ const candleReducerUtils = {
   }),
 };
 
+// 1개의 코인의 전체 캔들 정보 가져올 때 쓰는 saga
 const createRequestCandleSaga = (type, api) => {
   const SUCCESS = `${type}_SUCCESS`;
   const ERROR = `${type}_ERROR`;
@@ -38,6 +40,7 @@ const createRequestCandleSaga = (type, api) => {
     yield put(type);
     try {
       const res = yield call(api, action.payload);
+
       yield put({ type: SUCCESS, payload: res.data });
     } catch (e) {
       yield put({ type: ERROR, payload: e });
