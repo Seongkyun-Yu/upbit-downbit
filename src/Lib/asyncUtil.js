@@ -1,5 +1,35 @@
 import { call, put } from "redux-saga/effects";
 
+const candleObjMaker = (state, candles) => {
+  candles.map((candle) => {});
+  return {
+    ...state.data,
+  };
+};
+
+const candleReducerUtils = {
+  initial: (initialData = null) => ({
+    loading: false,
+    data: initialData,
+    error: null,
+  }),
+  loading: (prevState = null) => ({
+    loading: true,
+    data: prevState,
+    error: null,
+  }),
+  success: (payload) => ({
+    loading: false,
+    data: payload,
+    error: null,
+  }),
+  error: (error) => ({
+    loading: false,
+    data: null,
+    error: error,
+  }),
+};
+
 const createRequestCandleSaga = (type, api) => {
   const SUCCESS = `${type}_SUCCESS`;
   const ERROR = `${type}_ERROR`;
@@ -33,7 +63,7 @@ const candleActions = (type, key, name) => {
           ...state,
           [key]: {
             ...state[key],
-            [name]: action.payload,
+            da: action.payload,
             loading: false,
           },
         };
