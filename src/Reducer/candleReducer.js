@@ -7,11 +7,6 @@ const GET_ALL_CANDLE_SUCCESS = "candle/GET_ALL_CANDLE_SUCCESS";
 const GET_ALL_CANDLE_ERROR = "candle/GET_ALL_CANDLE_ERROR";
 
 const initialState = {
-  socket: {
-    loading: false,
-    error: "",
-    errorMsg: "",
-  },
   candle: {
     loading: false,
     error: "",
