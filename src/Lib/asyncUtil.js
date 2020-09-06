@@ -1,4 +1,5 @@
 import { call, put } from "redux-saga/effects";
+import { startLoading, finishLoading } from "../Reducer/loadingReducer";
 
 const candleDataUtils = {
   init: (candles) => {
@@ -51,13 +52,15 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
   const ERROR = `${type}_ERROR`;
 
   return function* (action) {
-    yield put(type);
+    yield put(startLoading(type));
     try {
       const res = yield call(api, action.payload);
 
       yield put({ type: SUCCESS, payload: dataMaker(res.data) });
+      yield put(finishLoading(type));
     } catch (e) {
       yield put({ type: ERROR, payload: e });
+      yield put(finishLoading(type));
       throw e;
     }
   };
@@ -66,13 +69,11 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
 const reducerUtils = {
   success: (state, payload) => ({
     ...state,
-    loading: false,
     data: payload,
     error: null,
   }),
   error: (state, error) => ({
     ...state,
-    loading: false,
     error: error,
   }),
 };
