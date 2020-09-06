@@ -64,11 +64,6 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
 };
 
 const reducerUtils = {
-  loading: (state) => ({
-    ...state,
-    loading: true,
-    error: null,
-  }),
   success: (state, payload) => ({
     ...state,
     loading: false,
@@ -82,12 +77,10 @@ const reducerUtils = {
   }),
 };
 
-const handleActions = (type) => {
+const candleActions = (type) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
   return (state, action) => {
     switch (action.type) {
-      case type:
-        return reducerUtils.loading(state);
       case SUCCESS:
         return reducerUtils.success(state, action.payload);
       case ERROR:
@@ -98,4 +91,4 @@ const handleActions = (type) => {
   };
 };
 
-export { createRequestCandleSaga, handleActions };
+export { createRequestCandleSaga, candleActions };
