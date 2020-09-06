@@ -1,4 +1,4 @@
-import { handleActions } from "../Lib/asyncUtil";
+import { candleActions } from "../Lib/asyncUtil";
 
 const GET_MARKET_NAMES = "candle/GET_MARKET_NAMES";
 const GET_MARKET_NAMES_SUCCESS = "candle/GET_MARKET_NAMES_SUCCESS";
@@ -14,14 +14,12 @@ const GET_ALL_CANDLE_ERROR = "candle/GET_ALL_CANDLE_ERROR";
 
 const initialState = {
   marketName: {
-    loading: false,
     error: null,
     data: {
       "KRW-BTC": "비트코인",
     },
   },
   candle: {
-    loading: false,
     error: null,
     data: {
       "KRW-BTC": {
@@ -39,7 +37,7 @@ const candleReducer = (state = initialState, action) => {
     case GET_MARKET_NAMES:
     case GET_MARKET_NAMES_SUCCESS:
     case GET_MARKET_NAMES_ERROR:
-      return handleActions(GET_MARKET_NAMES);
+      return candleActions(GET_MARKET_NAMES);
     default:
       return state;
   }
