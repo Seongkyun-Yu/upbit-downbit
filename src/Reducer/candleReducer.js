@@ -18,6 +18,19 @@ const GET_ALL_CANDLE = "candle/GET_ALL_CANDLE";
 const GET_ALL_CANDLE_SUCCESS = "candle/GET_ALL_CANDLE_SUCCESS";
 const GET_ALL_CANDLE_ERROR = "candle/GET_ALL_CANDLE_ERROR";
 
+// Saga 진입용 액션들
+const getMakretNames = () => ({ type: GET_MARKET_NAMES });
+
+const getMarketNameSaga = createRequestCandleSaga(
+  GET_MARKET_NAMES,
+  coinApi.getMarketCodes,
+  candleDataUtils.marketNames
+);
+
+function* candleSaga() {
+  yield takeEvery(GET_MARKET_NAMES, getMarketNameSaga);
+}
+
 const initialState = {
   marketName: {
     error: null,
@@ -38,24 +51,14 @@ const initialState = {
   },
 };
 
-const getMarketNameSaga = createRequestCandleSaga(
-  "GET_MARKET_NAMES",
-  coinApi.getMarketCodes,
-  candleDataUtils.marketNames
-);
-
-function* candleSaga() {
-  yield takeEvery(GET_MARKET_NAMES, getMarketNameSaga);
-}
-
 const candleReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_MARKET_NAMES_SUCCESS:
     case GET_MARKET_NAMES_ERROR:
-      return candleActions(GET_MARKET_NAMES);
+      return candleActions(GET_MARKET_NAMES)(state, action);
     default:
       return state;
   }
 };
 
-export { candleReducer, candleSaga };
+export { getMakretNames, candleReducer, candleSaga };

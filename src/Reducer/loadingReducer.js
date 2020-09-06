@@ -19,6 +19,7 @@ const loadingReducer = (state = initialState, action) => {
         [action.payload]: false,
       };
     default:
+      return state;
   }
 };
 
