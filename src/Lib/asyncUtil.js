@@ -82,20 +82,20 @@ const reducerUtils = {
   }),
 };
 
-const candleActions = (type) => {
+const handleActions = (type) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
   return (state, action) => {
     switch (action.type) {
       case type:
         return reducerUtils.loading(state);
       case SUCCESS:
-        return reducerUtils.success(state);
+        return reducerUtils.success(state, action.payload);
       case ERROR:
-        return reducerUtils.error(state);
+        return reducerUtils.error(state, action.payload);
       default:
         return state;
     }
   };
 };
 
-export { createRequestCandleSaga, candleActions };
+export { createRequestCandleSaga, handleActions };
