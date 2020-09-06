@@ -52,7 +52,6 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
   const ERROR = `${type}_ERROR`;
 
   return function* (action) {
-    console.log("여기");
     yield put(startLoading(type));
     try {
       const res = yield call(api, action.payload);
@@ -68,11 +67,13 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
 };
 
 const reducerUtils = {
-  success: (state, payload) => ({
-    ...state,
-    data: payload,
-    error: null,
-  }),
+  success: (state, payload) => {
+    return {
+      ...state,
+      data: payload,
+      error: null,
+    };
+  },
   error: (state, error) => ({
     ...state,
     error: error,
