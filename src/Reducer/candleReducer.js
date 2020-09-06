@@ -1,4 +1,10 @@
-import { candleActions } from "../Lib/asyncUtil";
+import {
+  candleDataUtils,
+  candleActions,
+  createRequestCandleSaga,
+} from "../Lib/asyncUtil";
+import { coinApi } from "../Api/api";
+import { takeEvery } from "redux-saga/effects";
 
 const GET_MARKET_NAMES = "candle/GET_MARKET_NAMES";
 const GET_MARKET_NAMES_SUCCESS = "candle/GET_MARKET_NAMES_SUCCESS";
@@ -32,9 +38,18 @@ const initialState = {
   },
 };
 
+const getMarketNameSaga = createRequestCandleSaga(
+  "GET_MARKET_NAMES",
+  coinApi.getMarketCodes,
+  candleDataUtils.marketNames
+);
+
+function* candleSaga() {
+  yield takeEvery(GET_MARKET_NAMES, getMarketNameSaga);
+}
+
 const candleReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_MARKET_NAMES:
     case GET_MARKET_NAMES_SUCCESS:
     case GET_MARKET_NAMES_ERROR:
       return candleActions(GET_MARKET_NAMES);
@@ -43,4 +58,4 @@ const candleReducer = (state = initialState, action) => {
   }
 };
 
-export { candleReducer };
+export { candleReducer, candleSaga };

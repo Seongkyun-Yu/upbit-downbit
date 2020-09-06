@@ -92,4 +92,4 @@ const candleActions = (type) => {
   };
 };
 
-export { createRequestCandleSaga, candleActions };
+export { candleDataUtils, createRequestCandleSaga, candleActions };
