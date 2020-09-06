@@ -52,6 +52,7 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
   const ERROR = `${type}_ERROR`;
 
   return function* (action) {
+    console.log("여기");
     yield put(startLoading(type));
     try {
       const res = yield call(api, action.payload);

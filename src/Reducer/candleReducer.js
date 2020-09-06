@@ -4,7 +4,7 @@ import {
   createRequestCandleSaga,
 } from "../Lib/asyncUtil";
 import { coinApi } from "../Api/api";
-import { takeEvery } from "redux-saga/effects";
+import { takeEvery, takeLatest } from "redux-saga/effects";
 
 const GET_MARKET_NAMES = "candle/GET_MARKET_NAMES";
 const GET_MARKET_NAMES_SUCCESS = "candle/GET_MARKET_NAMES_SUCCESS";
@@ -22,13 +22,13 @@ const GET_ALL_CANDLE_ERROR = "candle/GET_ALL_CANDLE_ERROR";
 const getMakretNames = () => ({ type: GET_MARKET_NAMES });
 
 const getMarketNameSaga = createRequestCandleSaga(
-  "GET_MARKET_NAMES",
+  GET_MARKET_NAMES,
   coinApi.getMarketCodes,
   candleDataUtils.marketNames
 );
 
 function* candleSaga() {
-  yield takeEvery(GET_MARKET_NAMES, getMarketNameSaga);
+  yield takeLatest(GET_MARKET_NAMES, getMarketNameSaga);
 }
 
 const initialState = {
