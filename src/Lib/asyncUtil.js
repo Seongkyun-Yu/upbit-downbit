@@ -1,12 +1,42 @@
 import { call, put } from "redux-saga/effects";
 
-// const candleDataUtils = {
-//   initial: () => {},
-// };
+const candleDataUtils = {
+  init: (candles) => {
+    const data = {};
+    candles.forEach((candle) => {
+      data[candle.market] = {};
+      data[candle.market]["candles"].push({
+        date: candle.trade_date,
+        time: candle.trade_time,
+        dateKst: candle.trade_date_kst,
+        timeKst: candle.trade_time_kst,
+        open: candle.opening_price,
+        high: candle.high_price,
+        low: candle.low_price,
+        close: candle.trade_price,
+        volume: candle.acc_trade_volume,
+        tradePrice: candle.acc_trade_price,
+        timestamp: candle.timestamp,
+      });
+      data[candle.market]["accTradePrice"] = candle.acc_trade_price_24h;
+      data[candle.market]["accTradeVolume"] = candle.acc_trade_volume_24h;
+      data[candle.market]["changeRate"] = candle.signed_change_rate;
+      data[candle.market]["cahnagePrice"] = candle.signed_change_price;
+      data[candle.market]["highest52WeekPrice"] = candle.highest_52_week_price;
+      data[candle.market]["highest52WeekDate"] = candle.highest_52_week_date;
+      data[candle.market]["lowest52WeekPrice"] = candle.lowest_52_week_price;
+      data[candle.market]["lowest52WeekDate"] = candle.lowest_52_week_date;
+    });
 
-const candleDataMaker = (state, candles) => {
-  candles.map((candle) => Object.keys(candle)[0]);
+    return data;
+  },
+  update: () => {},
+  oneCoin: () => {},
 };
+
+// const candleDataMaker = (state, candles) => {
+//   candles.map((candle) => Object.keys(candle)[0]);
+// };
 
 const candleReducerUtils = {
   initial: (initialData = null) => ({

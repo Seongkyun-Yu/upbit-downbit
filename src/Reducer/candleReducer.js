@@ -12,7 +12,12 @@ const initialState = {
     error: "",
     errorMsg: "",
     data: {
-      "KRW-BTC": [],
+      "KRW-BTC": {
+        candles: [],
+        accTradePrice: 0,
+        accTradeVolume: 0,
+        changeRate: 0,
+      },
       "KRW-ETH": [],
       "KRW-BCH": [],
       "KRW-XRP": [],
