@@ -4,6 +4,8 @@ const candleDataUtils = {
   init: (candles) => {
     const data = {};
     candles.forEach((candle) => {
+      if (candle.market.split("-")[0] !== "KRW") return;
+
       data[candle.market] = {};
       data[candle.market]["candles"].push({
         date: candle.trade_date,
@@ -32,6 +34,15 @@ const candleDataUtils = {
   },
   update: () => {},
   oneCoin: () => {},
+  marketNames: (names) => {
+    const data = {};
+    names.forEach((name) => {
+      if (name.market.split("-")[0] !== "KRW") return;
+      data[name.market] = name.korean_name;
+    });
+
+    return data;
+  },
 };
 
 // const candleDataMaker = (state, candles) => {
