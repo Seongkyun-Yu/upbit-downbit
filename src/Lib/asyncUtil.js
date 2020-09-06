@@ -45,35 +45,8 @@ const candleDataUtils = {
   },
 };
 
-// const candleDataMaker = (state, candles) => {
-//   candles.map((candle) => Object.keys(candle)[0]);
-// };
-
-const candleReducerUtils = {
-  initial: (initialData = null) => ({
-    loading: false,
-    data: initialData,
-    error: null,
-  }),
-  loading: (prevState = null) => ({
-    loading: true,
-    data: prevState,
-    error: null,
-  }),
-  success: (payload) => ({
-    loading: false,
-    data: payload,
-    error: null,
-  }),
-  error: (error) => ({
-    loading: false,
-    data: null,
-    error: error,
-  }),
-};
-
-// 1개의 코인의 전체 캔들 정보 가져올 때 쓰는 saga
-const createRequestCandleSaga = (type, api) => {
+// 캔들용 사가
+const createRequestCandleSaga = (type, api, dataMaker) => {
   const SUCCESS = `${type}_SUCCESS`;
   const ERROR = `${type}_ERROR`;
 
@@ -82,7 +55,7 @@ const createRequestCandleSaga = (type, api) => {
     try {
       const res = yield call(api, action.payload);
 
-      yield put({ type: SUCCESS, payload: res.data });
+      yield put({ type: SUCCESS, payload: dataMaker(res.data) });
     } catch (e) {
       yield put({ type: ERROR, payload: e });
       throw e;
@@ -90,37 +63,35 @@ const createRequestCandleSaga = (type, api) => {
   };
 };
 
-const candleActions = (type, key, name) => {
+const reducerUtils = {
+  loading: (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  }),
+  success: (state, payload) => ({
+    ...state,
+    loading: false,
+    data: payload,
+    error: null,
+  }),
+  error: (state, error) => ({
+    ...state,
+    loading: false,
+    error: error,
+  }),
+};
+
+const candleActions = (type) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
   return (state, action) => {
     switch (action.type) {
       case type:
-        return {
-          ...state,
-          [key]: {
-            ...state[key],
-            loading: true,
-          },
-        };
+        return reducerUtils.loading(state);
       case SUCCESS:
-        return {
-          ...state,
-          [key]: {
-            ...state[key],
-            da: action.payload,
-            loading: false,
-          },
-        };
+        return reducerUtils.success(state);
       case ERROR:
-        return {
-          ...state,
-          [key]: {
-            ...state[key],
-            loading: false,
-            error: true,
-            errorMsg: action.payload,
-          },
-        };
+        return reducerUtils.error(state);
       default:
         return state;
     }

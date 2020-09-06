@@ -7,6 +7,12 @@ const GET_ALL_CANDLE_SUCCESS = "candle/GET_ALL_CANDLE_SUCCESS";
 const GET_ALL_CANDLE_ERROR = "candle/GET_ALL_CANDLE_ERROR";
 
 const initialState = {
+  marketName: {
+    loading: false,
+    error: "",
+    errorMsg: "",
+    data: {},
+  },
   candle: {
     loading: false,
     error: "",
