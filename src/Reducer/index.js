@@ -1,7 +1,10 @@
 import { combineReducers } from "redux";
 import { candleReducer } from "./candleReducer";
-import { all } from "redux-saga/effects";
+import { loadingReducer } from "./loadingReducer";
 
-function* rootSaga() {
-  yield all();
-}
+const rootReducer = combineReducers({
+  Candle: candleReducer,
+  Loading: loadingReducer,
+});
+
+export { rootReducer };
