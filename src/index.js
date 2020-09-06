@@ -14,10 +14,10 @@ import { Provider } from "react-redux";
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(ReduxThunk, sagaMiddleware));
+  composeWithDevTools(applyMiddleware(ReduxThunk, sagaMiddleware))
 );
 
-sagaMiddleware.run(rootSaga)
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
