@@ -5,9 +5,8 @@ const candleDataUtils = {
   init: (candles) => {
     const data = {};
     candles.forEach((candle) => {
-      if (candle.market.split("-")[0] !== "KRW") return;
-
       data[candle.market] = {};
+      data[candle.market]["candles"] = [];
       data[candle.market]["candles"].push({
         date: candle.trade_date,
         time: candle.trade_time,
@@ -51,13 +50,15 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
   const SUCCESS = `${type}_SUCCESS`;
   const ERROR = `${type}_ERROR`;
 
-  return function* (action) {
+  return function* (action = {}) {
     yield put(startLoading(type));
     try {
       const res = yield call(api, action.payload);
 
       yield put({ type: SUCCESS, payload: dataMaker(res.data) });
       yield put(finishLoading(type));
+
+      return dataMaker(res.data);
     } catch (e) {
       yield put({ type: ERROR, payload: e });
       yield put(finishLoading(type));
@@ -67,27 +68,32 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
 };
 
 const reducerUtils = {
-  success: (state, payload) => {
+  success: (state, payload, key) => {
     return {
       ...state,
-      data: payload,
-      error: null,
+      [key]: {
+        data: payload,
+        error: null,
+      },
     };
   },
-  error: (state, error) => ({
+  error: (state, error, key) => ({
     ...state,
-    error: error,
+    [key]: {
+      ...state[key],
+      error: error,
+    },
   }),
 };
 
-const candleActions = (type) => {
+const candleActions = (type, key) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
   return (state, action) => {
     switch (action.type) {
       case SUCCESS:
-        return reducerUtils.success(state, action.payload);
+        return reducerUtils.success(state, action.payload, key);
       case ERROR:
-        return reducerUtils.error(state, action.payload);
+        return reducerUtils.error(state, action.payload, key);
       default:
         return state;
     }
