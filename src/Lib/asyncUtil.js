@@ -67,27 +67,32 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
 };
 
 const reducerUtils = {
-  success: (state, payload) => {
+  success: (state, payload, key) => {
     return {
       ...state,
-      data: payload,
-      error: null,
+      [key]: {
+        data: payload,
+        error: null,
+      },
     };
   },
-  error: (state, error) => ({
+  error: (state, error, key) => ({
     ...state,
-    error: error,
+    [key]: {
+      ...state[key],
+      error: error,
+    },
   }),
 };
 
-const candleActions = (type) => {
+const candleActions = (type, key) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
   return (state, action) => {
     switch (action.type) {
       case SUCCESS:
-        return reducerUtils.success(state, action.payload);
+        return reducerUtils.success(state, action.payload, key);
       case ERROR:
-        return reducerUtils.error(state, action.payload);
+        return reducerUtils.error(state, action.payload, key);
       default:
         return state;
     }
