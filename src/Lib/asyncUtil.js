@@ -5,9 +5,8 @@ const candleDataUtils = {
   init: (candles) => {
     const data = {};
     candles.forEach((candle) => {
-      if (candle.market.split("-")[0] !== "KRW") return;
-
       data[candle.market] = {};
+      data[candle.market]["candles"] = [];
       data[candle.market]["candles"].push({
         date: candle.trade_date,
         time: candle.trade_time,
@@ -51,13 +50,15 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
   const SUCCESS = `${type}_SUCCESS`;
   const ERROR = `${type}_ERROR`;
 
-  return function* (action) {
+  return function* (action = {}) {
     yield put(startLoading(type));
     try {
       const res = yield call(api, action.payload);
 
       yield put({ type: SUCCESS, payload: dataMaker(res.data) });
       yield put(finishLoading(type));
+
+      return dataMaker(res.data);
     } catch (e) {
       yield put({ type: ERROR, payload: e });
       yield put(finishLoading(type));

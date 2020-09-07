@@ -4,7 +4,8 @@ import {
   createRequestCandleSaga,
 } from "../Lib/asyncUtil";
 import { coinApi } from "../Api/api";
-import { takeEvery, put } from "redux-saga/effects";
+import { takeEvery, put, call } from "redux-saga/effects";
+import { startLoading, finishLoading } from "./loadingReducer";
 
 const START_INIT = "candle/START_INIT";
 
@@ -20,6 +21,7 @@ const GET_INIT_CANDLES = "candle/GET_INIT_CANDLES";
 const GET_INIT_CANDLES_SUCCESS = "candle/GET_INIT_CANDLES_SUCCESS";
 const GET_INIT_CANDLES_ERROR = "candle/GET_INIT_CANDLES_ERROR";
 
+// 업비트에서 제공하는 코인/마켓 이름들 가져오기
 const getMakretNames = () => ({ type: GET_MARKET_NAMES });
 const getMarketNameSaga = createRequestCandleSaga(
   GET_MARKET_NAMES,
@@ -27,6 +29,7 @@ const getMarketNameSaga = createRequestCandleSaga(
   candleDataUtils.marketNames
 );
 
+// 업비트에서 제공하는 코인/마켓 캔들들의 일봉 한 개씩 가져오기
 const getInitCanldes = () => ({ type: GET_INIT_CANDLES });
 const getInitCandleSaga = createRequestCandleSaga(
   GET_INIT_CANDLES,
@@ -34,10 +37,11 @@ const getInitCandleSaga = createRequestCandleSaga(
   candleDataUtils.init
 );
 
+// 시작시 데이터 초기화 작업들
 const startInit = () => ({ type: START_INIT });
 function* startInittSaga() {
-  yield put(getMakretNames());
-  yield put(getInitCanldes());
+  const marketNames = yield getMarketNameSaga();
+  yield getInitCandleSaga({ payload: Object.keys(marketNames) });
 }
 
 function* candleSaga() {
