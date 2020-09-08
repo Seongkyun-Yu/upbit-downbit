@@ -47,9 +47,10 @@ const connectCandleSocketThunk = createConnectSocketThunk(
 // 시작시 데이터 초기화 작업들
 const startInit = () => ({ type: START_INIT });
 function* startInittSaga() {
-  const marketNames = yield getMarketNameSaga();
-  yield getInitCandleSaga({ payload: Object.keys(marketNames) });
-  yield put(connectCandleSocketThunk({ payload: Object.keys(marketNames) }));
+  let marketNames = yield getMarketNameSaga();
+  marketNames = Object.keys(marketNames);
+  yield getInitCandleSaga({ payload: marketNames });
+  yield put(connectCandleSocketThunk({ payload: marketNames }));
 }
 
 function* candleSaga() {
