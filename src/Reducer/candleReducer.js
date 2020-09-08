@@ -40,17 +40,18 @@ const getInitCandleSaga = createRequestCandleSaga(
 // 캔들 웹소켓 연결 Thunk
 const connectCandleSocketThunk = createConnectSocketThunk(
   CONNECT_CANDLE_SOCKET,
-  coinApi.candleWss,
+  "ticker",
   candleDataUtils.update
 );
 
 // 시작시 데이터 초기화 작업들
 const startInit = () => ({ type: START_INIT });
 function* startInittSaga() {
-  let marketNames = yield getMarketNameSaga();
+  let marketNames = yield getMarketNameSaga(); // 코인/시장 종류 받기
   marketNames = Object.keys(marketNames);
-  yield getInitCandleSaga({ payload: marketNames });
-  yield put(connectCandleSocketThunk({ payload: marketNames }));
+
+  yield getInitCandleSaga({ payload: marketNames }); // 코인 캔들 초기값 받기
+  yield put(connectCandleSocketThunk({ payload: marketNames })); // 캔들 소켓 연결
 }
 
 function* candleSaga() {

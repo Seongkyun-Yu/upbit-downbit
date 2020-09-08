@@ -69,19 +69,19 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
 };
 
 // 웹소켓 연결용 Thunk
-const createConnectSocketThunk = (type, wssAddr, dataMaker) => {
+const createConnectSocketThunk = (type, connectType, dataMaker) => {
   const SUCCESS = `${type}_SUCCESS`;
   const ERROR = `${type}_ERROR`;
 
   return (action = {}) => (dispatch, getState) => {
-    const client = new W3CWebSocket(wssAddr);
+    const client = new W3CWebSocket("wss://api.upbit.com/websocket/v1");
     client.binaryType = "arraybuffer";
 
     client.onopen = () => {
       client.send(
         JSON.stringify([
           { ticket: "downbit-clone" },
-          { type: "ticker", codes: action.payload },
+          { type: connectType, codes: action.payload },
         ])
       );
     };
