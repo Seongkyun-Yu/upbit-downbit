@@ -54,7 +54,7 @@ function* startInittSaga() {
   yield put(connectCandleSocketThunk({ payload: marketNames })); // 캔들 소켓 연결
 }
 
-function* candleSaga() {
+function* coinSaga() {
   yield takeEvery(GET_MARKET_NAMES, getMarketNameSaga);
   yield takeEvery(GET_INIT_CANDLES, getInitCandleSaga);
   yield takeEvery(START_INIT, startInittSaga);
@@ -80,7 +80,7 @@ const initialState = {
   },
 };
 
-const candleReducer = (state = initialState, action) => {
+const coinReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_MARKET_NAMES_SUCCESS:
     case GET_MARKET_NAMES_ERROR:
@@ -93,4 +93,4 @@ const candleReducer = (state = initialState, action) => {
   }
 };
 
-export { startInit, getMakretNames, getInitCanldes, candleReducer, candleSaga };
+export { startInit, getMakretNames, getInitCanldes, coinReducer, coinSaga };

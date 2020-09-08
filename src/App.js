@@ -1,9 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  getMakretNames,
-  getInitCanldes,
-  startInit,
-} from "./Reducer/candleReducer";
+import { startInit } from "./Reducer/coinReducer";
 import { useDispatch } from "react-redux";
 
 function App() {

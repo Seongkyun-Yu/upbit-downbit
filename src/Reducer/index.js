@@ -1,15 +1,15 @@
 import { combineReducers } from "redux";
-import { candleReducer, candleSaga } from "./candleReducer";
+import { coinReducer, coinSaga } from "./coinReducer";
 import { loadingReducer } from "./loadingReducer";
 import { all } from "redux-saga/effects";
 
 const rootReducer = combineReducers({
-  Candle: candleReducer,
+  Coin: coinReducer,
   Loading: loadingReducer,
 });
 
 function* rootSaga() {
-  yield all([candleSaga()]);
+  yield all([coinSaga()]);
 }
 
 export { rootReducer, rootSaga };

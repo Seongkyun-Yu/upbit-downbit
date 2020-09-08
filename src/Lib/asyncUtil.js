@@ -33,7 +33,10 @@ const candleDataUtils = {
 
     return data;
   },
-  update: () => {},
+  update: (state, candle) => {
+    // console.log(state.Candle);
+    // const candleState = state.Candle.candle.data;
+  },
   oneCoin: () => {},
   marketNames: (names) => {
     const data = {};
