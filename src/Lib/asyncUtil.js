@@ -1,3 +1,4 @@
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { call, put } from "redux-saga/effects";
 import { startLoading, finishLoading } from "../Reducer/loadingReducer";
 
@@ -67,6 +68,41 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
   };
 };
 
+// 웹소켓 연결용 Thunk
+const createConnectSocketThunk = (type, wssAddr, dataMaker) => {
+  const SUCCESS = `${type}_SUCCESS`;
+  const ERROR = `${type}_ERROR`;
+
+  return (action = {}) => (dispatch, getState) => {
+    const client = new W3CWebSocket(wssAddr);
+    client.binaryType = "arraybuffer";
+
+    client.onopen = () => {
+      client.send(
+        JSON.stringify([
+          { ticket: "downbit-clone" },
+          { type: "ticker", codes: action.payload },
+        ])
+      );
+    };
+
+    client.onmessage = (evt) => {
+      const enc = new TextDecoder("utf-8");
+      const arr = new Uint8Array(evt.data);
+      const data = JSON.parse(enc.decode(arr));
+      const state = getState();
+
+      console.log(data);
+
+      dispatch({ type: SUCCESS, payload: dataMaker(state, data) });
+    };
+
+    client.onerror = (e) => {
+      dispatch({ type: ERROR, payload: e });
+    };
+  };
+};
+
 const reducerUtils = {
   success: (state, payload, key) => {
     return {
@@ -100,4 +136,9 @@ const candleActions = (type, key) => {
   };
 };
 
-export { candleDataUtils, createRequestCandleSaga, candleActions };
+export {
+  candleDataUtils,
+  createRequestCandleSaga,
+  createConnectSocketThunk,
+  candleActions,
+};

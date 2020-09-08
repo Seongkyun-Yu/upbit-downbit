@@ -2,10 +2,10 @@ import {
   candleDataUtils,
   candleActions,
   createRequestCandleSaga,
+  createConnectSocketThunk,
 } from "../Lib/asyncUtil";
 import { coinApi } from "../Api/api";
-import { takeEvery, put, call } from "redux-saga/effects";
-import { startLoading, finishLoading } from "./loadingReducer";
+import { takeEvery, put } from "redux-saga/effects";
 
 const START_INIT = "candle/START_INIT";
 
@@ -13,15 +13,15 @@ const GET_MARKET_NAMES = "candle/GET_MARKET_NAMES";
 const GET_MARKET_NAMES_SUCCESS = "candle/GET_MARKET_NAMES_SUCCESS";
 const GET_MARKET_NAMES_ERROR = "candle/GET_MARKET_NAMES_ERROR";
 
-const CONNECT_CANDLE_SOCKET = "candle/CONNECT_CANDLE_SOCKET";
-const CONNECT_CANDLE_SOCKET_SUCCESS = "candle/CONNECT_CANDLE_SOCKET_SUCCESS";
-const CONNECT_CANDLE_SOCKET_ERROR = "candle/CONNECT_CANDLE_SOCKET_ERROR";
-
 const GET_INIT_CANDLES = "candle/GET_INIT_CANDLES";
 const GET_INIT_CANDLES_SUCCESS = "candle/GET_INIT_CANDLES_SUCCESS";
 const GET_INIT_CANDLES_ERROR = "candle/GET_INIT_CANDLES_ERROR";
 
-// 업비트에서 제공하는 코인/마켓 이름들 가져오기
+const CONNECT_CANDLE_SOCKET = "candle/CONNECT_CANDLE_SOCKET";
+const CONNECT_CANDLE_SOCKET_SUCCESS = "candle/CONNECT_CANDLE_SOCKET_SUCCESS";
+const CONNECT_CANDLE_SOCKET_ERROR = "candle/CONNECT_CANDLE_SOCKET_ERROR";
+
+// 업비트에서 제공하는 코인/마켓 이름들 가져오기 Saga
 const getMakretNames = () => ({ type: GET_MARKET_NAMES });
 const getMarketNameSaga = createRequestCandleSaga(
   GET_MARKET_NAMES,
@@ -29,7 +29,7 @@ const getMarketNameSaga = createRequestCandleSaga(
   candleDataUtils.marketNames
 );
 
-// 업비트에서 제공하는 코인/마켓 캔들들의 일봉 한 개씩 가져오기
+// 업비트에서 제공하는 코인/마켓 캔들들의 일봉 한 개씩 가져오기 Saga
 const getInitCanldes = () => ({ type: GET_INIT_CANDLES });
 const getInitCandleSaga = createRequestCandleSaga(
   GET_INIT_CANDLES,
@@ -37,11 +37,19 @@ const getInitCandleSaga = createRequestCandleSaga(
   candleDataUtils.init
 );
 
+// 캔들 웹소켓 연결 Thunk
+const connectCandleSocketThunk = createConnectSocketThunk(
+  CONNECT_CANDLE_SOCKET,
+  coinApi.candleWss,
+  candleDataUtils.update
+);
+
 // 시작시 데이터 초기화 작업들
 const startInit = () => ({ type: START_INIT });
 function* startInittSaga() {
   const marketNames = yield getMarketNameSaga();
   yield getInitCandleSaga({ payload: Object.keys(marketNames) });
+  yield put(connectCandleSocketThunk({ payload: Object.keys(marketNames) }));
 }
 
 function* candleSaga() {
