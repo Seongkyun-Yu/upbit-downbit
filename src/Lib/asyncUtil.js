@@ -1,5 +1,5 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { call, put } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 import { startLoading, finishLoading } from "../Reducer/loadingReducer";
 
 // 캔들용 사가
@@ -11,11 +11,10 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
     yield put(startLoading(type));
     try {
       const res = yield call(api, action.payload);
+      const state = yield select();
 
-      yield put({ type: SUCCESS, payload: dataMaker(res.data) });
+      yield put({ type: SUCCESS, payload: dataMaker(res.data, state) });
       yield put(finishLoading(type));
-
-      return dataMaker(res.data);
     } catch (e) {
       yield put({ type: ERROR, payload: e });
       yield put(finishLoading(type));
@@ -48,7 +47,7 @@ const createConnectSocketThunk = (type, connectType, dataMaker) => {
       const data = JSON.parse(enc.decode(arr));
       const state = getState();
 
-      dispatch({ type: SUCCESS, payload: dataMaker(state, data) });
+      dispatch({ type: SUCCESS, payload: dataMaker(data, state) });
     };
 
     client.onerror = (e) => {

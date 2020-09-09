@@ -29,24 +29,27 @@ const timestampToDatetime = (timeType, timeCount, timestamp) => {
 };
 
 const candleDataUtils = {
-  init: (candles) => {
+  init: (candles, state) => {
+    const selectedTimeType = state.Coin.selectedTimeType;
+    const selectedTimeCount = state.Coin.selectedTimeType;
+
     const data = {};
     candles.forEach((candle) => {
       data[candle.market] = {};
       data[candle.market]["candles"] = [];
       data[candle.market]["candles"].push({
-        date: candle.trade_date,
-        time: candle.trade_time,
-        datetime: timestampToDatetime("minutes", 1, candle.timestamp),
-        dateKst: candle.trade_date_kst,
-        timeKst: candle.trade_time_kst,
+        datetime: timestampToDatetime(
+          selectedTimeType,
+          selectedTimeCount,
+          candle.timestamp
+        ),
+        timestamp: candle.timestamp,
         open: candle.opening_price,
         high: candle.high_price,
         low: candle.low_price,
         close: candle.trade_price,
         volume: candle.acc_trade_volume,
         tradePrice: candle.acc_trade_price,
-        timestamp: candle.timestamp,
       });
       data[candle.market]["accTradePrice"] = candle.acc_trade_price_24h;
       data[candle.market]["accTradeVolume"] = candle.acc_trade_volume_24h;
@@ -60,14 +63,21 @@ const candleDataUtils = {
 
     return data;
   },
-  update: (state, candle) => {
+  update: (candle, state) => {
     const candleStateDatas = state.Coin.candle.data;
+    const selectedTimeType = state.Coin.selectedTimeType;
+    const selectedTimeCount = state.Coin.selectedTimeType;
+
     const coinMarket = candle.code;
 
     const targetCandles = candleStateDatas[coinMarket].candles;
     const lastCandle = targetCandles.slice(-1)[0];
 
-    const datetime = timestampToDatetime("minutes", 1, candle.timestamp);
+    const datetime = timestampToDatetime(
+      selectedTimeType,
+      selectedTimeCount,
+      candle.timestamp
+    );
     const open = lastCandle.open;
     const high =
       candle.trade_price > lastCandle.high
@@ -86,18 +96,14 @@ const candleDataUtils = {
       const updatedCandles = [...targetCandles];
       updatedCandles.pop();
       updatedCandles.push({
-        date: candle.trade_date,
-        time: candle.trade_time,
         datetime,
-        dateKst: candle.trade_date_kst,
-        timeKst: candle.trade_time_kst,
+        timestamp: candle.timestamp,
         open: close,
         high: close,
         low: close,
         close,
         volume,
         tradePrice,
-        timestamp: candle.timestamp,
       });
 
       newData[coinMarket]["candles"] = updatedCandles;
@@ -116,9 +122,8 @@ const candleDataUtils = {
       newData[coinMarket]["candles"] = [
         ...targetCandles,
         {
-          date: candle.trade_date,
-          time: candle.trade_time,
           datetime,
+          timestamp: candle.timestamp,
           dateKst: candle.trade_date_kst,
           timeKst: candle.trade_time_kst,
           open,
@@ -127,7 +132,6 @@ const candleDataUtils = {
           close,
           volume,
           tradePrice,
-          timestamp: candle.timestamp,
         },
       ];
       newData[coinMarket]["accTradePrice"] = candle.acc_trade_price_24h;
@@ -142,7 +146,38 @@ const candleDataUtils = {
 
     return newData;
   },
-  oneCoin: () => {},
+  oneCoin: (candles, state) => {
+    // console.log(state);
+    const candleStateData = state.Coin.candle.data;
+    const selectedTimeType = state.Coin.selectedTimeType;
+    const selectedTimeCount = state.Coin.selectedTimeType;
+    const market = candles[0].market;
+
+    const newCandles = candles.map((candle) => ({
+      datetime: timestampToDatetime(
+        selectedTimeType,
+        selectedTimeCount,
+        candle.timestamp
+      ),
+      timestamp: candle.timestamp,
+      open: candle.opening_price,
+      high: candle.high_price,
+      low: candle.low_price,
+      close: candle.trade_price,
+      volume: candle.acc_trade_volume,
+      tradePrice: candle.acc_trade_price,
+    }));
+
+    const newData = {
+      ...candleStateData,
+      [market]: {
+        ...candleStateData[market],
+        candles: newCandles,
+      },
+    };
+
+    return newData;
+  },
   marketNames: (names) => {
     const data = {};
     names.forEach((name) => {
