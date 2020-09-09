@@ -49,8 +49,6 @@ const createConnectSocketThunk = (type, connectType, dataMaker) => {
       const data = JSON.parse(enc.decode(arr));
       const state = getState();
 
-      console.log(data);
-
       dispatch({ type: SUCCESS, payload: dataMaker(state, data) });
     };
 
