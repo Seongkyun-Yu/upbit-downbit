@@ -1,6 +1,7 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { call, put } from "redux-saga/effects";
 import { startLoading, finishLoading } from "../Reducer/loadingReducer";
+import { timestampToDatetime } from "./utils";
 
 const candleDataUtils = {
   init: (candles) => {
@@ -11,6 +12,7 @@ const candleDataUtils = {
       data[candle.market]["candles"].push({
         date: candle.trade_date,
         time: candle.trade_time,
+        datetime: timestampToDatetime("minutes", 1, candle.timestamp),
         dateKst: candle.trade_date_kst,
         timeKst: candle.trade_time_kst,
         open: candle.opening_price,
@@ -34,8 +36,86 @@ const candleDataUtils = {
     return data;
   },
   update: (state, candle) => {
-    // console.log(state.Candle);
-    // const candleState = state.Candle.candle.data;
+    const candleStateDatas = state.Coin.candle.data;
+    const coinMarket = candle.code;
+
+    const targetCandles = candleStateDatas[coinMarket].candles;
+    const lastCandle = targetCandles.slice(-1)[0];
+
+    const datetime = timestampToDatetime("minutes", 1, candle.timestamp);
+    const open = lastCandle.open;
+    const high =
+      candle.trade_price > lastCandle.high
+        ? candle.trade_price
+        : lastCandle.high;
+    const low =
+      candle.trade_price < lastCandle.low ? candle.trade_price : lastCandle.low;
+    const close = candle.trade_price;
+
+    const check = targetCandles.find((candle) => candle.datetime === datetime);
+
+    const newData = { ...candleStateDatas };
+    if (check) {
+      const volume = check.volume + candle.trade_volume;
+      const tradePrice = check.tradePrice + candle.trade_price;
+      const updatedCandles = [...targetCandles];
+      updatedCandles.pop();
+      updatedCandles.push({
+        date: candle.trade_date,
+        time: candle.trade_time,
+        datetime,
+        dateKst: candle.trade_date_kst,
+        timeKst: candle.trade_time_kst,
+        open: close,
+        high: close,
+        low: close,
+        close,
+        volume,
+        tradePrice,
+        timestamp: candle.timestamp,
+      });
+
+      newData[coinMarket]["candles"] = updatedCandles;
+      newData[coinMarket]["accTradePrice"] = candle.acc_trade_price_24h;
+      newData[coinMarket]["accTradeVolume"] = candle.acc_trade_volume_24h;
+      newData[coinMarket]["changeRate"] = candle.signed_change_rate;
+      newData[coinMarket]["cahnagePrice"] = candle.signed_change_price;
+      newData[coinMarket]["highest52WeekPrice"] = candle.highest_52_week_price;
+      newData[coinMarket]["highest52WeekDate"] = candle.highest_52_week_date;
+      newData[coinMarket]["lowest52WeekPrice"] = candle.lowest_52_week_price;
+      newData[coinMarket]["lowest52WeekDate"] = candle.lowest_52_week_date;
+    } else {
+      const volume = candle.trade_volume;
+      const tradePrice = candle.trade_price;
+
+      newData[coinMarket]["candles"] = [
+        ...targetCandles,
+        {
+          date: candle.trade_date,
+          time: candle.trade_time,
+          datetime,
+          dateKst: candle.trade_date_kst,
+          timeKst: candle.trade_time_kst,
+          open,
+          high,
+          low,
+          close,
+          volume,
+          tradePrice,
+          timestamp: candle.timestamp,
+        },
+      ];
+      newData[coinMarket]["accTradePrice"] = candle.acc_trade_price_24h;
+      newData[coinMarket]["accTradeVolume"] = candle.acc_trade_volume_24h;
+      newData[coinMarket]["changeRate"] = candle.signed_change_rate;
+      newData[coinMarket]["cahnagePrice"] = candle.signed_change_price;
+      newData[coinMarket]["highest52WeekPrice"] = candle.highest_52_week_price;
+      newData[coinMarket]["highest52WeekDate"] = candle.highest_52_week_date;
+      newData[coinMarket]["lowest52WeekPrice"] = candle.lowest_52_week_price;
+      newData[coinMarket]["lowest52WeekDate"] = candle.lowest_52_week_date;
+    }
+
+    return newData;
   },
   oneCoin: () => {},
   marketNames: (names) => {

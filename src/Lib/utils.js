@@ -10,18 +10,20 @@ const timestampToDatetime = (timeType, timeCount, timestamp) => {
             Math.floor(moment(timestamp).minute() / timeCount) * timeCount
           )
           .second(0)
-          .tz("Asia/Seoul")
+          // .tz("Asia/Seoul")
           // .format('YY-MM-DD HH:mm');
           .format()
       );
     case "hour":
     case "hours":
-      return moment(timestamp)
-        .hour(Math.floor(moment(timestamp).hour() / timeCount) * timeCount)
-        .minute(0)
-        .second(0)
-        .tz("Asia/Seoul")
-        .format("YY-MM-DD HH:mm");
+      return (
+        moment(timestamp)
+          .hour(Math.floor(moment(timestamp).hour() / timeCount) * timeCount)
+          .minute(0)
+          .second(0)
+          // .tz("Asia/Seoul")
+          .format("YY-MM-DD HH:mm")
+      );
     default:
       return undefined;
   }

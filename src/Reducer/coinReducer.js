@@ -48,7 +48,7 @@ const connectCandleSocketThunk = createConnectSocketThunk(
 const startInit = () => ({ type: START_INIT });
 function* startInittSaga() {
   let marketNames = yield getMarketNameSaga(); // 코인/시장 종류 받기
-  marketNames = Object.keys(marketNames);
+  marketNames = Object.keys(marketNames); // 배열로 변경
 
   yield getInitCandleSaga({ payload: marketNames }); // 코인 캔들 초기값 받기
   yield put(connectCandleSocketThunk({ payload: marketNames })); // 캔들 소켓 연결
