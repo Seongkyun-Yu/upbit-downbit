@@ -1,7 +1,6 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { call, put } from "redux-saga/effects";
 import { startLoading, finishLoading } from "../Reducer/loadingReducer";
-import { timestampToDatetime } from "./utils";
 
 // 캔들용 사가
 const createRequestCandleSaga = (type, api, dataMaker) => {
