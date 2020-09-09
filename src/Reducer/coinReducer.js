@@ -1,9 +1,9 @@
 import {
-  candleDataUtils,
   candleActions,
   createRequestCandleSaga,
   createConnectSocketThunk,
 } from "../Lib/asyncUtil";
+import { candleDataUtils } from "../Lib/utils";
 import { coinApi } from "../Api/api";
 import { takeEvery, put } from "redux-saga/effects";
 
@@ -88,6 +88,9 @@ const coinReducer = (state = initialState, action) => {
     case GET_INIT_CANDLES_SUCCESS:
     case GET_INIT_CANDLES_ERROR:
       return candleActions(GET_INIT_CANDLES, "candle")(state, action);
+    case CONNECT_CANDLE_SOCKET_SUCCESS:
+    case CONNECT_CANDLE_SOCKET_ERROR:
+      return candleActions(CONNECT_CANDLE_SOCKET, "candle")(state, action);
     default:
       return state;
   }
