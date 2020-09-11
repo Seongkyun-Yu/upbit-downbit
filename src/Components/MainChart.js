@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
+import { event as currentEvent } from "d3";
 import { useSelector } from "react-redux";
 
 const MainChart = () => {
@@ -16,15 +17,17 @@ const MainChart = () => {
     const width = 1000 - margin.left - margin.right;
     const height = 625 - margin.top - margin.bottom;
 
+    d3.select("#chartContainer").remove();
     const svg = d3
-      .select("#chartContainer")
+      .select("#root")
+      .append("svg")
+      .attr("id", "chartContainer")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     const dates = selectedCandles.map((candle) => dateFormat(candle.datetime));
-    console.log();
 
     const xScale = d3
       .scaleLinear()
@@ -62,7 +65,7 @@ const MainChart = () => {
     gX.selectAll(".tick text");
 
     const ymin = d3.min(selectedCandles.map((candle) => candle.low));
-    const ymax = d3.max(selectedCandles.map((candle) => candle.low));
+    const ymax = d3.max(selectedCandles.map((candle) => candle.high));
     const yScale = d3
       .scaleLinear()
       .domain([ymin, ymax])
@@ -78,9 +81,8 @@ const MainChart = () => {
       .attr("clip-path", "url(#clip)");
 
     // 캔들 몸통
-    const candles = chartBody
-      .selectAll(".candle")
-      .data(selectedCandles)
+    const candles = chartBody.selectAll(".candle").data(selectedCandles);
+    candles
       .enter()
       .append("rect")
       .attr("x", (_, i) => xScale(i) - xBand.bandwidth())
@@ -100,11 +102,12 @@ const MainChart = () => {
           ? "red"
           : "green";
       });
+    // candles.exit().remove();
 
     // 윗꼬리 아랫꼬리
-    const stems = chartBody
-      .selectAll("g.line")
-      .data(selectedCandles)
+    const stems = chartBody.selectAll("g.line").data(selectedCandles);
+
+    stems
       .enter()
       .append("line")
       .attr("class", "stem")
@@ -119,6 +122,7 @@ const MainChart = () => {
           ? "red"
           : "green";
       });
+    // stems.exit().remove();
 
     svg
       .append("defs")
@@ -127,6 +131,47 @@ const MainChart = () => {
       .append("rect")
       .attr("width", width)
       .attr("height", height);
+
+    console.log(currentEvent);
+    // const zoomed = () => {
+    //   const t = currentEvent.transform;
+    //   const xScaleZ = t.rescaleX(xScale);
+
+    //   const hideTicksWithoutLabel = () => {
+    //     d3.selectAll(".xAxis .tick text").each((d) => {
+    //       if (this.innerHTML === "") {
+    //         this.parentNode.style.display = "none";
+    //       }
+    //     });
+    //   };
+
+    //   gX.call(d3.axisBottom(xScaleZ));
+
+    //   candles
+    //     .attr("x", (d, i) => xScaleZ(i) - (xBand.bandwidth() * t.k) / 2)
+    //     .attr("width", xBand.bandwidth() * t.k);
+    //   stems.attr(
+    //     "x1",
+    //     (d, i) => xScaleZ(i) - xBand.bandwidth() / 2 + xBand.bandwidth() * 0.5
+    //   );
+    //   stems.attr(
+    //     "x2",
+    //     (d, i) => xScaleZ(i) - xBand.bandwidth() / 2 + xBand.bandwidth() * 0.5
+    //   );
+
+    //   hideTicksWithoutLabel();
+
+    //   // gX.selectAll(".tick text").call(wrap, xBand.bandwidth());
+    // };
+
+    const extent = [
+      [0, 0],
+      [width, height],
+    ];
+
+    let resizeTimer;
+
+    chartBody.exit().remove();
   }, [selectedCandles]);
 
   return <svg id="chartContainer" ref={svgRef}></svg>;
