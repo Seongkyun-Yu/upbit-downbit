@@ -92,13 +92,13 @@ const initialState = {
       "KRW-BTC": "비트코인",
     },
   },
-  selectedMarket: "KRW-BTC",
+  selectedMarket: "KRW-ADX",
   selectedTimeType: "minutes",
   selectedTimeCount: 1,
   candle: {
     error: null,
     data: {
-      "KRW-BTC": {
+      "KRW-ADX": {
         candles: [],
         accTradePrice: 0,
         accTradeVolume: 0,
