@@ -132,7 +132,7 @@ const MainChart = () => {
       .attr("width", width)
       .attr("height", height);
 
-    console.log(currentEvent);
+    d3.getEvent = () => require("d3-selection").event;
     // const zoomed = () => {
     //   const t = currentEvent.transform;
     //   const xScaleZ = t.rescaleX(xScale);
