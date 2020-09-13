@@ -1095,6 +1095,138 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
+"@d3fc/d3fc-annotation@^3.0.9":
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-annotation/-/d3fc-annotation-3.0.9.tgz#620211a5adcc70a94856cbdbbc324055d32df48b"
+  integrity sha512-yK6Jux2PuCNshIRVNiu+CDKP5eduvxgNHNG6luaclUjvZRbtt0SgHSrPFS7TfkJgBl+a2/YFYv+PPDcY08J2Nw==
+  dependencies:
+    "@d3fc/d3fc-data-join" "^6.0.1"
+    "@d3fc/d3fc-rebind" "^6.0.1"
+    "@d3fc/d3fc-series" "^6.0.2"
+    "@d3fc/d3fc-shape" "^6.0.1"
+
+"@d3fc/d3fc-axis@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-axis/-/d3fc-axis-3.0.3.tgz#a2f1e8f852ec26b82647e5a11ae86aae00ce3d96"
+  integrity sha512-Ibv1I6JRF+Jou8rxgQT67fwe8v0aAsOIEDGOzMFbYQKJboRqCpgor4dfCbQbUW6RouQM9go/GMJr+ki5jtwecg==
+  dependencies:
+    "@d3fc/d3fc-data-join" "^6.0.1"
+    "@d3fc/d3fc-rebind" "^6.0.1"
+
+"@d3fc/d3fc-brush@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-brush/-/d3fc-brush-3.0.1.tgz#ecfedb5258ae258805341939a5e75f6310a5fb71"
+  integrity sha512-Yw0Ip8tHJqibRQmAsP52pLaWZ5Vb7i+dyunH5VPzVbbbSR02BoWmvrE+vgwepNL6/gnVr2nz2EunaOPYHHCYYQ==
+  dependencies:
+    "@d3fc/d3fc-data-join" "^6.0.1"
+    "@d3fc/d3fc-rebind" "^6.0.1"
+
+"@d3fc/d3fc-chart@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-chart/-/d3fc-chart-5.0.4.tgz#9502b0e4be4290050ea7d2cc6443fe6bc7086719"
+  integrity sha512-M8a/ixwmE6SZL46vpzhE6plYKXyMc9MpQWIiCbTeGqVrAXGD/R2CEjM4zTEP4B9ZPo1wXjLgoaptwPTWkOWcGQ==
+  dependencies:
+    "@d3fc/d3fc-axis" "^3.0.3"
+    "@d3fc/d3fc-data-join" "^6.0.1"
+    "@d3fc/d3fc-element" "^6.1.1"
+    "@d3fc/d3fc-rebind" "^6.0.1"
+    "@d3fc/d3fc-series" "^6.0.2"
+
+"@d3fc/d3fc-data-join@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-data-join/-/d3fc-data-join-6.0.1.tgz#6d8117327c0c9fe34dc4ea6d0e8e1acdc486ee39"
+  integrity sha512-m5kHzgiieuqNWC6UAtfEZ2Ggn0V2f/9hU8Z5BCJwLMcpZ+pISz3zYSU2zUmkIrJGIbbFJrjnVvk0eWExbNpzQw==
+
+"@d3fc/d3fc-discontinuous-scale@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-discontinuous-scale/-/d3fc-discontinuous-scale-4.0.1.tgz#f29afe22b3cc6f0b92cd985e5c04ceafa1b5d51a"
+  integrity sha512-L2Kmrc6BDbP1NhEsY/wwo+PpLDlJQZsXMJ3HHmq3uWYFCDhDHJHm1pP1g4uLqAmAHBenRUpBg1y1kUDmUcSgrg==
+  dependencies:
+    "@d3fc/d3fc-rebind" "^6.0.1"
+
+"@d3fc/d3fc-element@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-element/-/d3fc-element-6.1.1.tgz#3abf8eabdcd4ae4c2fa819eb8310160d76eaaff9"
+  integrity sha512-qkizXGvzhc3JtfzvuXMEKTXsEiR5Azh1GRRbXeTN7oWcenIJQ8c0nt0CiqITV3m4nLVO4Yej3RuSDT1DENnxiQ==
+
+"@d3fc/d3fc-extent@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-extent/-/d3fc-extent-4.0.2.tgz#3650422821eb69410f8be7a3597b102b7a04be4c"
+  integrity sha512-m7w7Dof6KAIDtgzIsTcprWTEoiqExJGsGoQbb97bF+EwIkuEZWRUl1jkoeNL00efpX1o6zSdqSr6lojoR0aI/g==
+
+"@d3fc/d3fc-financial-feed@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-financial-feed/-/d3fc-financial-feed-7.0.1.tgz#d39c7c28a96990fa41e02a4618504efa33504602"
+  integrity sha512-vnfvMbvD3oBBjZSOvno6oSoHlzrDZXVjcFOWM0b84lGKlfElfPI6z8W23LHFFTUfy2dZX9MFHPNX0dMGqM2qmA==
+
+"@d3fc/d3fc-group@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-group/-/d3fc-group-3.0.1.tgz#4ca75600c3505214cc953c20f20cea13b7538a08"
+  integrity sha512-GBUR6a4hkqfSo77iaFS4qPMS5tupH8hmJ8eniiD45GFmWQs69+Dlf8Uhx+GCCvQkE+px6rQyZWVCJKBq6gkz2Q==
+
+"@d3fc/d3fc-label-layout@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-label-layout/-/d3fc-label-layout-7.0.1.tgz#55506a23d3bdc2c58e84d101f45bb8fb215d37bc"
+  integrity sha512-shXB2h0VwGnpxpwiPvRtz1UsxRkPU5pELpQQG5XHPEIenCyg5wDBEgfk6wcOyEiEyG7XROKWUr37gv+k26PJhw==
+  dependencies:
+    "@d3fc/d3fc-data-join" "^6.0.1"
+    "@d3fc/d3fc-rebind" "^6.0.1"
+
+"@d3fc/d3fc-pointer@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-pointer/-/d3fc-pointer-3.0.1.tgz#29f27635b0c692d4575d98f4133ac5c35ada2e59"
+  integrity sha512-vPXwwPXz0u/+3EJC91hNH739J/PYRYp1vxrjNhQiWi6Q5y/2I4oyt4eiLqHH3wlIZkRFsPih/AHwqROzkxRd+Q==
+  dependencies:
+    "@d3fc/d3fc-rebind" "^6.0.1"
+
+"@d3fc/d3fc-random-data@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-random-data/-/d3fc-random-data-4.0.1.tgz#0ac7f0429cb0523b9ccdc5d988c755e3c86f7c55"
+  integrity sha512-tKSoImB8V+EKnuwh4K+RBfYWmczgKF+rvH9b3SeGEocw3DlK1SvAr2ZVhYkyFVaqJU5YciWqQfaW5MjVT/33FA==
+  dependencies:
+    "@d3fc/d3fc-rebind" "^6.0.1"
+
+"@d3fc/d3fc-rebind@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-rebind/-/d3fc-rebind-6.0.1.tgz#b66e21d938893a92dd939e55e3147f24f46b652e"
+  integrity sha512-+ryBZ53ALMffbADwnFAtTYQJcT7PE5BwpducGYS0X6Jux6ESnp+fP+cDQvBGbDBOVqaziGnfeLeJXjtMnZujmQ==
+
+"@d3fc/d3fc-sample@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-sample/-/d3fc-sample-5.0.1.tgz#31ed8fc9be336db6f1d9fdc7aff76f5fdc1884da"
+  integrity sha512-VJ4stSJDxcAhYhifiGE63MBVDPstx+yB3+JHuJt/qc8MjHSOC4NjrPpABNUS6qwfmOcQKbaRPN8urzJ+f5FCmg==
+  dependencies:
+    "@d3fc/d3fc-rebind" "^6.0.1"
+
+"@d3fc/d3fc-series@^6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-series/-/d3fc-series-6.0.2.tgz#2ce1511fb1c47425d8d16bc4034d27f4bdc8ef34"
+  integrity sha512-j1E2tzR2cG8/cKCcSaopVTVGcknSqH4lB3hDA05PO0hBCSo/wyPjSjS+ObCmd+BpRnbznngTudgcOMNT24RuUg==
+  dependencies:
+    "@d3fc/d3fc-data-join" "^6.0.1"
+    "@d3fc/d3fc-rebind" "^6.0.1"
+    "@d3fc/d3fc-shape" "^6.0.1"
+    "@d3fc/d3fc-webgl" "^3.1.0"
+
+"@d3fc/d3fc-shape@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-shape/-/d3fc-shape-6.0.1.tgz#e9054f4c140b81d75ac02dfdfe4f913ab5161585"
+  integrity sha512-/dD3S8BWrOjO2mSptUmwe38V7KG4Kw6liIE5NXZJjX/XidfZhuDu7WWuya3i90HeNYDZNcs6Z+4qM3FnvlZf8g==
+
+"@d3fc/d3fc-technical-indicator@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-technical-indicator/-/d3fc-technical-indicator-8.0.1.tgz#88255f4420302f45e517df198df3e711514b7cc8"
+  integrity sha512-0VEDHtcAGDTOVOrVdfPzk5I57H/eXF2O3DpzRn2nzWptg8OiOALdCiahKhZyX42wvlJjopuLCqZfTfJZGna6bw==
+  dependencies:
+    "@d3fc/d3fc-rebind" "^6.0.1"
+
+"@d3fc/d3fc-webgl@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@d3fc/d3fc-webgl/-/d3fc-webgl-3.1.0.tgz#3569936c4b0ac12b9eb1c9f14c6de30473f4599b"
+  integrity sha512-WHVqV7QYaxgExMU6nGGzHBLUDAva/SOogfzQv1A/qGGivGElFsPxeBAfZcnpnz2wsWDdnFLYqV16s16bIorTjg==
+  dependencies:
+    "@d3fc/d3fc-rebind" "^6.0.1"
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -3820,6 +3952,31 @@ d3@^6.1.1:
     d3-timer "2"
     d3-transition "2"
     d3-zoom "2"
+
+d3fc@^15.0.16:
+  version "15.0.16"
+  resolved "https://registry.yarnpkg.com/d3fc/-/d3fc-15.0.16.tgz#49decfb7e54bda1840e0c8740ebbfb492fa81a0c"
+  integrity sha512-wvN8U5tNf2qHKT2wJh16EeHE15GjbXzy82ppbaCAXS9fDze2e4rUiN0cTWNvXqr/p62e0lyx/KgZ6LU5ElQNoQ==
+  dependencies:
+    "@d3fc/d3fc-annotation" "^3.0.9"
+    "@d3fc/d3fc-axis" "^3.0.3"
+    "@d3fc/d3fc-brush" "^3.0.1"
+    "@d3fc/d3fc-chart" "^5.0.4"
+    "@d3fc/d3fc-data-join" "^6.0.1"
+    "@d3fc/d3fc-discontinuous-scale" "^4.0.1"
+    "@d3fc/d3fc-element" "^6.1.1"
+    "@d3fc/d3fc-extent" "^4.0.2"
+    "@d3fc/d3fc-financial-feed" "^7.0.1"
+    "@d3fc/d3fc-group" "^3.0.1"
+    "@d3fc/d3fc-label-layout" "^7.0.1"
+    "@d3fc/d3fc-pointer" "^3.0.1"
+    "@d3fc/d3fc-random-data" "^4.0.1"
+    "@d3fc/d3fc-rebind" "^6.0.1"
+    "@d3fc/d3fc-sample" "^5.0.1"
+    "@d3fc/d3fc-series" "^6.0.2"
+    "@d3fc/d3fc-shape" "^6.0.1"
+    "@d3fc/d3fc-technical-indicator" "^8.0.1"
+    "@d3fc/d3fc-webgl" "^3.1.0"
 
 d@1, d@^1.0.1:
   version "1.0.1"
