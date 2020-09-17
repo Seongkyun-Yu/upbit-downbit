@@ -12,7 +12,6 @@ function App() {
   }, [dispatch]);
   return (
     <div className="App">
-      안녕~
       <MainChart />
     </div>
   );
