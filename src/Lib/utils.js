@@ -1,4 +1,7 @@
 import moment from "moment-timezone";
+import * as d3 from "d3";
+
+const dateFormat = d3.timeParse("%Y-%m-%d %H:%M");
 
 const timestampToDatetime = (timeType, timeCount, timestamp) => {
   switch (timeType) {
@@ -11,7 +14,7 @@ const timestampToDatetime = (timeType, timeCount, timestamp) => {
           )
           .second(0)
           // .tz("Asia/Seoul")
-          .format("YY-MM-DD HH:mm")
+          .format("YYYY-MM-DD HH:mm")
       );
     case "hour":
     case "hours":
@@ -21,7 +24,7 @@ const timestampToDatetime = (timeType, timeCount, timestamp) => {
           .minute(0)
           .second(0)
           // .tz("Asia/Seoul")
-          .format("YY-MM-DD HH:mm")
+          .format("YYYY-MM-DD HH:mm")
       );
     default:
       return undefined;
@@ -38,6 +41,13 @@ const candleDataUtils = {
       data[candle.market] = {};
       data[candle.market]["candles"] = [];
       data[candle.market]["candles"].push({
+        date: dateFormat(
+          timestampToDatetime(
+            selectedTimeType,
+            selectedTimeCount,
+            candle.timestamp
+          )
+        ),
         datetime: timestampToDatetime(
           selectedTimeType,
           selectedTimeCount,
@@ -73,6 +83,9 @@ const candleDataUtils = {
     const targetCandles = candleStateDatas[coinMarket].candles;
     const lastCandle = targetCandles.slice(-1)[0];
 
+    const date = dateFormat(
+      timestampToDatetime(selectedTimeType, selectedTimeCount, candle.timestamp)
+    );
     const datetime = timestampToDatetime(
       selectedTimeType,
       selectedTimeCount,
@@ -96,6 +109,7 @@ const candleDataUtils = {
       const updatedCandles = [...targetCandles];
       updatedCandles.pop();
       updatedCandles.push({
+        date,
         datetime,
         timestamp: candle.timestamp,
         open,
@@ -122,6 +136,7 @@ const candleDataUtils = {
       newData[coinMarket]["candles"] = [
         ...targetCandles,
         {
+          date,
           datetime,
           timestamp: candle.timestamp,
           dateKst: candle.trade_date_kst,
@@ -153,20 +168,30 @@ const candleDataUtils = {
     const selectedTimeCount = state.Coin.selectedTimeType;
     const market = candles[0].market;
 
-    const newCandles = candles.map((candle) => ({
-      datetime: timestampToDatetime(
-        selectedTimeType,
-        selectedTimeCount,
-        candle.timestamp
-      ),
-      timestamp: candle.timestamp,
-      open: candle.opening_price,
-      high: candle.high_price,
-      low: candle.low_price,
-      close: candle.trade_price,
-      volume: candle.acc_trade_volume,
-      tradePrice: candle.acc_trade_price,
-    }));
+    const newCandles = candles.map((candle) => {
+      console.log(candle.candle_acc_trade_volume);
+      return {
+        date: dateFormat(
+          timestampToDatetime(
+            selectedTimeType,
+            selectedTimeCount,
+            candle.timestamp
+          )
+        ),
+        datetime: timestampToDatetime(
+          selectedTimeType,
+          selectedTimeCount,
+          candle.timestamp
+        ),
+        timestamp: candle.timestamp,
+        open: candle.opening_price,
+        high: candle.high_price,
+        low: candle.low_price,
+        close: candle.trade_price,
+        volume: candle.candle_acc_trade_volume,
+        tradePrice: candle.candle_acc_trade_price,
+      };
+    });
 
     const newData = {
       ...candleStateData,
