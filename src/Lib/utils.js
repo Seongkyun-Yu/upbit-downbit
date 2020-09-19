@@ -26,6 +26,13 @@ const timestampToDatetime = (timeType, timeCount, timestamp) => {
           // .tz("Asia/Seoul")
           .format("YYYY-MM-DD HH:mm")
       );
+    case "day":
+    case "days":
+      return moment(timestamp)
+        .hour(0)
+        .minute(0)
+        .second(0)
+        .format("YYYY-MM-DD HH:mm");
     default:
       return undefined;
   }
@@ -162,14 +169,12 @@ const candleDataUtils = {
     return newData;
   },
   oneCoin: (candles, state) => {
-    // console.log(state);
     const candleStateData = state.Coin.candle.data;
     const selectedTimeType = state.Coin.selectedTimeType;
     const selectedTimeCount = state.Coin.selectedTimeType;
     const market = candles[0].market;
 
     const newCandles = candles.map((candle) => {
-      console.log(candle.candle_acc_trade_volume);
       return {
         date: dateFormat(
           timestampToDatetime(
