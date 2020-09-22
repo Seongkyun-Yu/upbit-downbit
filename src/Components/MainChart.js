@@ -16,6 +16,7 @@ import {
   OHLCTooltip,
   SingleValueTooltip,
   lastVisibleItemBasedZoomAnchor,
+  mouseBasedZoomAnchor,
   XAxis,
   YAxis,
   CrossHairCursor,
@@ -57,12 +58,17 @@ const openCloseColor = (data) => {
 const MainChart = ({
   data: initialData,
   height,
-  dateTimeFormat = "%d %b",
   width,
   ratio,
+  selectedTimeType,
 }) => {
-  const margin = { left: 0, right: 80, top: 0, bottom: 24 };
+  const margin = { left: 0, right: 95, top: 0, bottom: 24 };
+
+  const dateTimeFormat =
+    selectedTimeType === "day" ? "%y-%m-%d" : "%y-%m-%d %H:%M";
+  const timeDisplayFormat = timeFormat(dateTimeFormat);
   const pricesDisplayFormat = format("");
+
   const xScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor(
     (d) => d.date
   );
@@ -103,7 +109,6 @@ const MainChart = ({
   const barChartOrigin = (_, h) => [0, h - barChartHeight - elderRayHeight];
   const chartHeight = gridHeight - elderRayHeight;
 
-  const timeDisplayFormat = timeFormat(dateTimeFormat);
   return (
     <ChartCanvas
       height={height}
@@ -118,6 +123,7 @@ const MainChart = ({
       xExtents={xExtents}
       disableInteraction={false}
       zoomAnchor={lastVisibleItemBasedZoomAnchor}
+      onLoadBefore={() => console.log("럴수럴수")}
     >
       <Chart
         id={2}
@@ -203,11 +209,13 @@ const MainChart = ({
           origin={[8, 16]}
         />
       </Chart>
-      <CrossHairCursor />
+      <CrossHairCursor snapX={false} />
     </ChartCanvas>
   );
 };
 
-export default withOHLCData("MINUTES")(
-  withSize({ style: { minHeight: 600 } })(withDeviceRatio()(MainChart))
+export default React.memo(
+  withOHLCData("MINUTES")(
+    withSize({ style: { minHeight: 600 } })(withDeviceRatio()(MainChart))
+  )
 );
