@@ -10,6 +10,6 @@
 - [x] 기본 Reducer 제작<br>
 - [x] Thunk Factory Pattern 제작<br>
 - [x] Saga Factory Pattern 제작<br>
-- [ ] 캔들 차트 드로잉<br>
+- [x] 캔들 차트 드로잉<br>
 - [ ] 호가 차트 드로잉<br>
 - [ ] 주문 창 구현<br>
