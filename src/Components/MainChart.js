@@ -1,78 +1,221 @@
-import React, { useEffect, useRef } from "react";
-import * as d3 from "d3";
-import * as fc from "d3fc";
-import { useSelector } from "react-redux";
+import React from "react";
+import { format } from "d3-format";
+import { timeFormat } from "d3-time-format";
+import {
+  elderRay,
+  ema,
+  discontinuousTimeScaleProviderBuilder,
+  Chart,
+  ChartCanvas,
+  CurrentCoordinate,
+  BarSeries,
+  CandlestickSeries,
+  ElderRaySeries,
+  LineSeries,
+  MovingAverageTooltip,
+  OHLCTooltip,
+  SingleValueTooltip,
+  lastVisibleItemBasedZoomAnchor,
+  mouseBasedZoomAnchor,
+  XAxis,
+  YAxis,
+  CrossHairCursor,
+  EdgeIndicator,
+  MouseCoordinateX,
+  MouseCoordinateY,
+  ZoomButtons,
+  withDeviceRatio,
+  withSize,
+} from "react-financial-charts";
+import { withOHLCData } from "../Container/withOHLCData";
 
-const MainChart = () => {
-  const selectedMarket = useSelector((state) => state.Coin.selectedMarket);
-  // const selectedCandles = useSelector(
-  //   (state) => state.Coin.candle.data[selectedMarket].candles
-  // );
-  // console.log(test[0].date);
+const barChartExtents = (data) => {
+  return data.volume;
+};
 
-  const selectedCandles = fc.randomFinancial()(200);
-  let updated = false;
+const candleChartExtents = (data) => {
+  return [data.high, data.low];
+};
 
-  if (selectedCandles.length > 2) {
-    let updated = true;
+const yEdgeIndicator = (data) => {
+  return data.close;
+};
 
-    console.log("여기야", selectedCandles);
-    const xExtent = fc.extentDate().accessors([(d) => d.date]);
-    const yExtent = fc.extentLinear().accessors([(d) => d.high, (d) => d.low]);
+const volumeColor = (data) => {
+  return data.close > data.open
+    ? "rgba(38, 166, 154, 0.3)"
+    : "rgba(239, 83, 80, 0.3)";
+};
 
-    const gridlines = fc.annotationSvgGridline();
+const volumeSeries = (data) => {
+  return data.volume;
+};
 
-    const candlestick = fc.seriesSvgCandlestick().decorate((sel) => {
-      sel.enter().style("fill", (_, i) => (_.open > _.close ? "blue" : "red"));
-      sel
-        .enter()
-        .style("stroke", (_, i) => (_.open > _.close ? "blue" : "red"));
-    });
+const openCloseColor = (data) => {
+  return data.close > data.open ? "#26a69a" : "#ef5350";
+};
 
-    const multi = fc.seriesSvgMulti().series([gridlines, candlestick]);
-    // 줌용 설정
-    const x = d3.scaleTime();
-    const y = d3.scaleLinear();
+const MainChart = ({
+  data: initialData,
+  height,
+  width,
+  ratio,
+  selectedTimeType,
+}) => {
+  const margin = { left: 0, right: 95, top: 0, bottom: 24 };
 
-    const x2 = d3.scaleTime();
-    const y2 = d3.scaleLinear();
+  const dateTimeFormat =
+    selectedTimeType === "day" ? "%y-%m-%d" : "%y-%m-%d %H:%M";
+  const timeDisplayFormat = timeFormat(dateTimeFormat);
+  const pricesDisplayFormat = format("");
 
-    const zoom = d3.zoom().on("zoom", () => {
-      // update the scale used by the chart to use the updated domain
+  const xScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor(
+    (d) => d.date
+  );
 
-      x.domain(d3.event.transform.rescaleX(x2).domain());
-      y.domain(d3.event.transform.rescaleY(y2).domain());
-      d3.select(".chartContainer").datum(selectedCandles).call(chart);
-    });
-    const chart = fc
-      .chartCartesian(x, y)
-      .xDomain(xExtent(selectedCandles))
-      .yDomain(yExtent(selectedCandles))
-      .svgPlotArea(multi)
-      .decorate((sel) => {
-        sel
-          .enter()
-          .select(".plot-area")
-          .on("measure.range", () => {
-            x2.range([0, d3.event.detail.width]);
-            y2.range([d3.event.detail.height, 0]);
-          })
-          .call(zoom);
-      });
+  const ema12 = ema()
+    .id(1)
+    .options({ windowSize: 12 })
+    .merge((d, c) => {
+      d.ema12 = c;
+    })
+    .accessor((d) => d.ema12);
 
-    x2.domain(chart.xDomain());
-    y2.domain(chart.yDomain());
+  const ema26 = ema()
+    .id(2)
+    .options({ windowSize: 26 })
+    .merge((d, c) => {
+      d.ema26 = c;
+    })
+    .accessor((d) => d.ema26);
 
-    d3.select(".chartContainer").datum(selectedCandles).call(chart);
-  }
+  const elder = elderRay();
 
-  useEffect(() => {}, [selectedCandles]);
+  const calculatedData = elder(ema26(ema12(initialData)));
+
+  const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
+    calculatedData
+  );
+
+  const max = xAccessor(data[data.length - 1]);
+  const min = xAccessor(data[Math.max(0, data.length - 100)]);
+  const xExtents = [min, max + 5];
+
+  const gridHeight = height - margin.top - margin.bottom;
+
+  const elderRayHeight = 100;
+  const elderRayOrigin = (_, h) => [0, h - elderRayHeight];
+  const barChartHeight = gridHeight / 4;
+  const barChartOrigin = (_, h) => [0, h - barChartHeight - elderRayHeight];
+  const chartHeight = gridHeight - elderRayHeight;
 
   return (
-    <div className="chartContainer">
-      {/* <svg id="chartContainer" ref={svgRef}></svg> */}
-    </div>
+    <ChartCanvas
+      height={height}
+      ratio={ratio}
+      width={width}
+      margin={margin}
+      data={data}
+      displayXAccessor={displayXAccessor}
+      seriesName="Data"
+      xScale={xScale}
+      xAccessor={xAccessor}
+      xExtents={xExtents}
+      disableInteraction={false}
+      zoomAnchor={lastVisibleItemBasedZoomAnchor}
+      onLoadBefore={() => console.log("럴수럴수")}
+    >
+      <Chart
+        id={2}
+        height={barChartHeight}
+        origin={barChartOrigin}
+        yExtents={barChartExtents}
+      >
+        <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
+      </Chart>
+      <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
+        <XAxis showGridLines showTickLabel={false} />
+        <YAxis showGridLines tickFormat={pricesDisplayFormat} />
+        <CandlestickSeries />
+        <LineSeries yAccessor={ema26.accessor()} strokeStyle={ema26.stroke()} />
+        <CurrentCoordinate
+          yAccessor={ema26.accessor()}
+          fillStyle={ema26.stroke()}
+        />
+        <LineSeries yAccessor={ema12.accessor()} strokeStyle={ema12.stroke()} />
+        <CurrentCoordinate
+          yAccessor={ema12.accessor()}
+          fillStyle={ema12.stroke()}
+        />
+        <MouseCoordinateY
+          rectWidth={margin.right}
+          displayFormat={pricesDisplayFormat}
+        />
+        <EdgeIndicator
+          itemType="last"
+          rectWidth={margin.right}
+          fill={openCloseColor}
+          lineStroke={openCloseColor}
+          displayFormat={pricesDisplayFormat}
+          yAccessor={yEdgeIndicator}
+        />
+        <MovingAverageTooltip
+          origin={[8, 24]}
+          options={[
+            {
+              yAccessor: ema26.accessor(),
+              type: "EMA",
+              stroke: ema26.stroke(),
+              windowSize: ema26.options().windowSize,
+            },
+            {
+              yAccessor: ema12.accessor(),
+              type: "EMA",
+              stroke: ema12.stroke(),
+              windowSize: ema12.options().windowSize,
+            },
+          ]}
+        />
+
+        <ZoomButtons />
+        <OHLCTooltip origin={[8, 16]} />
+      </Chart>
+      <Chart
+        id={4}
+        height={elderRayHeight}
+        yExtents={[0, elder.accessor()]}
+        origin={elderRayOrigin}
+        padding={{ top: 8, bottom: 8 }}
+      >
+        <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
+        <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
+
+        <MouseCoordinateX displayFormat={timeDisplayFormat} />
+        <MouseCoordinateY
+          rectWidth={margin.right}
+          displayFormat={pricesDisplayFormat}
+        />
+
+        <ElderRaySeries yAccessor={elder.accessor()} />
+
+        <SingleValueTooltip
+          yAccessor={elder.accessor()}
+          yLabel="Elder Ray"
+          yDisplayFormat={(d) =>
+            `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(
+              d.bearPower
+            )}`
+          }
+          origin={[8, 16]}
+        />
+      </Chart>
+      <CrossHairCursor snapX={false} />
+    </ChartCanvas>
   );
 };
 
-export default MainChart;
+export default React.memo(
+  withOHLCData("MINUTES")(
+    withSize({ style: { minHeight: 600 } })(withDeviceRatio()(MainChart))
+  )
+);
