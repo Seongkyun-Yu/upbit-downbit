@@ -63,6 +63,7 @@ const MainChart = ({
   selectedTimeType,
 }) => {
   const margin = { left: 0, right: 95, top: 0, bottom: 24 };
+  if (height > 700) height = 700;
 
   const dateTimeFormat =
     selectedTimeType === "day" ? "%y-%m-%d" : "%y-%m-%d %H:%M";
@@ -216,6 +217,6 @@ const MainChart = ({
 
 export default React.memo(
   withOHLCData("MINUTES")(
-    withSize({ style: { minHeight: 600 } })(withDeviceRatio()(MainChart))
+    withSize({ style: { minHeight: 500 } })(withDeviceRatio()(MainChart))
   )
 );

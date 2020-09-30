@@ -41,7 +41,7 @@ const timestampToDatetime = (timeType, timeCount, timestamp) => {
 const candleDataUtils = {
   init: (candles, state) => {
     const selectedTimeType = state.Coin.selectedTimeType;
-    const selectedTimeCount = state.Coin.selectedTimeType;
+    const selectedTimeCount = state.Coin.selectedTimeCount;
 
     const data = {};
     candles.forEach((candle) => {
@@ -83,7 +83,7 @@ const candleDataUtils = {
   update: (candle, state) => {
     const candleStateDatas = state.Coin.candle.data;
     const selectedTimeType = state.Coin.selectedTimeType;
-    const selectedTimeCount = state.Coin.selectedTimeType;
+    const selectedTimeCount = state.Coin.selectedTimeCount;
 
     const coinMarket = candle.code;
 
@@ -171,7 +171,7 @@ const candleDataUtils = {
   oneCoin: (candles, state) => {
     const candleStateData = state.Coin.candle.data;
     const selectedTimeType = state.Coin.selectedTimeType;
-    const selectedTimeCount = state.Coin.selectedTimeType;
+    const selectedTimeCount = state.Coin.selectedTimeCount;
     const market = candles[0].market;
 
     const newCandles = candles.map((candle) => {
