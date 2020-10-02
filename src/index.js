@@ -11,6 +11,8 @@ import { rootReducer, rootSaga } from "./Reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 
+import "./reset.css";
+
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   rootReducer,
