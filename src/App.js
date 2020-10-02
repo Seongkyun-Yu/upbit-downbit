@@ -6,8 +6,6 @@ import MainChart from "./Components/MainChart";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    // dispatch(getMakretNames());
-    // dispatch(getInitCanldes());
     dispatch(startInit());
   }, [dispatch]);
   return (

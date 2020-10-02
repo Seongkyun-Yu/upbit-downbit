@@ -1,7 +1,0 @@
-.domain,
-.gridline-y,
-.gridline-x,
-.annotation-line > line {
-  stroke: currentColor;
-  stroke-opacity: 0.1;
-}

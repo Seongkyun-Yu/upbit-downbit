@@ -27,7 +27,7 @@ import {
   withDeviceRatio,
   withSize,
 } from "react-financial-charts";
-import { withOHLCData } from "../Container/withOHLCData";
+import withOHLCData from "./withOHLCData";
 
 const barChartExtents = (data) => {
   return data.volume;
@@ -215,8 +215,8 @@ const MainChart = ({
   );
 };
 
-export default React.memo(
-  withOHLCData("MINUTES")(
-    withSize({ style: { minHeight: 500 } })(withDeviceRatio()(MainChart))
-  )
+const memoMainChart = React.memo(MainChart);
+
+export default withOHLCData()(
+  withSize({ style: { minHeight: 500 } })(withDeviceRatio()(memoMainChart))
 );

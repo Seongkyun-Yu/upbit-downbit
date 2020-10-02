@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-const withOHLCData = (dataSet = "DAILY") => (OriginalComponent) => (props) => {
+const withOHLCData = () => (OriginalComponent) => (props) => {
   const selectedMarket = useSelector((state) => state.Coin.selectedMarket);
   const selectedCandles = useSelector(
     (state) => state.Coin.candle.data[selectedMarket].candles
@@ -11,8 +11,12 @@ const withOHLCData = (dataSet = "DAILY") => (OriginalComponent) => (props) => {
   return !selectedCandles.length ? (
     <div className="center">Chart Loading</div>
   ) : (
-    <OriginalComponent {...props} data={selectedCandles} selectedTimeType />
+    <OriginalComponent
+      {...props}
+      data={selectedCandles}
+      selectedTimeType={selectedTimeType}
+    />
   );
 };
 
-export { withOHLCData };
+export default withOHLCData;
