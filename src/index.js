@@ -12,7 +12,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 
 import { ThemeProvider } from "styled-components";
-import theme from "./theme";
+import theme from "./styles/theme";
 import "./reset.css";
 
 const sagaMiddleware = createSagaMiddleware();
