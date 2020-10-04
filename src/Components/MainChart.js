@@ -28,6 +28,7 @@ import {
   withSize,
 } from "react-financial-charts";
 import withOHLCData from "./withOHLCData";
+import styled from "styled-components";
 
 const barChartExtents = (data) => {
   return data.volume;
@@ -55,6 +56,14 @@ const openCloseColor = (data) => {
   return data.close > data.open ? "#26a69a" : "#ef5350";
 };
 
+const ChartContainer = styled.div`
+  width: 100%;
+  /* background-color: yellow; */
+`;
+
+const margin = { left: 10, right: 80, top: 20, bottom: 20 };
+const minHeight = 350;
+
 const MainChart = ({
   data: initialData,
   height,
@@ -62,8 +71,10 @@ const MainChart = ({
   ratio,
   selectedTimeType,
 }) => {
-  const margin = { left: 0, right: 95, top: 0, bottom: 24 };
-  if (height > 700) height = 700;
+  console.log(height, width);
+  // if (height > 500) height = 500;
+  // // if (width > 1000) width = 1000;
+  // width = width / 2;
 
   const dateTimeFormat =
     selectedTimeType === "day" ? "%y-%m-%d" : "%y-%m-%d %H:%M";
@@ -111,112 +122,126 @@ const MainChart = ({
   const chartHeight = gridHeight - elderRayHeight;
 
   return (
-    <ChartCanvas
-      height={height}
-      ratio={ratio}
-      width={width}
-      margin={margin}
-      data={data}
-      displayXAccessor={displayXAccessor}
-      seriesName="Data"
-      xScale={xScale}
-      xAccessor={xAccessor}
-      xExtents={xExtents}
-      disableInteraction={false}
-      zoomAnchor={lastVisibleItemBasedZoomAnchor}
-      onLoadBefore={() => console.log("럴수럴수")}
-    >
-      <Chart
-        id={2}
-        height={barChartHeight}
-        origin={barChartOrigin}
-        yExtents={barChartExtents}
+    <ChartContainer>
+      <ChartCanvas
+        height={height}
+        ratio={ratio}
+        width={width}
+        margin={margin}
+        data={data}
+        displayXAccessor={displayXAccessor}
+        seriesName="Data"
+        xScale={xScale}
+        xAccessor={xAccessor}
+        xExtents={xExtents}
+        disableInteraction={false}
+        zoomAnchor={lastVisibleItemBasedZoomAnchor}
+        onLoadBefore={() => console.log("럴수럴수")}
       >
-        <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
-      </Chart>
-      <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
-        <XAxis showGridLines showTickLabel={false} />
-        <YAxis showGridLines tickFormat={pricesDisplayFormat} />
-        <CandlestickSeries />
-        <LineSeries yAccessor={ema26.accessor()} strokeStyle={ema26.stroke()} />
-        <CurrentCoordinate
-          yAccessor={ema26.accessor()}
-          fillStyle={ema26.stroke()}
-        />
-        <LineSeries yAccessor={ema12.accessor()} strokeStyle={ema12.stroke()} />
-        <CurrentCoordinate
-          yAccessor={ema12.accessor()}
-          fillStyle={ema12.stroke()}
-        />
-        <MouseCoordinateY
-          rectWidth={margin.right}
-          displayFormat={pricesDisplayFormat}
-        />
-        <EdgeIndicator
-          itemType="last"
-          rectWidth={margin.right}
-          fill={openCloseColor}
-          lineStroke={openCloseColor}
-          displayFormat={pricesDisplayFormat}
-          yAccessor={yEdgeIndicator}
-        />
-        <MovingAverageTooltip
-          origin={[8, 24]}
-          options={[
-            {
-              yAccessor: ema26.accessor(),
-              type: "EMA",
-              stroke: ema26.stroke(),
-              windowSize: ema26.options().windowSize,
-            },
-            {
-              yAccessor: ema12.accessor(),
-              type: "EMA",
-              stroke: ema12.stroke(),
-              windowSize: ema12.options().windowSize,
-            },
-          ]}
-        />
+        <Chart
+          id={2}
+          height={barChartHeight}
+          origin={barChartOrigin}
+          yExtents={barChartExtents}
+        >
+          <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
+        </Chart>
+        <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
+          <XAxis showGridLines showTickLabel={false} />
+          <YAxis showGridLines tickFormat={pricesDisplayFormat} />
+          <CandlestickSeries />
+          <LineSeries
+            yAccessor={ema26.accessor()}
+            strokeStyle={ema26.stroke()}
+          />
+          <CurrentCoordinate
+            yAccessor={ema26.accessor()}
+            fillStyle={ema26.stroke()}
+          />
+          <LineSeries
+            yAccessor={ema12.accessor()}
+            strokeStyle={ema12.stroke()}
+          />
+          <CurrentCoordinate
+            yAccessor={ema12.accessor()}
+            fillStyle={ema12.stroke()}
+          />
+          <MouseCoordinateY
+            rectWidth={margin.right}
+            displayFormat={pricesDisplayFormat}
+          />
+          <EdgeIndicator
+            itemType="last"
+            rectWidth={margin.right}
+            fill={openCloseColor}
+            lineStroke={openCloseColor}
+            displayFormat={pricesDisplayFormat}
+            yAccessor={yEdgeIndicator}
+          />
+          <MovingAverageTooltip
+            origin={[8, 24]}
+            options={[
+              {
+                yAccessor: ema26.accessor(),
+                type: "EMA",
+                stroke: ema26.stroke(),
+                windowSize: ema26.options().windowSize,
+              },
+              {
+                yAccessor: ema12.accessor(),
+                type: "EMA",
+                stroke: ema12.stroke(),
+                windowSize: ema12.options().windowSize,
+              },
+            ]}
+          />
 
-        <ZoomButtons />
-        <OHLCTooltip origin={[8, 16]} />
-      </Chart>
-      <Chart
-        id={4}
-        height={elderRayHeight}
-        yExtents={[0, elder.accessor()]}
-        origin={elderRayOrigin}
-        padding={{ top: 8, bottom: 8 }}
-      >
-        <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
-        <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
+          <ZoomButtons />
+          <OHLCTooltip origin={[8, 16]} />
+        </Chart>
+        <Chart
+          id={4}
+          height={elderRayHeight}
+          yExtents={[0, elder.accessor()]}
+          origin={elderRayOrigin}
+          padding={{ top: 8, bottom: 8 }}
+        >
+          <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
+          <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
 
-        <MouseCoordinateX displayFormat={timeDisplayFormat} />
-        <MouseCoordinateY
-          rectWidth={margin.right}
-          displayFormat={pricesDisplayFormat}
-        />
+          <MouseCoordinateX displayFormat={timeDisplayFormat} />
+          <MouseCoordinateY
+            rectWidth={margin.right}
+            displayFormat={pricesDisplayFormat}
+          />
 
-        <ElderRaySeries yAccessor={elder.accessor()} />
+          <ElderRaySeries yAccessor={elder.accessor()} />
 
-        <SingleValueTooltip
-          yAccessor={elder.accessor()}
-          yLabel="Elder Ray"
-          yDisplayFormat={(d) =>
-            `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(
-              d.bearPower
-            )}`
-          }
-          origin={[8, 16]}
-        />
-      </Chart>
-      <CrossHairCursor snapX={false} />
-    </ChartCanvas>
+          <SingleValueTooltip
+            yAccessor={elder.accessor()}
+            yLabel="Elder Ray"
+            yDisplayFormat={(d) =>
+              `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(
+                d.bearPower
+              )}`
+            }
+            origin={[8, 16]}
+          />
+        </Chart>
+        <CrossHairCursor snapX={false} />
+      </ChartCanvas>
+    </ChartContainer>
   );
 };
 
 const memoMainChart = React.memo(MainChart);
 
 export default withOHLCData()(
-  withSize({ style: { minHeight: 500 } })(withDeviceRatio()(memoMainChart))
+  withSize({
+    style: {
+      width: "100%",
+      height: "100%",
+      minHeight,
+    },
+  })(withDeviceRatio()(memoMainChart))
 );
