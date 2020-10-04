@@ -11,6 +11,8 @@ import { rootReducer, rootSaga } from "./Reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 
+import { ThemeProvider } from "styled-components";
+import theme from "./theme";
 import "./reset.css";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -22,9 +24,11 @@ const store = createStore(
 sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <ThemeProvider theme={theme}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </ThemeProvider>,
   document.getElementById("root")
 );
 
