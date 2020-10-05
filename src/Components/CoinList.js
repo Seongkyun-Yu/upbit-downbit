@@ -6,18 +6,30 @@ const CoinListContainer = styled.div`
   height: 100%;
   width: 100%;
   max-width: 400px;
-  max-height: 770px;
-  overflow: hidden;
+  max-height: 780px;
+  /* overflow: scroll; */
 `;
 const CoinUl = styled.ul`
   height: 100%;
-  max-height: 770px;
-  overflow: hidden;
+  max-height: 780px;
   border: 1px solid silver;
+  overflow-y: scroll;
+  scrollbar-color: ${(props) => props.scrollColor};
+  scrollbar-width: thin;
+  scrollbar-base-color: ${(props) => props.scrollColor};
+  &::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+    border-radius: 5rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.scrollColor};
+    border-radius: 5rem;
+  }
 `;
 const CoinLi = styled.li`
   height: 45px;
-  border-bottom: 1px solid silver;
+  border-bottom: 1px solid ${(props) => props.middleGray};
   &:last-child {
     border-bottom: none;
   }
@@ -78,18 +90,33 @@ const ChangePrice = styled.span`
   color: ${(props) => props.color};
 `;
 
+const TradePrice = styled.span`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 12px;
+  width: 98px;
+  height: 100%;
+  text-align: right;
+`;
+
 const CoinList = ({ marketNames, marketNamesArr, coinListDatas, theme }) => {
   // console.log(coinListDatas);
   return (
     <CoinListContainer>
-      <CoinUl>
+      <CoinUl scrollColor={theme.middleGray}>
         {marketNamesArr.map((marketName) => {
           const splitedName = marketName.split("-");
           const enCoinName = splitedName[1] + "/" + splitedName[0];
           const changePrice = coinListDatas[marketName].changePrice;
-          const fontColor = +changePrice > 0 ? theme.priceUp : theme.priceDown;
+          const fontColor =
+            +changePrice > 0
+              ? theme.priceUp
+              : +changePrice < 0
+              ? theme.priceDown
+              : "black";
           return (
-            <CoinLi>
+            <CoinLi middleGray={theme.middleGray}>
               <CoinBtn>
                 <CoinNameContainer>
                   <CoinName>{marketNames[marketName]}</CoinName>
@@ -113,6 +140,11 @@ const CoinList = ({ marketNames, marketNamesArr, coinListDatas, theme }) => {
                     {coinListDatas[marketName].changePrice}
                   </ChangePrice>
                 </ChangRateContainer>
+                <TradePrice>
+                  {Math.floor(
+                    coinListDatas[marketName].accTradePrice / 1000000
+                  ) + " 백만"}
+                </TradePrice>
               </CoinBtn>
             </CoinLi>
           );
