@@ -42,18 +42,8 @@ const yEdgeIndicator = (data) => {
   return data.close;
 };
 
-const volumeColor = (data) => {
-  return data.close > data.open
-    ? "rgba(38, 166, 154, 0.3)"
-    : "rgba(239, 83, 80, 0.3)";
-};
-
 const volumeSeries = (data) => {
   return data.volume;
-};
-
-const openCloseColor = (data) => {
-  return data.close > data.open ? "#26a69a" : "#ef5350";
 };
 
 const ChartContainer = styled.div`
@@ -70,8 +60,9 @@ const MainChart = ({
   width,
   ratio,
   selectedTimeType,
+  theme,
 }) => {
-  console.log(height, width);
+  // console.log(height, width);
   // if (height > 500) height = 500;
   // // if (width > 1000) width = 1000;
   // width = width / 2;
@@ -80,6 +71,14 @@ const MainChart = ({
     selectedTimeType === "day" ? "%y-%m-%d" : "%y-%m-%d %H:%M";
   const timeDisplayFormat = timeFormat(dateTimeFormat);
   const pricesDisplayFormat = format("");
+
+  const openCloseColor = (data) => {
+    return data.close > data.open ? theme.priceUp : theme.priceDown;
+  };
+
+  const volumeColor = (data) => {
+    return data.close > data.open ? theme.priceUpTrans : theme.priceDownTrans;
+  };
 
   const xScaleProvider = discontinuousTimeScaleProviderBuilder().inputDateAccessor(
     (d) => d.date
@@ -149,7 +148,10 @@ const MainChart = ({
         <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
           <XAxis showGridLines showTickLabel={false} />
           <YAxis showGridLines tickFormat={pricesDisplayFormat} />
-          <CandlestickSeries />
+          <CandlestickSeries
+            fill={openCloseColor}
+            wickStroke={openCloseColor}
+          />
           <LineSeries
             yAccessor={ema26.accessor()}
             strokeStyle={ema26.stroke()}
