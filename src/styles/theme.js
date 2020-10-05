@@ -6,10 +6,10 @@ const size = {
 
 const theme = {
   deepBlue: "#093687",
-  priceUp: "#D60000",
-  priceDown: "#0051C7",
-  priceUpTrans: "rgba(214,0,0,0.3)",
-  priceDownTrans: "rgba(0,81,199,0.3)",
+  priceUp: "rgb(210, 79, 69)",
+  priceDown: "rgb(18, 97, 196)",
+  priceUpTrans: "rgba(210, 79, 69, 0.5)",
+  priceDownTrans: "rgba(18, 97, 196, 0.5)",
   middleGray: "#00000033",
   lightGray: "rgb(249, 250, 252)",
   mobile: `(min-width: ${size.mobile})`,
