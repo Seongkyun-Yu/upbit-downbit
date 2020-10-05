@@ -29,10 +29,11 @@ const CoinUl = styled.ul`
 `;
 const CoinLi = styled.li`
   height: 45px;
-  border-bottom: 1px solid ${(props) => props.middleGray};
+  border-bottom: 1px solid ${(props) => props.borderBottomColor};
   &:last-child {
     border-bottom: none;
   }
+  background-color: ${(props) => props.bgColor};
 `;
 
 const CoinBtn = styled.button`
@@ -100,8 +101,13 @@ const TradePrice = styled.span`
   text-align: right;
 `;
 
-const CoinList = ({ marketNames, marketNamesArr, coinListDatas, theme }) => {
-  // console.log(coinListDatas);
+const CoinList = ({
+  marketNames,
+  marketNamesArr,
+  coinListDatas,
+  selectedMarket,
+  theme,
+}) => {
   return (
     <CoinListContainer>
       <CoinUl scrollColor={theme.middleGray}>
@@ -116,7 +122,13 @@ const CoinList = ({ marketNames, marketNamesArr, coinListDatas, theme }) => {
               ? theme.priceDown
               : "black";
           return (
-            <CoinLi middleGray={theme.middleGray}>
+            <CoinLi
+              borderBottomColor={theme.lightGray}
+              bgColor={
+                selectedMarket === marketName ? theme.lightGray : "white"
+              }
+              key={`coinList-${marketName}`}
+            >
               <CoinBtn>
                 <CoinNameContainer>
                   <CoinName>{marketNames[marketName]}</CoinName>
