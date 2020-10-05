@@ -29,7 +29,7 @@ const CoinUl = styled.ul`
 `;
 const CoinLi = styled.li`
   height: 45px;
-  border-bottom: 1px solid ${(props) => props.middleGray};
+  border-bottom: 1px solid ${(props) => props.borderBottomColor};
   &:last-child {
     border-bottom: none;
   }
@@ -123,10 +123,11 @@ const CoinList = ({
               : "black";
           return (
             <CoinLi
-              middleGray={theme.middleGray}
+              borderBottomColor={theme.lightGray}
               bgColor={
                 selectedMarket === marketName ? theme.lightGray : "white"
               }
+              key={`coinList-${marketName}`}
             >
               <CoinBtn>
                 <CoinNameContainer>
