@@ -23,6 +23,15 @@ const createRequestCandleSaga = (type, api, dataMaker) => {
   };
 };
 
+// 선택 옵션 변경용 사가
+const createChangeOptionSaga = (type) => {
+  const SUCCESS = `${type}_SUCCESS`;
+
+  return function* (action = {}) {
+    yield put({ type: SUCCESS, payload: action.payload });
+  };
+};
+
 // 웹소켓 연결용 Thunk
 const createConnectSocketThunk = (type, connectType, dataMaker) => {
   const SUCCESS = `${type}_SUCCESS`;
@@ -89,4 +98,25 @@ const candleActions = (type, key) => {
   };
 };
 
-export { createRequestCandleSaga, createConnectSocketThunk, candleActions };
+const changeOptionActions = (type, key) => {
+  const SUCCESS = `${type}_SUCCESS`;
+  return (state, action) => {
+    switch (action.type) {
+      case SUCCESS:
+        return {
+          ...state,
+          [key]: action.payload,
+        };
+      default:
+        return state;
+    }
+  };
+};
+
+export {
+  createRequestCandleSaga,
+  createConnectSocketThunk,
+  createChangeOptionSaga,
+  candleActions,
+  changeOptionActions,
+};
