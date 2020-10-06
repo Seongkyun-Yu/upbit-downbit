@@ -1,5 +1,7 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { startChangeMarketAndData } from "../Reducer/coinReducer";
 import withCoinListData from "./withCoinListData";
 
 const CoinListContainer = styled.div`
@@ -55,7 +57,13 @@ const CoinNameContainer = styled.div`
   height: 45px;
 `;
 
-const CoinName = styled.span`
+const CoinName = styled.strong`
+  display: block;
+  font-size: 12px;
+  font-weight: 1800;
+`;
+
+const CoinNameEn = styled.span`
   display: block;
   font-size: 12px;
 `;
@@ -108,6 +116,7 @@ const CoinList = ({
   selectedMarket,
   theme,
 }) => {
+  const dispatch = useDispatch();
   return (
     <CoinListContainer>
       <CoinUl scrollColor={theme.middleGray}>
@@ -129,10 +138,12 @@ const CoinList = ({
               }
               key={`coinList-${marketName}`}
             >
-              <CoinBtn>
+              <CoinBtn
+                onClick={() => dispatch(startChangeMarketAndData(marketName))}
+              >
                 <CoinNameContainer>
                   <CoinName>{marketNames[marketName]}</CoinName>
-                  <CoinName>{enCoinName}</CoinName>
+                  <CoinNameEn>{enCoinName}</CoinNameEn>
                 </CoinNameContainer>
                 <Price color={fontColor}>
                   {

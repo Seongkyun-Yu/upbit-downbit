@@ -1,29 +1,35 @@
 import {
-  candleActions,
   createRequestCandleSaga,
   createConnectSocketThunk,
+  createChangeOptionSaga,
+  candleActions,
+  changeOptionActions,
 } from "../Lib/asyncUtil";
 import { candleDataUtils } from "../Lib/utils";
 import { coinApi } from "../Api/api";
 import { takeEvery, put, select } from "redux-saga/effects";
 
-const START_INIT = "candle/START_INIT";
+const START_INIT = "coin/START_INIT";
+const START_CHANGE_MARKET_AND_DATA = "coin/START_CHANGE_MARKET_AND_DATA";
 
-const GET_MARKET_NAMES = "candle/GET_MARKET_NAMES";
-const GET_MARKET_NAMES_SUCCESS = "candle/GET_MARKET_NAMES_SUCCESS";
-const GET_MARKET_NAMES_ERROR = "candle/GET_MARKET_NAMES_ERROR";
+const GET_MARKET_NAMES = "coin/GET_MARKET_NAMES";
+const GET_MARKET_NAMES_SUCCESS = "coin/GET_MARKET_NAMES_SUCCESS";
+const GET_MARKET_NAMES_ERROR = "coin/GET_MARKET_NAMES_ERROR";
 
-const GET_INIT_CANDLES = "candle/GET_INIT_CANDLES";
-const GET_INIT_CANDLES_SUCCESS = "candle/GET_INIT_CANDLES_SUCCESS";
-const GET_INIT_CANDLES_ERROR = "candle/GET_INIT_CANDLES_ERROR";
+const GET_INIT_CANDLES = "coin/GET_INIT_CANDLES";
+const GET_INIT_CANDLES_SUCCESS = "coin/GET_INIT_CANDLES_SUCCESS";
+const GET_INIT_CANDLES_ERROR = "coin/GET_INIT_CANDLES_ERROR";
 
-const GET_ONE_COIN_CANDLES = "candle/GET_ONE_COIN_CANDLES";
-const GET_ONE_COIN_CANDLES_SUCCESS = "candle/GET_ONE_COIN_CANDLES_SUCCESS";
-const GET_ONE_COIN_CANDLES_ERROR = "candle/GET_ONE_COIN_CANDLES_ERROR";
+const GET_ONE_COIN_CANDLES = "coin/GET_ONE_COIN_CANDLES";
+const GET_ONE_COIN_CANDLES_SUCCESS = "coin/GET_ONE_COIN_CANDLES_SUCCESS";
+const GET_ONE_COIN_CANDLES_ERROR = "coin/GET_ONE_COIN_CANDLES_ERROR";
 
-const CONNECT_CANDLE_SOCKET = "candle/CONNECT_CANDLE_SOCKET";
-const CONNECT_CANDLE_SOCKET_SUCCESS = "candle/CONNECT_CANDLE_SOCKET_SUCCESS";
-const CONNECT_CANDLE_SOCKET_ERROR = "candle/CONNECT_CANDLE_SOCKET_ERROR";
+const CONNECT_CANDLE_SOCKET = "coin/CONNECT_CANDLE_SOCKET";
+const CONNECT_CANDLE_SOCKET_SUCCESS = "coin/CONNECT_CANDLE_SOCKET_SUCCESS";
+const CONNECT_CANDLE_SOCKET_ERROR = "coin/CONNECT_CANDLE_SOCKET_ERROR";
+
+const CHANGE_COIN_MARKET = "coin/CHANGE_COIN_MARKET";
+const CHANGE_COIN_MARKET_SUCCESS = "coin/CHANGE_COIN_MARKET_SUCCESS";
 
 // 업비트에서 제공하는 코인/마켓 이름들 가져오기 Saga
 const getMakretNames = () => ({ type: GET_MARKET_NAMES });
@@ -48,6 +54,13 @@ const getOneCoinCandlesSaga = createRequestCandleSaga(
   coinApi.getOneCoinCandles,
   candleDataUtils.oneCoin
 );
+
+// 코인마켓 변경하기 Saga
+const changeSelectedMarket = (marketName) => ({
+  type: CHANGE_COIN_MARKET,
+  payload: marketName,
+});
+const changeSelectedMarketSaga = createChangeOptionSaga(CHANGE_COIN_MARKET);
 
 // 캔들 웹소켓 연결 Thunk
 const connectCandleSocketThunk = createConnectSocketThunk(
@@ -78,11 +91,25 @@ function* startInittSaga() {
   yield put(connectCandleSocketThunk({ payload: marketNames })); // 캔들 소켓 연결
 }
 
+// 선택된 코인/마켓 변경
+const startChangeMarketAndData = (marketName) => ({
+  type: START_CHANGE_MARKET_AND_DATA,
+  payload: marketName,
+});
+function* startChangeMarketAndDataSaga(action) {
+  console.log("들어왔어!", action.payload);
+  const state = yield select();
+  const changingMarketName = action.payload;
+  yield put(changeSelectedMarket(changingMarketName));
+}
+
 function* coinSaga() {
   yield takeEvery(GET_MARKET_NAMES, getMarketNameSaga);
   yield takeEvery(GET_INIT_CANDLES, getInitCandleSaga);
   yield takeEvery(GET_ONE_COIN_CANDLES, getOneCoinCandlesSaga);
+  yield takeEvery(CHANGE_COIN_MARKET, changeSelectedMarketSaga);
   yield takeEvery(START_INIT, startInittSaga);
+  yield takeEvery(START_CHANGE_MARKET_AND_DATA, startChangeMarketAndDataSaga);
 }
 
 const initialState = {
@@ -124,6 +151,11 @@ const coinReducer = (state = initialState, action) => {
     case CONNECT_CANDLE_SOCKET_SUCCESS:
     case CONNECT_CANDLE_SOCKET_ERROR:
       return candleActions(CONNECT_CANDLE_SOCKET, "candle")(state, action);
+    case CHANGE_COIN_MARKET_SUCCESS:
+      return changeOptionActions(CHANGE_COIN_MARKET, "selectedMarket")(
+        state,
+        action
+      );
     default:
       return state;
   }
@@ -134,6 +166,7 @@ export {
   getMakretNames,
   getInitCanldes,
   getOneCoinCandles,
+  startChangeMarketAndData,
   coinReducer,
   coinSaga,
 };
