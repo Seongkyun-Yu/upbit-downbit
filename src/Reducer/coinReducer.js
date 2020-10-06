@@ -87,7 +87,7 @@ function* startInittSaga() {
       timeType: selectedTimeType,
       timeCount: selectedTimeCount,
     },
-  });
+  }); // 200개 코인 데이터 받기
   yield put(connectCandleSocketThunk({ payload: marketNames })); // 캔들 소켓 연결
 }
 
