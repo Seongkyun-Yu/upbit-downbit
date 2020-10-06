@@ -91,16 +91,32 @@ function* startInittSaga() {
   yield put(connectCandleSocketThunk({ payload: marketNames })); // 캔들 소켓 연결
 }
 
-// 선택된 코인/마켓 변경
+// 선택된 코인/마켓 변경 및 해당 마켓 데이터 받기
 const startChangeMarketAndData = (marketName) => ({
   type: START_CHANGE_MARKET_AND_DATA,
   payload: marketName,
 });
 function* startChangeMarketAndDataSaga(action) {
-  console.log("들어왔어!", action.payload);
   const state = yield select();
+  const selectedTimeType = state.Coin.selectedTimeType;
+  const selectedTimeCount = state.Coin.selectedTimeCount;
   const changingMarketName = action.payload;
+  const selectedCoinCandles =
+    state.Coin.candle.data[changingMarketName].candles;
+
+  // 선택된 마켓 변경
   yield put(changeSelectedMarket(changingMarketName));
+
+  // 상태에 저장된 데이터가 200개 미만일때만 api콜 요청함
+  if (selectedCoinCandles.length < 200) {
+    yield getOneCoinCandlesSaga({
+      payload: {
+        coin: changingMarketName,
+        timeType: selectedTimeType,
+        timeCount: selectedTimeCount,
+      },
+    });
+  }
 }
 
 function* coinSaga() {
