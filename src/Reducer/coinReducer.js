@@ -41,7 +41,6 @@ const CHANGE_COIN_MARKET = "coin/CHANGE_COIN_MARKET";
 const CHANGE_COIN_MARKET_SUCCESS = "coin/CHANGE_COIN_MARKET_SUCCESS";
 
 // 업비트에서 제공하는 코인/마켓 이름들 가져오기 Saga
-const getMakretNames = () => ({ type: GET_MARKET_NAMES });
 const getMarketNameSaga = createRequestSaga(
   GET_MARKET_NAMES,
   coinApi.getMarketCodes,
@@ -49,7 +48,6 @@ const getMarketNameSaga = createRequestSaga(
 );
 
 // 코인/마켓 캔들들의 일봉 한 개씩 가져오기 Saga
-const getInitCanldes = () => ({ type: GET_INIT_CANDLES });
 const getInitCandleSaga = createRequestSaga(
   GET_INIT_CANDLES,
   coinApi.getInitCanldes,
@@ -57,7 +55,6 @@ const getInitCandleSaga = createRequestSaga(
 );
 
 // 특정 코인 봉 200개 가져오기 Saga
-const getOneCoinCandles = () => ({ type: GET_ONE_COIN_CANDLES });
 const getOneCoinCandlesSaga = createRequestSaga(
   GET_ONE_COIN_CANDLES,
   coinApi.getOneCoinCandles,
@@ -72,7 +69,6 @@ const connectCandleSocketThunk = createConnectSocketThunk(
 );
 
 // 호가창 조기 값 가져오기
-const getInitOrderbook = () => ({ type: GET_INIT_ORDERBOOKS });
 const getInitOrderbookSaga = createRequestSaga(
   GET_INIT_ORDERBOOKS,
   coinApi.getInitOrderbooks,
@@ -186,27 +182,39 @@ const initialState = {
 
 const coinReducer = (state = initialState, action) => {
   switch (action.type) {
+    // 코인 마켓 이름들
     case GET_MARKET_NAMES_SUCCESS:
     case GET_MARKET_NAMES_ERROR:
       return requestActions(GET_MARKET_NAMES, "marketNames")(state, action);
+
+    // 초기 캔들
     case GET_INIT_CANDLES_SUCCESS:
     case GET_INIT_CANDLES_ERROR:
       return requestActions(GET_INIT_CANDLES, "candle")(state, action);
+
+    // 코인 한 개 정해서 200개
     case GET_ONE_COIN_CANDLES_SUCCESS:
     case GET_ONE_COIN_CANDLES_ERROR:
       return requestActions(GET_ONE_COIN_CANDLES, "candle")(state, action);
+
+    // 캔들 실시간 정보
     case CONNECT_CANDLE_SOCKET_SUCCESS:
     case CONNECT_CANDLE_SOCKET_ERROR:
       return requestActions(CONNECT_CANDLE_SOCKET, "candle")(state, action);
+
+    // 호가창 초기값
     case GET_INIT_ORDERBOOKS_SUCCESS:
     case GET_INIT_ORDERBOOKS_ERROR:
       return requestActions(GET_INIT_ORDERBOOKS, "orderbook")(state, action);
+
+    // 호가창 실시간 정보
     case CONNECT_ORDERBOOK_SOCKET_SUCCESS:
     case CONNECT_ORDERBOOK_SOCKET_ERROR:
       return requestActions(CONNECT_ORDERBOOK_SOCKET, "orderbook")(
         state,
         action
       );
+
     case CHANGE_COIN_MARKET_SUCCESS:
       return changeOptionActions(CHANGE_COIN_MARKET, "selectedMarket")(
         state,
@@ -217,12 +225,4 @@ const coinReducer = (state = initialState, action) => {
   }
 };
 
-export {
-  startInit,
-  getMakretNames,
-  getInitCanldes,
-  getOneCoinCandles,
-  startChangeMarketAndData,
-  coinReducer,
-  coinSaga,
-};
+export { startInit, startChangeMarketAndData, coinReducer, coinSaga };
