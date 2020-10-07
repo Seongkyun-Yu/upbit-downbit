@@ -177,4 +177,6 @@ const CoinList = ({
   );
 };
 
-export default withCoinListData()(CoinList);
+const CoinListMemo = React.memo(CoinList);
+
+export default withCoinListData()(CoinListMemo);

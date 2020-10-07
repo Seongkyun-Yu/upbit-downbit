@@ -10,15 +10,15 @@ const withOHLCData = () => (OriginalComponent) => (props) => {
   const selectedTimeType = useSelector((state) => state.Coin.selectedTimeType); // 선택된 시간 타입
   const theme = useContext(ThemeContext); // 테마 정보
 
-  return !selectedCandles.length ? (
-    <div className="center">Chart Loading</div>
-  ) : (
+  return selectedCandles.length ? (
     <OriginalComponent
       {...props}
       data={selectedCandles}
       selectedTimeType={selectedTimeType}
       theme={theme}
     />
+  ) : (
+    <div className="center">Chart Loading</div>
   );
 };
 
