@@ -1,11 +1,11 @@
 import {
-  createRequestCandleSaga,
+  createRequestSaga,
   createConnectSocketThunk,
   createChangeOptionSaga,
-  candleActions,
+  requestActions,
   changeOptionActions,
 } from "../Lib/asyncUtil";
-import { candleDataUtils } from "../Lib/utils";
+import { candleDataUtils, orderbookUtils } from "../Lib/utils";
 import { coinApi } from "../Api/api";
 import { takeEvery, put, select } from "redux-saga/effects";
 
@@ -28,39 +28,38 @@ const CONNECT_CANDLE_SOCKET = "coin/CONNECT_CANDLE_SOCKET";
 const CONNECT_CANDLE_SOCKET_SUCCESS = "coin/CONNECT_CANDLE_SOCKET_SUCCESS";
 const CONNECT_CANDLE_SOCKET_ERROR = "coin/CONNECT_CANDLE_SOCKET_ERROR";
 
+const GET_INIT_ORDERBOOKS = "coin/GET_INIT_ORDERBOOKS";
+const GET_INIT_ORDERBOOKS_SUCCESS = "coin/GET_INIT_ORDERBOOKS_SUCCESS";
+const GET_INIT_ORDERBOOKS_ERROR = "coin/GET_INIT_ORDERBOOKS_ERROR";
+
+const CONNECT_ORDERBOOK_SOCKET = "coin/CONNECT_ORDERBOOK_SOCKET";
+const CONNECT_ORDERBOOK_SOCKET_SUCCESS =
+  "coin/CONNECT_ORDERBOOK_SOCKET_SUCCESS";
+const CONNECT_ORDERBOOK_SOCKET_ERROR = "coin/CONNECT_ORDERBOOK_SOCKET_ERROR";
+
 const CHANGE_COIN_MARKET = "coin/CHANGE_COIN_MARKET";
 const CHANGE_COIN_MARKET_SUCCESS = "coin/CHANGE_COIN_MARKET_SUCCESS";
 
 // 업비트에서 제공하는 코인/마켓 이름들 가져오기 Saga
-const getMakretNames = () => ({ type: GET_MARKET_NAMES });
-const getMarketNameSaga = createRequestCandleSaga(
+const getMarketNameSaga = createRequestSaga(
   GET_MARKET_NAMES,
   coinApi.getMarketCodes,
   candleDataUtils.marketNames
 );
 
-// 업비트에서 제공하는 코인/마켓 캔들들의 일봉 한 개씩 가져오기 Saga
-const getInitCanldes = () => ({ type: GET_INIT_CANDLES });
-const getInitCandleSaga = createRequestCandleSaga(
+// 코인/마켓 캔들들의 일봉 한 개씩 가져오기 Saga
+const getInitCandleSaga = createRequestSaga(
   GET_INIT_CANDLES,
   coinApi.getInitCanldes,
   candleDataUtils.init
 );
 
 // 특정 코인 봉 200개 가져오기 Saga
-const getOneCoinCandles = () => ({ type: GET_ONE_COIN_CANDLES });
-const getOneCoinCandlesSaga = createRequestCandleSaga(
+const getOneCoinCandlesSaga = createRequestSaga(
   GET_ONE_COIN_CANDLES,
   coinApi.getOneCoinCandles,
   candleDataUtils.oneCoin
 );
-
-// 코인마켓 변경하기 Saga
-const changeSelectedMarket = (marketName) => ({
-  type: CHANGE_COIN_MARKET,
-  payload: marketName,
-});
-const changeSelectedMarketSaga = createChangeOptionSaga(CHANGE_COIN_MARKET);
 
 // 캔들 웹소켓 연결 Thunk
 const connectCandleSocketThunk = createConnectSocketThunk(
@@ -68,6 +67,27 @@ const connectCandleSocketThunk = createConnectSocketThunk(
   "ticker",
   candleDataUtils.update
 );
+
+// 호가창 조기 값 가져오기
+const getInitOrderbookSaga = createRequestSaga(
+  GET_INIT_ORDERBOOKS,
+  coinApi.getInitOrderbooks,
+  orderbookUtils.init
+);
+
+// 호가창 웹소켓 연결 Thunk
+const connectOrderbookSocketThunk = createConnectSocketThunk(
+  CONNECT_ORDERBOOK_SOCKET,
+  "orderbook",
+  orderbookUtils.update
+);
+
+// 선택한 코인마켓 변경하기 Saga
+const changeSelectedMarket = (marketName) => ({
+  type: CHANGE_COIN_MARKET,
+  payload: marketName,
+});
+const changeSelectedMarketSaga = createChangeOptionSaga(CHANGE_COIN_MARKET);
 
 // 시작시 데이터 초기화 작업들
 const startInit = () => ({ type: START_INIT });
@@ -81,6 +101,7 @@ function* startInittSaga() {
   const selectedTimeCount = state.Coin.selectedTimeCount;
 
   yield getInitCandleSaga({ payload: marketNames }); // 코인 캔들 초기값 받기
+  yield getInitOrderbookSaga({ payload: marketNames });
   yield getOneCoinCandlesSaga({
     payload: {
       coin: selectedMarket,
@@ -89,6 +110,7 @@ function* startInittSaga() {
     },
   }); // 200개 코인 데이터 받기
   yield put(connectCandleSocketThunk({ payload: marketNames })); // 캔들 소켓 연결
+  yield put(connectOrderbookSocketThunk({ payload: marketNames })); // 오더북 소켓 연결
 }
 
 // 선택된 코인/마켓 변경 및 해당 마켓 데이터 받기
@@ -122,6 +144,7 @@ function* startChangeMarketAndDataSaga(action) {
 function* coinSaga() {
   yield takeEvery(GET_MARKET_NAMES, getMarketNameSaga);
   yield takeEvery(GET_INIT_CANDLES, getInitCandleSaga);
+  yield takeEvery(GET_INIT_ORDERBOOKS, getInitOrderbookSaga);
   yield takeEvery(GET_ONE_COIN_CANDLES, getOneCoinCandlesSaga);
   yield takeEvery(CHANGE_COIN_MARKET, changeSelectedMarketSaga);
   yield takeEvery(START_INIT, startInittSaga);
@@ -130,7 +153,7 @@ function* coinSaga() {
 
 const initialState = {
   marketNames: {
-    error: null,
+    error: false,
     data: {
       "KRW-BTC": "비트코인",
     },
@@ -139,7 +162,7 @@ const initialState = {
   selectedTimeType: "minutes",
   selectedTimeCount: 5,
   candle: {
-    error: null,
+    error: false,
     data: {
       "KRW-BTC": {
         candles: [
@@ -151,22 +174,47 @@ const initialState = {
       },
     },
   },
+  orderbook: {
+    error: false,
+    data: {},
+  },
 };
 
 const coinReducer = (state = initialState, action) => {
   switch (action.type) {
+    // 코인 마켓 이름들
     case GET_MARKET_NAMES_SUCCESS:
     case GET_MARKET_NAMES_ERROR:
-      return candleActions(GET_MARKET_NAMES, "marketNames")(state, action);
+      return requestActions(GET_MARKET_NAMES, "marketNames")(state, action);
+
+    // 초기 캔들
     case GET_INIT_CANDLES_SUCCESS:
     case GET_INIT_CANDLES_ERROR:
-      return candleActions(GET_INIT_CANDLES, "candle")(state, action);
+      return requestActions(GET_INIT_CANDLES, "candle")(state, action);
+
+    // 코인 한 개 정해서 200개
     case GET_ONE_COIN_CANDLES_SUCCESS:
     case GET_ONE_COIN_CANDLES_ERROR:
-      return candleActions(GET_ONE_COIN_CANDLES, "candle")(state, action);
+      return requestActions(GET_ONE_COIN_CANDLES, "candle")(state, action);
+
+    // 캔들 실시간 정보
     case CONNECT_CANDLE_SOCKET_SUCCESS:
     case CONNECT_CANDLE_SOCKET_ERROR:
-      return candleActions(CONNECT_CANDLE_SOCKET, "candle")(state, action);
+      return requestActions(CONNECT_CANDLE_SOCKET, "candle")(state, action);
+
+    // 호가창 초기값
+    case GET_INIT_ORDERBOOKS_SUCCESS:
+    case GET_INIT_ORDERBOOKS_ERROR:
+      return requestActions(GET_INIT_ORDERBOOKS, "orderbook")(state, action);
+
+    // 호가창 실시간 정보
+    case CONNECT_ORDERBOOK_SOCKET_SUCCESS:
+    case CONNECT_ORDERBOOK_SOCKET_ERROR:
+      return requestActions(CONNECT_ORDERBOOK_SOCKET, "orderbook")(
+        state,
+        action
+      );
+
     case CHANGE_COIN_MARKET_SUCCESS:
       return changeOptionActions(CHANGE_COIN_MARKET, "selectedMarket")(
         state,
@@ -177,12 +225,4 @@ const coinReducer = (state = initialState, action) => {
   }
 };
 
-export {
-  startInit,
-  getMakretNames,
-  getInitCanldes,
-  getOneCoinCandles,
-  startChangeMarketAndData,
-  coinReducer,
-  coinSaga,
-};
+export { startInit, startChangeMarketAndData, coinReducer, coinSaga };

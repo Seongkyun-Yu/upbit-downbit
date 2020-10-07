@@ -3,7 +3,7 @@ import { call, put, select } from "redux-saga/effects";
 import { startLoading, finishLoading } from "../Reducer/loadingReducer";
 
 // 캔들용 사가
-const createRequestCandleSaga = (type, api, dataMaker) => {
+const createRequestSaga = (type, api, dataMaker) => {
   const SUCCESS = `${type}_SUCCESS`;
   const ERROR = `${type}_ERROR`;
 
@@ -71,7 +71,7 @@ const reducerUtils = {
       ...state,
       [key]: {
         data: payload,
-        error: null,
+        error: false,
       },
     };
   },
@@ -84,7 +84,7 @@ const reducerUtils = {
   }),
 };
 
-const candleActions = (type, key) => {
+const requestActions = (type, key) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
   return (state, action) => {
     switch (action.type) {
@@ -114,9 +114,9 @@ const changeOptionActions = (type, key) => {
 };
 
 export {
-  createRequestCandleSaga,
+  createRequestSaga,
   createConnectSocketThunk,
   createChangeOptionSaga,
-  candleActions,
+  requestActions,
   changeOptionActions,
 };
