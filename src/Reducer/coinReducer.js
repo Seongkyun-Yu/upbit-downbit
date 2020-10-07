@@ -176,7 +176,13 @@ const initialState = {
   },
   orderbook: {
     error: false,
-    data: {},
+    data: {
+      "KRW-BTC": {
+        total_bid_size: 0,
+        total_ask_size: 0,
+        orderbook_units: [],
+      },
+    },
   },
 };
 
