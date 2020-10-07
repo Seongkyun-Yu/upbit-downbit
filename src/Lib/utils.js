@@ -219,4 +219,29 @@ const candleDataUtils = {
   },
 };
 
-export { timestampToDatetime, candleDataUtils };
+const orderbookUtils = {
+  init: (orderbooks, _) => {
+    const data = {};
+    orderbooks.forEach((orderbook) => {
+      data[orderbook.market] = {
+        ...orderbook,
+        code: orderbook.market,
+      };
+    });
+
+    return data;
+  },
+  update: (orderbook, state) => {
+    const orderbookData = state.Coin.orderbook.data;
+    const market = orderbook.code;
+    return {
+      ...orderbookData,
+      [market]: {
+        ...orderbook,
+        market,
+      },
+    };
+  },
+};
+
+export { timestampToDatetime, candleDataUtils, orderbookUtils };
