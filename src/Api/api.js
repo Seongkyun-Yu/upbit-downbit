@@ -5,6 +5,8 @@ export const coinApi = {
     axios.get("https://api.upbit.com/v1/market/all?isDetails=false"),
   getInitCanldes: (coins) =>
     axios.get(`https://api.upbit.com/v1/ticker?markets=${coins}`),
+  getInitOrderbooks: (coins) =>
+    axios.get(`https://api.upbit.com/v1/orderbook?markets=${coins}`),
   getOneCoinCandles: ({ coin, timeType, timeCount }) =>
     axios
       .get(
