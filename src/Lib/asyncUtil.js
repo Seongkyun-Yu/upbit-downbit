@@ -98,6 +98,40 @@ const requestActions = (type, key) => {
   };
 };
 
+const requestInitActions = (type, key) => {
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+  return (state, action) => {
+    switch (action.type) {
+      case SUCCESS:
+        return {
+          ...state,
+          initDatas: {
+            data: action.payload,
+            error: false,
+          },
+          [key]: {
+            data: action.payload,
+            error: false,
+          },
+        };
+      case ERROR:
+        return {
+          ...state,
+          initDatas: {
+            ...state.initDatas,
+            error: action.payload,
+          },
+          [key]: {
+            ...state[key],
+            error: action.payload,
+          },
+        };
+      default:
+        return state;
+    }
+  };
+};
+
 const changeOptionActions = (type, key) => {
   const SUCCESS = `${type}_SUCCESS`;
   return (state, action) => {
@@ -118,5 +152,6 @@ export {
   createConnectSocketThunk,
   createChangeOptionSaga,
   requestActions,
+  requestInitActions,
   changeOptionActions,
 };
