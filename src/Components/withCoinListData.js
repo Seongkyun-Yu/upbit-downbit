@@ -3,10 +3,11 @@ import { useSelector } from "react-redux";
 import { ThemeContext } from "styled-components";
 
 const withCoinListData = () => (OriginalComponent) => (props) => {
-  const marketNames = useSelector((state) => state.Coin.marketNames.data); // 코인 마켓 이름들(객체)
+  const state = useSelector((state) => state);
+  const marketNames = state.Coin.marketNames.data; // 코인 마켓 이름들(객체)
   let marketNamesArr = Object.keys(marketNames); // 코인 마켓 이름 배열화
-  const coinListDatas = useSelector((state) => state.Coin.candle.data); // 코인들 데이터
-  const selectedMarket = useSelector((state) => state.Coin.selectedMarket); // 선택된 마켓 이름
+  const coinListDatas = state.Coin.candle.data; // 코인들 데이터
+  const selectedMarket = state.Coin.selectedMarket; // 선택된 마켓 이름
   const theme = useContext(ThemeContext); // 테마 정보
 
   // 데이터 받는 데 성공하면 정렬한다
