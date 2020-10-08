@@ -2,45 +2,47 @@ import React from "react";
 import styled from "styled-components";
 import withOrderbookData from "./withOrderbookData";
 
-const AskContainer = styled.div`
+const Container = styled.div`
   width: 48%;
 `;
 
-const AskUl = styled.ul`
+const OrderUl = styled.ul`
   width: 100%;
   background-color: yellow;
 `;
-const AskLi = styled.li`
+const OrderLi = styled.li`
   display: flex;
   width: 100%;
   height: 45px;
-  max-width: 330px;
-  background-color: tomato;
+  /* max-width: 330px; */
 `;
 
-const AskAmount = styled.div`
-  width: 33%;
+const OrderAmount = styled.div`
+  width: 33.33%;
+  min-width: 100px;
   background-color: blue;
 `;
 
-const AskPrice = styled.div`
-  width: 33%;
+const OrderPrice = styled.div`
+  width: 33.33%;
+  min-width: 162px;
+  background-color: tomato;
 `;
 
 const Orderbook = ({ askOrderbookData, bidOrderbookData }) => {
   return (
-    <AskContainer>
-      <AskUl>
+    <Container>
+      <OrderUl>
         {askOrderbookData.map((orderbook) => {
           return (
-            <AskLi>
-              <AskAmount>{orderbook.askSize}</AskAmount>
-              <AskPrice>{orderbook.askPrice}</AskPrice>
-            </AskLi>
+            <OrderLi key={`orderbook-ask${orderbook.askPrice}`}>
+              <OrderAmount>{orderbook.askSize}</OrderAmount>
+              <OrderPrice>{orderbook.askPrice}</OrderPrice>
+            </OrderLi>
           );
         })}
-      </AskUl>
-    </AskContainer>
+      </OrderUl>
+    </Container>
   );
 };
 
