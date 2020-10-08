@@ -115,7 +115,7 @@ const CoinListItem = ({
           <ChangeRate color={fontColor}>{changeRate}</ChangeRate>
           <ChangePrice color={fontColor}>{changePrice}</ChangePrice>
         </ChangRateContainer>
-        <TradePrice>{accTradePrice + " 백만"}</TradePrice>
+        <TradePrice>{accTradePrice}</TradePrice>
       </CoinBtn>
     </CoinLi>
   );
