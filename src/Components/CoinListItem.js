@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { startChangeMarketAndData } from "../Reducer/coinReducer";
@@ -96,12 +96,16 @@ const CoinListItem = ({
   accTradePrice,
 }) => {
   const dispatch = useDispatch();
+  const changeMarket = useCallback(
+    () => dispatch(startChangeMarketAndData(marketName)),
+    [dispatch, marketName]
+  );
   return (
     <CoinLi
       borderBottomColor={theme.lightGray}
       bgColor={selectedMarket === marketName ? theme.lightGray : "white"}
     >
-      <CoinBtn onClick={() => dispatch(startChangeMarketAndData(marketName))}>
+      <CoinBtn onClick={changeMarket}>
         <CoinNameContainer>
           <CoinName>{coinName}</CoinName>
           <CoinNameEn>{enCoinName}</CoinNameEn>
