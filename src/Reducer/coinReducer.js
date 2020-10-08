@@ -4,6 +4,7 @@ import {
   createChangeOptionSaga,
   requestActions,
   changeOptionActions,
+  requestInitActions,
 } from "../Lib/asyncUtil";
 import { candleDataUtils, orderbookUtils } from "../Lib/utils";
 import { coinApi } from "../Api/api";
@@ -196,7 +197,7 @@ const coinReducer = (state = initialState, action) => {
     // 초기 캔들
     case GET_INIT_CANDLES_SUCCESS:
     case GET_INIT_CANDLES_ERROR:
-      return requestActions(GET_INIT_CANDLES, "candle")(state, action);
+      return requestInitActions(GET_INIT_CANDLES, "candle")(state, action);
 
     // 코인 한 개 정해서 200개
     case GET_ONE_COIN_CANDLES_SUCCESS:
