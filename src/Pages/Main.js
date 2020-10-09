@@ -29,7 +29,6 @@ const Main = () => {
             <Orderbook />
           </TradeContainer>
         </div>
-
         <CoinList />
       </MainContentContainer>
     </div>
