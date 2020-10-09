@@ -11,27 +11,31 @@ const OrderLi = styled.li`
 const OrderAmount = styled.div`
   width: 33.33%;
   min-width: 100px;
-  background-color: blue;
+  /* background-color: blue; */
+  border-top: 1px solid gray;
+  border-left: 1px solid gray;
 `;
 
 const OrderPrice = styled.div`
   width: 33.33%;
   min-width: 162px;
-  background-color: tomato;
+  /* background-color: tomato; */
+  border: 1px solid gray;
+  text-align: right;
 `;
 
 const OrderbookItem = ({ price, size, amountAlign }) => {
   return amountAlign === "right" ? (
-    <OrderLi key={`orderbook-ask${price}`}>
-      <OrderAmount>{size}</OrderAmount>
+    <OrderLi>
+      <OrderAmount amountAlign={amountAlign}>{size}</OrderAmount>
       <OrderPrice>{price}</OrderPrice>
     </OrderLi>
   ) : (
-    <OrderLi key={`orderbook-ask${price}`}>
+    <OrderLi>
       <OrderPrice>{price}</OrderPrice>
       <OrderAmount>{size}</OrderAmount>
     </OrderLi>
   );
 };
 
-export default OrderbookItem;
+export default React.memo(OrderbookItem);
