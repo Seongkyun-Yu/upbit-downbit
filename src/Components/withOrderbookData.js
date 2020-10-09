@@ -2,10 +2,20 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const withOrderbookData = () => (OriginalComponent) => (props) => {
-  const selectedMarket = useSelector((state) => state.Coin.selectedMarket);
-  const orderbook = useSelector(
-    (state) => state.Coin.orderbook.data[selectedMarket]
-  );
+  const state = useSelector((state) => state);
+  const selectedMarket = state.Coin.selectedMarket;
+
+  const volume = state.Coin.candle.data[selectedMarket].accTradeVolume;
+  const highest52WeekPrice =
+    state.Coin.candle.data[selectedMarket].highest52WeekPrice;
+  const highest52WeekData =
+    state.Coin.candle.data[selectedMarket].highest52WeekDate;
+  const lowest52WeekPrice =
+    state.Coin.candle.data[selectedMarket].lowest52WeekPrice;
+  const lowest52WeekDate =
+    state.Coin.candle.data[selectedMarket].lowest52WeekDate;
+
+  const orderbook = state.Coin.orderbook.data[selectedMarket];
   const totalData = {
     totalBidSize: orderbook.total_bid_size,
     totalAskSize: orderbook.total_ask_size,
@@ -18,12 +28,12 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
   orderbook.orderbook_units.forEach((orderbook) => {
     bidOrderbookData.push({
       bidPrice: orderbook.bid_price,
-      bidSize: orderbook.bid_size,
+      bidSize: orderbook.bid_size.toFixed(3),
     });
 
     askOrderbookData.push({
       askPrice: orderbook.ask_price,
-      askSize: orderbook.ask_size,
+      askSize: orderbook.ask_size.toFixed(3),
     });
   });
 
