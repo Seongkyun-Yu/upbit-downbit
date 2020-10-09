@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import withOrderbookData from "./withOrderbookData";
+import OrderbookItem from "./OrderbookItem";
 
 const Container = styled.div`
   width: 48%;
@@ -10,24 +11,6 @@ const OrderUl = styled.ul`
   width: 100%;
   background-color: yellow;
 `;
-const OrderLi = styled.li`
-  display: flex;
-  width: 100%;
-  height: 45px;
-  /* max-width: 330px; */
-`;
-
-const OrderAmount = styled.div`
-  width: 33.33%;
-  min-width: 100px;
-  background-color: blue;
-`;
-
-const OrderPrice = styled.div`
-  width: 33.33%;
-  min-width: 162px;
-  background-color: tomato;
-`;
 
 const Orderbook = ({ askOrderbookData, bidOrderbookData }) => {
   return (
@@ -35,10 +18,22 @@ const Orderbook = ({ askOrderbookData, bidOrderbookData }) => {
       <OrderUl>
         {askOrderbookData.map((orderbook) => {
           return (
-            <OrderLi key={`orderbook-ask${orderbook.askPrice}`}>
-              <OrderAmount>{orderbook.askSize}</OrderAmount>
-              <OrderPrice>{orderbook.askPrice}</OrderPrice>
-            </OrderLi>
+            <OrderbookItem
+              price={orderbook.askPrice}
+              size={orderbook.askSize}
+              key={`askOrder-${orderbook.askPrice}`}
+              amountAlign={"right"}
+            />
+          );
+        })}
+        {bidOrderbookData.map((orderbook) => {
+          return (
+            <OrderbookItem
+              price={orderbook.bidPrice}
+              size={orderbook.bidSize}
+              key={`askOrder-${orderbook.bidPrice}`}
+              amountAlign={"left"}
+            />
           );
         })}
       </OrderUl>
