@@ -5,15 +5,18 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
   const state = useSelector((state) => state);
   const selectedMarket = state.Coin.selectedMarket;
 
-  const volume = state.Coin.candle.data[selectedMarket].accTradeVolume;
+  const volume24 = Math.floor(
+    state.Coin.candle.data[selectedMarket].accTradeVolume
+  );
   const highest52WeekPrice =
     state.Coin.candle.data[selectedMarket].highest52WeekPrice;
-  const highest52WeekData =
+  const highest52WeekDate =
     state.Coin.candle.data[selectedMarket].highest52WeekDate;
   const lowest52WeekPrice =
     state.Coin.candle.data[selectedMarket].lowest52WeekPrice;
   const lowest52WeekDate =
     state.Coin.candle.data[selectedMarket].lowest52WeekDate;
+  const tradePrice24 = state.Coin.candle.data[selectedMarket].accTradePrice;
 
   const orderbook = state.Coin.orderbook.data[selectedMarket];
   const totalData = {
@@ -45,6 +48,12 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
       totalData={totalData}
       bidOrderbookData={bidOrderbookData}
       askOrderbookData={askOrderbookData}
+      volume24={volume24}
+      highest52WeekPrice={highest52WeekPrice}
+      highest52WeekDate={highest52WeekDate}
+      lowest52WeekPrice={lowest52WeekPrice}
+      lowest52WeekDate={lowest52WeekDate}
+      tradePrice24={tradePrice24}
     />
   ) : (
     <div>Orderbook Loading</div>
