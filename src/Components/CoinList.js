@@ -22,7 +22,7 @@ const CoinUl = styled.ul`
   scrollbar-base-color: ${(props) => props.scrollColor};
   &::-webkit-scrollbar {
     width: 5px;
-    background-color: transparent;
+    background-color: white;
     border-radius: 5rem;
   }
   &::-webkit-scrollbar-thumb {

@@ -9,6 +9,12 @@ const MainContentContainer = styled.main`
   display: flex;
   max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
+  height: 100%;
+`;
+
+const ChartAndTradeContainer = styled.div`
+  width: 100%;
 `;
 
 const TradeContainer = styled.div`
@@ -20,15 +26,18 @@ const Main = () => {
     <div className="container">
       <Header />
       <MainContentContainer>
-        <div
-          className="mainChartContainer"
-          style={{ width: "70%", height: 500 }}
-        >
-          <MainChart />
+        <ChartAndTradeContainer>
+          <div
+            className="mainChartContainer"
+            style={{ width: "99%", height: 500 }}
+          >
+            <MainChart />
+          </div>
+
           <TradeContainer>
             <Orderbook />
           </TradeContainer>
-        </div>
+        </ChartAndTradeContainer>
 
         <CoinList />
       </MainContentContainer>

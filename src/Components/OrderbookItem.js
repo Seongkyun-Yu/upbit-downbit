@@ -5,33 +5,111 @@ const OrderLi = styled.li`
   display: flex;
   width: 100%;
   height: 45px;
-  /* max-width: 330px; */
+  &:nth-last-child() {
+    border-bottom: none;
+  }
 `;
 
 const OrderAmount = styled.div`
-  width: 33.33%;
-  min-width: 100px;
-  background-color: blue;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  width: 50%;
+  border: 1px solid ${(props) => props.borderColor};
+  padding-right: 10px;
+  margin-top: -1px;
+  margin-left: -1px;
+  font-size: 0.8rem;
+  /* text-align: ${(props) => props.amountAlign}; */
+  text-align: right;
 `;
 
-const OrderPrice = styled.div`
-  width: 33.33%;
-  min-width: 162px;
-  background-color: tomato;
+const OrderAmountSize = styled.div`
+  position: absolute;
+  width: ${(props) => props.witdhSize};
+  right: 0;
+  height: 70%;
+  background-color: ${(props) => props.bgColor};
 `;
 
-const OrderbookItem = ({ price, size, amountAlign }) => {
+const OrderPriceContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  border: 1px solid ${(props) => props.borderColor};
+  margin-top: -1px;
+  margin-left: -1px;
+  text-align: right;
+  font-size: 0.8rem;
+  color: ${(props) => props.fontColor};
+  background-color: ${(props) => props.bgColor};
+`;
+
+const OrderPrice = styled.strong``;
+
+const OrderPrcieRatio = styled.span`
+  padding-left: 13px;
+`;
+
+const OrderbookItem = ({
+  theme,
+  price,
+  size,
+  maxOrderSize,
+  amountAlign,
+  changeRate,
+}) => {
   return amountAlign === "right" ? (
-    <OrderLi key={`orderbook-ask${price}`}>
-      <OrderAmount>{size}</OrderAmount>
-      <OrderPrice>{price}</OrderPrice>
+    <OrderLi>
+      <OrderAmount amountAlign={amountAlign} borderColor={theme.lightGray}>
+        {size}
+        <OrderAmountSize
+          witdhSize={`${Math.floor((size / maxOrderSize) * 100 - 10)}%`}
+          bgColor={theme.skyBlue2}
+        />
+      </OrderAmount>
+      <OrderPriceContainer
+        fontColor={
+          changeRate > 0
+            ? theme.priceUp
+            : +changeRate < 0
+            ? theme.priceDown
+            : "black"
+        }
+        borderColor={theme.lightGray}
+        bgColor={theme.skyBlue1}
+      >
+        <OrderPrice>{price}</OrderPrice>
+        <OrderPrcieRatio>{`${changeRate}%`}</OrderPrcieRatio>
+      </OrderPriceContainer>
     </OrderLi>
   ) : (
-    <OrderLi key={`orderbook-ask${price}`}>
-      <OrderPrice>{price}</OrderPrice>
-      <OrderAmount>{size}</OrderAmount>
+    <OrderLi>
+      <OrderAmount amountAlign={"left"} borderColor={theme.lightGray}>
+        {size}
+        <OrderAmountSize
+          witdhSize={`${Math.floor((size / maxOrderSize) * 100 - 10)}%`}
+          bgColor={theme.lightPink2}
+        />
+      </OrderAmount>
+      <OrderPriceContainer
+        fontColor={
+          changeRate > 0
+            ? theme.priceUp
+            : +changeRate < 0
+            ? theme.priceDown
+            : "black"
+        }
+        borderColor={theme.lightGray}
+        bgColor={theme.lightPink1}
+      >
+        <OrderPrice>{price}</OrderPrice>
+        <OrderPrcieRatio>{`${changeRate}%`}</OrderPrcieRatio>
+      </OrderPriceContainer>
     </OrderLi>
   );
 };
 
-export default OrderbookItem;
+export default React.memo(OrderbookItem);
