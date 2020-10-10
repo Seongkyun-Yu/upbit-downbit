@@ -16,7 +16,9 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
     state.Coin.candle.data[selectedMarket].lowest52WeekPrice;
   const lowest52WeekDate =
     state.Coin.candle.data[selectedMarket].lowest52WeekDate;
-  const tradePrice24 = state.Coin.candle.data[selectedMarket].accTradePrice;
+  const tradePrice24 = Math.floor(
+    state.Coin.candle.data[selectedMarket].accTradePrice / 1000000
+  );
 
   const orderbook = state.Coin.orderbook.data[selectedMarket];
   const totalData = {

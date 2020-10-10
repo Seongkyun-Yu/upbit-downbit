@@ -5,18 +5,22 @@ import OrderbookItem from "./OrderbookItem";
 import OrderbookCoinInfo from "./OrderbookCoinInfo";
 
 const Container = styled.div`
-  width: 40%;
+  width: 45%;
 `;
 
 const OrderContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
   width: 100%;
+  padding-left: 10px;
+  /* border: 1px solid gray;
+  margin-top: -1px; */
+  /* border-bottom: none;
+ 
+  margin-bottom: 5px; */
 `;
 
 const OrderUl = styled.ul`
   width: 66.66%;
-  /* background-color: yellow; */
 `;
 
 const Orderbook = ({

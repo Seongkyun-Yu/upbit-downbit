@@ -6,21 +6,34 @@ const OrderLi = styled.li`
   width: 100%;
   height: 45px;
   /* max-width: 330px; */
+  border: 1px solid gray;
+  margin-top: -1px;
+  margin-left: -1px;
+  &:nth-last-child() {
+    border-bottom: none;
+  }
 `;
 
 const OrderAmount = styled.div`
-  width: 33.33%;
-  min-width: 100px;
+  width: 40%;
+  /* min-width: 100px; */
   /* background-color: blue; */
-  border-top: 1px solid gray;
+  /* border: 1px solid gray;
+  margin-top: -1px;
+  margin-left: -1px; */
   border-left: 1px solid gray;
+  margin-left: -1px;
+  font-size: 0.8rem;
+  text-align: ${(props) => props.amountAlign};
 `;
 
 const OrderPrice = styled.div`
-  width: 33.33%;
-  min-width: 162px;
+  width: 60%;
+  /* min-width: 162px; */
   /* background-color: tomato; */
-  border: 1px solid gray;
+  border-left: 1px solid gray;
+  margin-top: -1px;
+  margin-left: -1px;
   text-align: right;
 `;
 
@@ -33,7 +46,7 @@ const OrderbookItem = ({ price, size, amountAlign }) => {
   ) : (
     <OrderLi>
       <OrderPrice>{price}</OrderPrice>
-      <OrderAmount>{size}</OrderAmount>
+      <OrderAmount amountAlign={"left"}>{size}</OrderAmount>
     </OrderLi>
   );
 };
