@@ -48,7 +48,7 @@ const volumeSeries = (data) => {
 
 const ChartContainer = styled.div`
   width: 100%;
-  /* background-color: yellow; */
+  background-color: white;
 `;
 
 const margin = { left: 10, right: 80, top: 20, bottom: 20 };
