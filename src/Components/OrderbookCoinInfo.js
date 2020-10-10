@@ -5,10 +5,10 @@ const CandleInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: 33.33%;
+  width: 33.3333%;
   border: 1px solid gray;
   margin-top: -1px;
-  /* margin-left: -1px; */
+  margin-left: -1px;
 `;
 
 const InfoContainer = styled.div`
