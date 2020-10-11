@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 const OrderLi = styled.li`
@@ -60,9 +60,16 @@ const OrderbookItem = ({
   maxOrderSize,
   amountAlign,
   changeRate,
+  index,
 }) => {
+  const scrollRef = React.createRef();
+
+  useEffect(() => {
+    if (index === 7) scrollRef.current.scrollIntoView({ block: "start" });
+  }, []);
+
   return amountAlign === "right" ? (
-    <OrderLi>
+    <OrderLi ref={scrollRef}>
       <OrderAmount amountAlign={amountAlign} borderColor={theme.lightGray}>
         {size}
         <OrderAmountSize

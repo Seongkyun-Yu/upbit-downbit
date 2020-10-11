@@ -57,7 +57,7 @@ const Orderbook = ({
     <Container scrollColor={theme.middleGray}>
       <OrderContainer>
         <OrderUl>
-          {askOrderbookData.map((orderbook) => {
+          {askOrderbookData.map((orderbook, i) => {
             return (
               <OrderbookItem
                 theme={theme}
@@ -70,6 +70,7 @@ const Orderbook = ({
                   ((orderbook.askPrice - beforeDayPrice) / beforeDayPrice) *
                   100
                 ).toFixed(2)}
+                index={i}
               />
             );
           })}
