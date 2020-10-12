@@ -27,7 +27,7 @@ import {
   withDeviceRatio,
   withSize,
 } from "react-financial-charts";
-import withOHLCData from "./withOHLCData";
+import withOHLCData from "../Container/withOHLCData";
 import styled from "styled-components";
 
 const barChartExtents = (data) => {

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import withOrderbookData from "./withOrderbookData";
+import withOrderbookData from "../Container/withOrderbookData";
 import OrderbookItem from "./OrderbookItem";
 
 const Container = styled.div`

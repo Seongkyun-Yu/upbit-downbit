@@ -1,9 +1,7 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { startChangeMarketAndData } from "../Reducer/coinReducer";
 import CoinListItem from "./CoinListItem";
-import withCoinListData from "./withCoinListData";
+import withCoinListData from "../Container/withCoinListData";
 
 const CoinListContainer = styled.div`
   height: 100%;
