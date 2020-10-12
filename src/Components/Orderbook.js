@@ -11,7 +11,7 @@ const Container = styled.div`
   box-sizing: border-box;
   margin-top: 10px;
   background-color: white;
-  overflow-y: scroll;
+  overflow: auto;
   scrollbar-color: ${(props) => props.scrollColor};
   scrollbar-width: thin;
   scrollbar-base-color: transparent;
@@ -74,18 +74,6 @@ const Orderbook = ({
               />
             );
           })}
-        </OrderUl>
-        {/* <OrderbookCoinInfo
-          volume24={volume24}
-          tradePrice24={tradePrice24}
-          highest52WeekPrice={highest52WeekPrice}
-          highest52WeekDate={highest52WeekDate}
-          lowest52WeekPrice={lowest52WeekPrice}
-          lowest52WeekDate={lowest52WeekDate}
-        /> */}
-      </OrderContainer>
-      <OrderContainer>
-        <OrderUl>
           {bidOrderbookData.map((orderbook) => {
             return (
               <OrderbookItem
@@ -103,7 +91,6 @@ const Orderbook = ({
             );
           })}
         </OrderUl>
-        {/* <OrderbookTradeList /> */}
       </OrderContainer>
     </Container>
   );
