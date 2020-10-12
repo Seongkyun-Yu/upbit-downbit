@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import withOrderbookData from "./withOrderbookData";
 import OrderbookItem from "./OrderbookItem";
-import OrderbookCoinInfo from "./OrderbookCoinInfo";
-import OrderbookTradeList from "./OrderbookTradeList";
 
 const Container = styled.div`
   width: 45%;
@@ -45,12 +43,6 @@ const Orderbook = ({
   askOrderbookData,
   bidOrderbookData,
   maxOrderSize,
-  volume24,
-  tradePrice24,
-  highest52WeekPrice,
-  highest52WeekDate,
-  lowest52WeekPrice,
-  lowest52WeekDate,
   beforeDayPrice,
 }) => {
   return (
