@@ -10,10 +10,10 @@ const withCoinInfoData = () => (OriginalComponent) => (props) => {
   const coinNameEn = splitedName[1];
   const coinNameAndMarketEng = splitedName[1] + "/" + splitedName[0];
 
-  const highestPrice52Week =
-    state.Coin.candle.data[selectedMarket].highestPrice52Week;
-  const lowestPrice52Week =
-    state.Coin.candle.data[selectedMarket].lowestPrice52Week;
+  const highestPrice24Hour =
+    state.Coin.candle.data[selectedMarket].highestPrice24Hour;
+  const lowestPrice24Hour =
+    state.Coin.candle.data[selectedMarket].lowestPrice24Hour;
 
   const changeRate24Hour =
     state.Coin.candle.data[selectedMarket].changeRate24Hour;
@@ -30,8 +30,8 @@ const withCoinInfoData = () => (OriginalComponent) => (props) => {
       coinNameKor={coinNameKor}
       coinNameEn={coinNameEn}
       coinNameAndMarketEng={coinNameAndMarketEng}
-      highestPrice52Week={highestPrice52Week}
-      lowestPrice52Week={lowestPrice52Week}
+      highestPrice24Hour={highestPrice24Hour}
+      lowestPrice24Hour={lowestPrice24Hour}
       changeRate24Hour={changeRate24Hour}
       changePrice24Hour={changePrice24Hour}
       changeTradePriceDay={changeTradePriceDay}
