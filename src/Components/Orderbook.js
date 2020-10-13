@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import withOrderbookData from "../Container/withOrderbookData";
 import OrderbookItem from "./OrderbookItem";
@@ -9,7 +9,7 @@ const Container = styled.div`
   box-sizing: border-box;
   margin-top: 10px;
   background-color: white;
-  overflow: auto;
+  overflow-y: scroll;
   scrollbar-color: ${(props) => props.scrollColor};
   scrollbar-width: thin;
   scrollbar-base-color: transparent;
@@ -22,9 +22,9 @@ const Container = styled.div`
     background-color: ${(props) => props.scrollColor};
     border-radius: 5rem;
   }
-  ::-webkit-scrollbar-track {
+  /* ::-webkit-scrollbar-track {
     background: transparent;
-  }
+  } */
 `;
 
 const OrderContainer = styled.div`

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 const OrderLi = styled.li`
@@ -62,10 +62,12 @@ const OrderbookItem = ({
   changeRate,
   index,
 }) => {
-  const scrollRef = React.createRef();
+  const scrollRef = useRef();
 
   useEffect(() => {
-    if (index === 7) scrollRef.current.scrollIntoView({ block: "start" });
+    if (index === 7) {
+      scrollRef.current.scrollIntoView();
+    }
   }, []);
 
   return amountAlign === "right" ? (
