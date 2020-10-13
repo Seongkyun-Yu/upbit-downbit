@@ -59,7 +59,7 @@ const OrderbookItem = ({
   size,
   maxOrderSize,
   amountAlign,
-  changeRate,
+  changeRate24Hour,
   index,
 }) => {
   const scrollRef = useRef();
@@ -81,9 +81,9 @@ const OrderbookItem = ({
       </OrderAmount>
       <OrderPriceContainer
         fontColor={
-          changeRate > 0
+          changeRate24Hour > 0
             ? theme.priceUp
-            : +changeRate < 0
+            : +changeRate24Hour < 0
             ? theme.priceDown
             : "black"
         }
@@ -91,7 +91,7 @@ const OrderbookItem = ({
         bgColor={theme.skyBlue1}
       >
         <OrderPrice>{price}</OrderPrice>
-        <OrderPrcieRatio>{`${changeRate}%`}</OrderPrcieRatio>
+        <OrderPrcieRatio>{`${changeRate24Hour}%`}</OrderPrcieRatio>
       </OrderPriceContainer>
     </OrderLi>
   ) : (
@@ -105,9 +105,9 @@ const OrderbookItem = ({
       </OrderAmount>
       <OrderPriceContainer
         fontColor={
-          changeRate > 0
+          changeRate24Hour > 0
             ? theme.priceUp
-            : +changeRate < 0
+            : +changeRate24Hour < 0
             ? theme.priceDown
             : "black"
         }
@@ -115,7 +115,7 @@ const OrderbookItem = ({
         bgColor={theme.lightPink1}
       >
         <OrderPrice>{price}</OrderPrice>
-        <OrderPrcieRatio>{`${changeRate}%`}</OrderPrcieRatio>
+        <OrderPrcieRatio>{`${changeRate24Hour}%`}</OrderPrcieRatio>
       </OrderPriceContainer>
     </OrderLi>
   );

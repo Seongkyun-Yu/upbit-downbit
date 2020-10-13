@@ -105,7 +105,7 @@ const requestInitActions = (type, key) => {
       case SUCCESS:
         return {
           ...state,
-          initDatas: {
+          candleDay: {
             data: action.payload,
             error: false,
           },
@@ -117,8 +117,8 @@ const requestInitActions = (type, key) => {
       case ERROR:
         return {
           ...state,
-          initDatas: {
-            ...state.initDatas,
+          candleDay: {
+            ...state.candleDay,
             error: action.payload,
           },
           [key]: {

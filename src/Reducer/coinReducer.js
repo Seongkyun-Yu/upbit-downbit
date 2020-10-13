@@ -169,9 +169,9 @@ const initialState = {
         candles: [
           // { date: new Date(), open: 1, close: 1, high: 1, low: 1, volume: 1 },
         ],
-        accTradePrice: 0,
-        accTradeVolume: 0,
-        changeRate: 0,
+        tradePrice24Hour: 0,
+        volume24Hour: 0,
+        changeRate24Hour: 0,
       },
     },
   },

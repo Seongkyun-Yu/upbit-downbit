@@ -41,11 +41,11 @@ const CoinList = ({
         {marketNamesArr.map((marketName) => {
           const splitedName = marketName.split("-");
           const enCoinName = splitedName[1] + "/" + splitedName[0];
-          const changePrice = coinListDatas[marketName].changePrice;
+          const changePrice24Hour = coinListDatas[marketName].changePrice24Hour;
           const fontColor =
-            +changePrice > 0
+            +changePrice24Hour > 0
               ? theme.priceUp
-              : +changePrice < 0
+              : +changePrice24Hour < 0
               ? theme.priceDown
               : "black";
           return (
@@ -61,15 +61,18 @@ const CoinList = ({
                   coinListDatas[marketName].candles.length - 1
                 ].close
               }
-              changeRate={
+              changeRate24Hour={
                 (
-                  Math.round(coinListDatas[marketName].changeRate * 10000) / 100
+                  Math.round(
+                    coinListDatas[marketName].changeRate24Hour * 10000
+                  ) / 100
                 ).toFixed(2) + "%"
               }
-              changePrice={coinListDatas[marketName].changePrice}
-              accTradePrice={
-                Math.floor(coinListDatas[marketName].accTradePrice / 1000000) +
-                " 백만"
+              changePrice24Hour={coinListDatas[marketName].changePrice24Hour}
+              tradePrice24Hour={
+                Math.floor(
+                  coinListDatas[marketName].tradePrice24Hour / 1000000
+                ) + " 백만"
               }
               key={`coinList-${marketName}`}
             />

@@ -14,8 +14,8 @@ const withCoinListData = () => (OriginalComponent) => (props) => {
   if (Object.keys(coinListDatas).length > 1)
     marketNamesArr = marketNamesArr.sort((coin1, coin2) => {
       return (
-        +coinListDatas[coin2].accTradePrice -
-        +coinListDatas[coin1].accTradePrice
+        +coinListDatas[coin2].tradePrice24Hour -
+        +coinListDatas[coin1].tradePrice24Hour
       );
     });
 

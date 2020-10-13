@@ -32,10 +32,10 @@ const InfoValue = styled.span`
 const OrderbookCoinInfo = ({
   volume24,
   tradePrice24,
-  highest52WeekPrice,
-  highest52WeekDate,
-  lowest52WeekPrice,
-  lowest52WeekDate,
+  highestPrice52Week,
+  highestDate52Week,
+  lowestPrice52Week,
+  lowestDate52Week,
 }) => {
   return (
     <CandleInfoContainer>
@@ -49,11 +49,11 @@ const OrderbookCoinInfo = ({
       </InfoContainer>
       <InfoContainer>
         <InfoTxt>52주 최고</InfoTxt>
-        <InfoValue>{`${highest52WeekPrice} (${highest52WeekDate})`}</InfoValue>
+        <InfoValue>{`${highestPrice52Week} (${highestDate52Week})`}</InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoTxt>52주 최저</InfoTxt>
-        <InfoValue>{`${lowest52WeekPrice} (${lowest52WeekDate})`}</InfoValue>
+        <InfoValue>{`${lowestPrice52Week} (${lowestDate52Week})`}</InfoValue>
       </InfoContainer>
     </CandleInfoContainer>
   );

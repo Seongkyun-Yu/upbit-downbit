@@ -58,7 +58,7 @@ const Orderbook = ({
                 maxOrderSize={maxOrderSize}
                 key={`askOrder-${orderbook.askPrice}`}
                 amountAlign={"right"}
-                changeRate={(
+                changeRate24Hour={(
                   ((orderbook.askPrice - beforeDayPrice) / beforeDayPrice) *
                   100
                 ).toFixed(2)}
@@ -75,7 +75,7 @@ const Orderbook = ({
                 maxOrderSize={maxOrderSize}
                 key={`askOrder-${orderbook.bidPrice}`}
                 amountAlign={"left"}
-                changeRate={(
+                changeRate24Hour={(
                   ((orderbook.bidPrice - beforeDayPrice) / beforeDayPrice) *
                   100
                 ).toFixed(2)}
