@@ -38,6 +38,20 @@ const timestampToDatetime = (timeType, timeCount, timestamp) => {
   }
 };
 
+// 문자열 숫자에 천단위 콤마 찍기
+const numWithComma = (numStr) => {
+  numStr = numStr + "";
+  if (numStr.length <= 3) return numStr;
+  const arr = [...numStr];
+  let counter = 1;
+  while (true) {
+    if (3 * counter >= numStr.length) break;
+    arr.splice(-3 * counter - counter + 1, 0, ",");
+    counter += 1;
+  }
+  return arr.join("");
+};
+
 const candleDataUtils = {
   init: (candles, state) => {
     const selectedTimeType = state.Coin.selectedTimeType;
@@ -268,4 +282,4 @@ const orderbookUtils = {
   },
 };
 
-export { timestampToDatetime, candleDataUtils, orderbookUtils };
+export { timestampToDatetime, numWithComma, candleDataUtils, orderbookUtils };
