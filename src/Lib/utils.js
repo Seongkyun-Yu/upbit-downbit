@@ -39,9 +39,13 @@ const timestampToDatetime = (timeType, timeCount, timestamp) => {
 };
 
 // 문자열 숫자에 천단위 콤마 찍기
-const numWithComma = (numStr) => {
-  numStr = numStr + "";
-  if (numStr.length <= 3) return numStr;
+const numWithComma = (num) => {
+  const numStr = num + "";
+  const numStrArr = numStr.split(".");
+  const number = numStrArr[0];
+
+  if (number.length <= 3) return num;
+
   const arr = [...numStr];
   let counter = 1;
   while (true) {

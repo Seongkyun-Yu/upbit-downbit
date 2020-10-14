@@ -66,7 +66,7 @@ const OrderbookItem = ({
 
   useEffect(() => {
     if (index === 7) {
-      scrollRef.current.scrollIntoView();
+      // scrollRef.current.scrollIntoView();
     }
   }, []);
 
