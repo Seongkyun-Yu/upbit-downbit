@@ -9,16 +9,17 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
   const selectedCoinData = state.Coin.candle.data[selectedMarket];
   const selecteCoinCadnles = selectedCoinData.candles;
 
-  const volume24 = Math.floor(selectedCoinData.accTradeVolume);
-  const highest52WeekPrice = selectedCoinData.highest52WeekPrice;
-  const highest52WeekDate = selectedCoinData.highest52WeekDate;
-  const lowest52WeekPrice = selectedCoinData.lowest52WeekPrice;
-  const lowest52WeekDate = selectedCoinData.lowest52WeekDate;
-  const tradePrice24 = Math.floor(selectedCoinData.accTradePrice / 1000000);
+  const volume24 = Math.floor(selectedCoinData.volume24Hour);
+  const highestPrice52Week = selectedCoinData.highestPrice52Week;
+  const highestDate52Week = selectedCoinData.highestDate52Week;
+  const lowestPrice52Week = selectedCoinData.lowestPrice52Week;
+  const lowestDate52Week = selectedCoinData.lowestDate52Week;
+  const tradePrice24 = Math.floor(selectedCoinData.tradePrice24Hour / 1000000);
   const lastCandleIndex = selecteCoinCadnles.length - 1;
 
   const beforeDayPrice = selecteCoinCadnles.length
-    ? selecteCoinCadnles[lastCandleIndex].close - selectedCoinData.changePrice
+    ? selecteCoinCadnles[lastCandleIndex].close -
+      selectedCoinData.changePrice24Hour
     : 0;
 
   const orderbook = state.Coin.orderbook.data[selectedMarket];
@@ -58,10 +59,10 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
       askOrderbookData={askOrderbookData}
       maxOrderSize={maxOrderSize}
       volume24={volume24}
-      highest52WeekPrice={highest52WeekPrice}
-      highest52WeekDate={highest52WeekDate}
-      lowest52WeekPrice={lowest52WeekPrice}
-      lowest52WeekDate={lowest52WeekDate}
+      highestPrice52Week={highestPrice52Week}
+      highestDate52Week={highestDate52Week}
+      lowestPrice52Week={lowestPrice52Week}
+      lowestDate52Week={lowestDate52Week}
       tradePrice24={tradePrice24}
       beforeDayPrice={beforeDayPrice}
     />

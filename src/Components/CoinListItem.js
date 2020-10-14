@@ -91,9 +91,9 @@ const CoinListItem = ({
   enCoinName,
   fontColor,
   price,
-  changeRate,
-  changePrice,
-  accTradePrice,
+  changeRate24Hour,
+  changePrice24Hour,
+  tradePrice24Hour,
 }) => {
   const dispatch = useDispatch();
   const changeMarket = useCallback(
@@ -112,10 +112,10 @@ const CoinListItem = ({
         </CoinNameContainer>
         <Price color={fontColor}>{price}</Price>
         <ChangRateContainer>
-          <ChangeRate color={fontColor}>{changeRate}</ChangeRate>
-          <ChangePrice color={fontColor}>{changePrice}</ChangePrice>
+          <ChangeRate color={fontColor}>{changeRate24Hour}</ChangeRate>
+          <ChangePrice color={fontColor}>{changePrice24Hour}</ChangePrice>
         </ChangRateContainer>
-        <TradePrice>{accTradePrice}</TradePrice>
+        <TradePrice>{tradePrice24Hour}</TradePrice>
       </CoinBtn>
     </CoinLi>
   );

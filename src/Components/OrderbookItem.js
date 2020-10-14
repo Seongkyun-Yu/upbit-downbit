@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 const OrderLi = styled.li`
@@ -59,13 +59,15 @@ const OrderbookItem = ({
   size,
   maxOrderSize,
   amountAlign,
-  changeRate,
+  changeRate24Hour,
   index,
 }) => {
-  const scrollRef = React.createRef();
+  const scrollRef = useRef();
 
   useEffect(() => {
-    if (index === 7) scrollRef.current.scrollIntoView({ block: "start" });
+    if (index === 7) {
+      // scrollRef.current.scrollIntoView();
+    }
   }, []);
 
   return amountAlign === "right" ? (
@@ -79,9 +81,9 @@ const OrderbookItem = ({
       </OrderAmount>
       <OrderPriceContainer
         fontColor={
-          changeRate > 0
+          changeRate24Hour > 0
             ? theme.priceUp
-            : +changeRate < 0
+            : +changeRate24Hour < 0
             ? theme.priceDown
             : "black"
         }
@@ -89,7 +91,7 @@ const OrderbookItem = ({
         bgColor={theme.skyBlue1}
       >
         <OrderPrice>{price}</OrderPrice>
-        <OrderPrcieRatio>{`${changeRate}%`}</OrderPrcieRatio>
+        <OrderPrcieRatio>{`${changeRate24Hour}%`}</OrderPrcieRatio>
       </OrderPriceContainer>
     </OrderLi>
   ) : (
@@ -103,9 +105,9 @@ const OrderbookItem = ({
       </OrderAmount>
       <OrderPriceContainer
         fontColor={
-          changeRate > 0
+          changeRate24Hour > 0
             ? theme.priceUp
-            : +changeRate < 0
+            : +changeRate24Hour < 0
             ? theme.priceDown
             : "black"
         }
@@ -113,7 +115,7 @@ const OrderbookItem = ({
         bgColor={theme.lightPink1}
       >
         <OrderPrice>{price}</OrderPrice>
-        <OrderPrcieRatio>{`${changeRate}%`}</OrderPrcieRatio>
+        <OrderPrcieRatio>{`${changeRate24Hour}%`}</OrderPrcieRatio>
       </OrderPriceContainer>
     </OrderLi>
   );

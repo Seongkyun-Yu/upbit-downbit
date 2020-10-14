@@ -4,6 +4,7 @@ import Header from "../Components/Header";
 import MainChart from "../Components/MainChart";
 import styled from "styled-components";
 import Orderbook from "../Components/Orderbook";
+import CoinInfoHeader from "../Components/CoinInfoHeader";
 
 const MainContentContainer = styled.main`
   display: flex;
@@ -27,6 +28,7 @@ const Main = () => {
       <Header />
       <MainContentContainer>
         <ChartAndTradeContainer>
+          <CoinInfoHeader />
           <div
             className="mainChartContainer"
             style={{ width: "99%", height: 500 }}

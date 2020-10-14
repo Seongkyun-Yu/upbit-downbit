@@ -38,6 +38,24 @@ const timestampToDatetime = (timeType, timeCount, timestamp) => {
   }
 };
 
+// 문자열 숫자에 천단위 콤마 찍기
+const numWithComma = (num) => {
+  const numStr = num + "";
+  const numStrArr = numStr.split(".");
+  const number = numStrArr[0];
+
+  if (number.length <= 3) return num;
+
+  const arr = [...numStr];
+  let counter = 1;
+  while (true) {
+    if (3 * counter >= numStr.length) break;
+    arr.splice(-3 * counter - counter + 1, 0, ",");
+    counter += 1;
+  }
+  return arr.join("");
+};
+
 const candleDataUtils = {
   init: (candles, state) => {
     const selectedTimeType = state.Coin.selectedTimeType;
@@ -68,14 +86,16 @@ const candleDataUtils = {
         volume: candle.acc_trade_volume,
         tradePrice: candle.acc_trade_price,
       });
-      data[candle.market]["accTradePrice"] = candle.acc_trade_price_24h;
-      data[candle.market]["accTradeVolume"] = candle.acc_trade_volume_24h;
-      data[candle.market]["changeRate"] = candle.signed_change_rate;
-      data[candle.market]["changePrice"] = candle.signed_change_price;
-      data[candle.market]["highest52WeekPrice"] = candle.highest_52_week_price;
-      data[candle.market]["highest52WeekDate"] = candle.highest_52_week_date;
-      data[candle.market]["lowest52WeekPrice"] = candle.lowest_52_week_price;
-      data[candle.market]["lowest52WeekDate"] = candle.lowest_52_week_date;
+      data[candle.market]["tradePrice24Hour"] = candle.acc_trade_price_24h;
+      data[candle.market]["volume24Hour"] = candle.acc_trade_volume_24h;
+      data[candle.market]["changeRate24Hour"] = candle.signed_change_rate;
+      data[candle.market]["changePrice24Hour"] = candle.signed_change_price;
+      data[candle.market]["highestPrice24Hour"] = candle.high_price;
+      data[candle.market]["lowestPrice24Hour"] = candle.low_price;
+      data[candle.market]["highestPrice52Week"] = candle.highest_52_week_price;
+      data[candle.market]["highestDate52Week"] = candle.highest_52_week_date;
+      data[candle.market]["lowestPrice52Week"] = candle.lowest_52_week_price;
+      data[candle.market]["lowestDate52Week"] = candle.lowest_52_week_date;
     });
 
     return data;
@@ -107,12 +127,20 @@ const candleDataUtils = {
       candle.trade_price < lastCandle.low ? candle.trade_price : lastCandle.low;
     const close = candle.trade_price;
 
-    const check = targetCandles.find((candle) => candle.datetime === datetime);
+    const highestPrice24Hour = candleStateDatas[coinMarket].highestPrice24Hour;
+    const lowestPrice24Hour = candleStateDatas[coinMarket].lowestPrice24Hour;
+
+    const needUpdate = targetCandles.find(
+      (candle) => candle.datetime === datetime
+    );
+    const dateChanged =
+      d3.timeParse("YYYY-MM-DD")(lastCandle.date) !==
+      d3.timeParse("YYYY-MM-DD")(datetime);
 
     const newData = { ...candleStateDatas };
-    if (check) {
-      const volume = check.volume + candle.trade_volume;
-      const tradePrice = check.tradePrice + candle.trade_price;
+    if (needUpdate) {
+      const volume = needUpdate.volume + candle.trade_volume;
+      const tradePrice = needUpdate.tradePrice + candle.trade_price;
       const updatedCandles = [...targetCandles];
       updatedCandles.pop();
       updatedCandles.push({
@@ -128,14 +156,18 @@ const candleDataUtils = {
       });
 
       newData[coinMarket]["candles"] = updatedCandles;
-      newData[coinMarket]["accTradePrice"] = candle.acc_trade_price_24h;
-      newData[coinMarket]["accTradeVolume"] = candle.acc_trade_volume_24h;
-      newData[coinMarket]["changeRate"] = candle.signed_change_rate;
-      newData[coinMarket]["changePrice"] = candle.signed_change_price;
-      newData[coinMarket]["highest52WeekPrice"] = candle.highest_52_week_price;
-      newData[coinMarket]["highest52WeekDate"] = candle.highest_52_week_date;
-      newData[coinMarket]["lowest52WeekPrice"] = candle.lowest_52_week_price;
-      newData[coinMarket]["lowest52WeekDate"] = candle.lowest_52_week_date;
+      newData[coinMarket]["tradePrice24Hour"] = candle.acc_trade_price_24h;
+      newData[coinMarket]["volume24Hour"] = candle.acc_trade_volume_24h;
+      newData[coinMarket]["changeRate24Hour"] = candle.signed_change_rate;
+      newData[coinMarket]["changePrice24Hour"] = candle.signed_change_price;
+      newData[coinMarket]["highestPrice24Hour"] =
+        high > highestPrice24Hour ? high : highestPrice24Hour;
+      newData[coinMarket]["lowestPrice24Hour"] =
+        low < lowestPrice24Hour ? low : lowestPrice24Hour;
+      newData[coinMarket]["highestPrice52Week"] = candle.highest_52_week_price;
+      newData[coinMarket]["highestDate52Week"] = candle.highest_52_week_date;
+      newData[coinMarket]["lowestPrice52Week"] = candle.lowest_52_week_price;
+      newData[coinMarket]["lowestDate52Week"] = candle.lowest_52_week_date;
     } else {
       const volume = candle.trade_volume;
       const tradePrice = candle.trade_price;
@@ -156,14 +188,24 @@ const candleDataUtils = {
           tradePrice,
         },
       ];
-      newData[coinMarket]["accTradePrice"] = candle.acc_trade_price_24h;
-      newData[coinMarket]["accTradeVolume"] = candle.acc_trade_volume_24h;
-      newData[coinMarket]["changeRate"] = candle.signed_change_rate;
-      newData[coinMarket]["changePrice"] = candle.signed_change_price;
-      newData[coinMarket]["highest52WeekPrice"] = candle.highest_52_week_price;
-      newData[coinMarket]["highest52WeekDate"] = candle.highest_52_week_date;
-      newData[coinMarket]["lowest52WeekPrice"] = candle.lowest_52_week_price;
-      newData[coinMarket]["lowest52WeekDate"] = candle.lowest_52_week_date;
+      newData[coinMarket]["tradePrice24Hour"] = candle.acc_trade_price_24h;
+      newData[coinMarket]["volume24Hour"] = candle.acc_trade_volume_24h;
+      newData[coinMarket]["changeRate24Hour"] = candle.signed_change_rate;
+      newData[coinMarket]["changePrice24Hour"] = candle.signed_change_price;
+      newData[coinMarket]["highestPrice24Hour"] = dateChanged // 날짜가 바뀌지 않았을때만 고점 갱신기록, 날짜 바뀌면 지금 고점 기록
+        ? high
+        : high > highestPrice24Hour
+        ? high
+        : highestPrice24Hour;
+      newData[coinMarket]["lowestPrice24Hour"] = dateChanged
+        ? low
+        : low < lowestPrice24Hour
+        ? low
+        : lowestPrice24Hour;
+      newData[coinMarket]["highestPrice52Week"] = candle.highest_52_week_price;
+      newData[coinMarket]["highestDate52Week"] = candle.highest_52_week_date;
+      newData[coinMarket]["lowestPrice52Week"] = candle.lowest_52_week_price;
+      newData[coinMarket]["lowestDate52Week"] = candle.lowest_52_week_date;
     }
 
     return newData;
@@ -244,4 +286,4 @@ const orderbookUtils = {
   },
 };
 
-export { timestampToDatetime, candleDataUtils, orderbookUtils };
+export { timestampToDatetime, numWithComma, candleDataUtils, orderbookUtils };

@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import withOrderbookData from "./withOrderbookData";
+import withOrderbookData from "../Container/withOrderbookData";
 import OrderbookItem from "./OrderbookItem";
-import OrderbookCoinInfo from "./OrderbookCoinInfo";
-import OrderbookTradeList from "./OrderbookTradeList";
 
 const Container = styled.div`
   width: 45%;
@@ -11,7 +9,7 @@ const Container = styled.div`
   box-sizing: border-box;
   margin-top: 10px;
   background-color: white;
-  overflow: auto;
+  overflow-y: scroll;
   scrollbar-color: ${(props) => props.scrollColor};
   scrollbar-width: thin;
   scrollbar-base-color: transparent;
@@ -24,9 +22,9 @@ const Container = styled.div`
     background-color: ${(props) => props.scrollColor};
     border-radius: 5rem;
   }
-  ::-webkit-scrollbar-track {
+  /* ::-webkit-scrollbar-track {
     background: transparent;
-  }
+  } */
 `;
 
 const OrderContainer = styled.div`
@@ -45,12 +43,6 @@ const Orderbook = ({
   askOrderbookData,
   bidOrderbookData,
   maxOrderSize,
-  volume24,
-  tradePrice24,
-  highest52WeekPrice,
-  highest52WeekDate,
-  lowest52WeekPrice,
-  lowest52WeekDate,
   beforeDayPrice,
 }) => {
   return (
@@ -66,7 +58,7 @@ const Orderbook = ({
                 maxOrderSize={maxOrderSize}
                 key={`askOrder-${orderbook.askPrice}`}
                 amountAlign={"right"}
-                changeRate={(
+                changeRate24Hour={(
                   ((orderbook.askPrice - beforeDayPrice) / beforeDayPrice) *
                   100
                 ).toFixed(2)}
@@ -83,7 +75,7 @@ const Orderbook = ({
                 maxOrderSize={maxOrderSize}
                 key={`askOrder-${orderbook.bidPrice}`}
                 amountAlign={"left"}
-                changeRate={(
+                changeRate24Hour={(
                   ((orderbook.bidPrice - beforeDayPrice) / beforeDayPrice) *
                   100
                 ).toFixed(2)}
