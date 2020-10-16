@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import withOrderbookData from "../Container/withOrderbookData";
 import OrderbookItem from "./OrderbookItem";
+import isEqual from "react-fast-compare";
 
 const Container = styled.div`
   width: 45%;
@@ -9,19 +10,8 @@ const Container = styled.div`
   box-sizing: border-box;
   margin-top: 10px;
   background-color: white;
-  overflow-y: scroll;
-  scrollbar-color: ${(props) => props.scrollColor};
-  scrollbar-width: thin;
-  scrollbar-base-color: transparent;
-  &::-webkit-scrollbar {
-    width: 5px;
-    background-color: transparent;
-    border-radius: 5rem;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.scrollColor};
-    border-radius: 5rem;
-  }
+  overflow-y: hidden;
+
   /* ::-webkit-scrollbar-track {
     background: transparent;
   } */
@@ -35,6 +25,20 @@ const OrderContainer = styled.div`
 const OrderUl = styled.ul`
   /* width: 67.12%; */
   width: 100%;
+  max-height: 742px;
+  overflow-y: scroll;
+  scrollbar-color: ${(props) => props.scrollColor};
+  scrollbar-width: thin;
+  scrollbar-base-color: transparent;
+  &::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+    border-radius: 5rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.scrollColor};
+    border-radius: 5rem;
+  }
 `;
 
 const Orderbook = ({
@@ -48,7 +52,7 @@ const Orderbook = ({
   return (
     <Container scrollColor={theme.middleGray}>
       <OrderContainer>
-        <OrderUl>
+        <OrderUl scrollColor={theme.middleGray}>
           {askOrderbookData.map((orderbook, i) => {
             return (
               <OrderbookItem
@@ -57,7 +61,7 @@ const Orderbook = ({
                 size={orderbook.askSize}
                 maxOrderSize={maxOrderSize}
                 key={`askOrder-${orderbook.askPrice}`}
-                amountAlign={"right"}
+                type={"ask"}
                 changeRate24Hour={(
                   ((orderbook.askPrice - beforeDayPrice) / beforeDayPrice) *
                   100
@@ -74,7 +78,7 @@ const Orderbook = ({
                 size={orderbook.bidSize}
                 maxOrderSize={maxOrderSize}
                 key={`askOrder-${orderbook.bidPrice}`}
-                amountAlign={"left"}
+                type={"bid"}
                 changeRate24Hour={(
                   ((orderbook.bidPrice - beforeDayPrice) / beforeDayPrice) *
                   100
@@ -88,6 +92,6 @@ const Orderbook = ({
   );
 };
 
-const OrderbookMemo = React.memo(Orderbook);
+const OrderbookMemo = React.memo(Orderbook, isEqual);
 
 export default withOrderbookData()(OrderbookMemo);

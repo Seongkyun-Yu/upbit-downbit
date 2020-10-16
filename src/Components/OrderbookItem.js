@@ -58,7 +58,7 @@ const OrderbookItem = ({
   price,
   size,
   maxOrderSize,
-  amountAlign,
+  type,
   changeRate24Hour,
   index,
 }) => {
@@ -66,13 +66,19 @@ const OrderbookItem = ({
 
   useEffect(() => {
     if (index === 7) {
-      // scrollRef.current.scrollIntoView();
-    }
-  }, []);
+      const parentNode = scrollRef.current.parentNode;
+      const parentAbsoluteTop = window.pageYOffset + parentNode.offsetTop;
+      const absoluteTop = window.pageYOffset + scrollRef.current.offsetTop;
 
-  return amountAlign === "right" ? (
+      const relativeTop = absoluteTop - parentAbsoluteTop;
+
+      scrollRef.current.parentNode.scrollTop = relativeTop;
+    }
+  }, [index]);
+
+  return type === "ask" ? (
     <OrderLi ref={scrollRef}>
-      <OrderAmount amountAlign={amountAlign} borderColor={theme.lightGray}>
+      <OrderAmount borderColor={theme.lightGray}>
         {size}
         <OrderAmountSize
           witdhSize={`${Math.floor((size / maxOrderSize) * 100 - 10)}%`}

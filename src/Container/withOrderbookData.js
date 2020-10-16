@@ -53,6 +53,7 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
 
   return orderbook.orderbook_units.length ? (
     <OriginalComponent
+      {...props}
       theme={theme}
       totalData={totalData}
       bidOrderbookData={bidOrderbookData}
