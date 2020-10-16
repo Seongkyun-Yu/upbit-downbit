@@ -15,10 +15,12 @@ const withCoinInfoData = () => (OriginalComponent) => (props) => {
   const coinNameEn = splitedName[1];
   const coinNameAndMarketEng = splitedName[1] + "/" + splitedName[0];
 
-  const highestPrice24Hour =
-    state.Coin.candle.data[selectedMarket].highestPrice24Hour;
-  const lowestPrice24Hour =
-    state.Coin.candle.data[selectedMarket].lowestPrice24Hour;
+  const highestPrice24Hour = numWithComma(
+    state.Coin.candle.data[selectedMarket].highestPrice24Hour
+  );
+  const lowestPrice24Hour = numWithComma(
+    state.Coin.candle.data[selectedMarket].lowestPrice24Hour
+  );
 
   const changeRate24Hour =
     Math.round(
@@ -29,9 +31,13 @@ const withCoinInfoData = () => (OriginalComponent) => (props) => {
     ? numWithComma(state.Coin.candle.data[selectedMarket].changePrice24Hour)
     : 0;
 
-  const changeTradePriceDay =
-    state.Coin.candle.data[selectedMarket].tradePrice24Hour;
-  const volumeDay = state.Coin.candle.data[selectedMarket].volume24Hour;
+  const changeTradePriceDay = numWithComma(
+    Math.floor(state.Coin.candle.data[selectedMarket].tradePrice24Hour)
+  );
+  const volumeDay = numWithComma(
+    Math.floor(state.Coin.candle.data[selectedMarket].volume24Hour * 10000) /
+      100
+  );
 
   const price = candles.length
     ? numWithComma(candles[candles.length - 1].close)
