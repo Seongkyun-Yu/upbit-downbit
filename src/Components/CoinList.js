@@ -7,12 +7,11 @@ const CoinListContainer = styled.div`
   height: 100%;
   width: 100%;
   max-width: 400px;
-  /* overflow: scroll; */
+  margin-top: 10px;
 `;
 const CoinUl = styled.ul`
   height: 100%;
   max-height: 1250px;
-  border: 1px solid silver;
   overflow-y: scroll;
   scrollbar-color: ${(props) => props.scrollColor};
   scrollbar-width: thin;

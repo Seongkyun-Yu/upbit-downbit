@@ -46,14 +46,16 @@ const numWithComma = (num) => {
 
   if (number.length <= 3) return num;
 
-  const arr = [...numStr];
+  const arr = [...numStrArr[0]];
   let counter = 1;
   while (true) {
     if (3 * counter >= numStr.length) break;
     arr.splice(-3 * counter - counter + 1, 0, ",");
     counter += 1;
   }
-  return arr.join("");
+  if (arr[0] === ",") arr.shift();
+  const dotAfter = numStrArr[1] ? "." + numStrArr[1] : "";
+  return arr.join("") + dotAfter;
 };
 
 const candleDataUtils = {
