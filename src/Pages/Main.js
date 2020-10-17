@@ -26,7 +26,7 @@ const TradeContainer = styled.div`
 
 const Main = () => {
   return (
-    <div className="container">
+    <div className="container" style={{ height: "100%" }}>
       <Header />
       <MainContentContainer>
         <ChartAndTradeContainer>
