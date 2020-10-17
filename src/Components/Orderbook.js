@@ -1,14 +1,28 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import withOrderbookData from "../Container/withOrderbookData";
 import OrderbookItem from "./OrderbookItem";
+import isEqual from "react-fast-compare";
 
 const Container = styled.div`
   width: 45%;
   max-height: 742px;
+  height: 100%;
   box-sizing: border-box;
   margin-top: 10px;
   background-color: white;
+  overflow-y: hidden;
+`;
+
+const OrderContainer = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
+const OrderUl = styled.ul`
+  width: 100%;
+  height: 100%;
+  max-height: 742px;
   overflow-y: scroll;
   scrollbar-color: ${(props) => props.scrollColor};
   scrollbar-width: thin;
@@ -22,19 +36,6 @@ const Container = styled.div`
     background-color: ${(props) => props.scrollColor};
     border-radius: 5rem;
   }
-  /* ::-webkit-scrollbar-track {
-    background: transparent;
-  } */
-`;
-
-const OrderContainer = styled.div`
-  display: flex;
-  width: 100%;
-`;
-
-const OrderUl = styled.ul`
-  /* width: 67.12%; */
-  width: 100%;
 `;
 
 const Orderbook = ({
@@ -47,47 +48,48 @@ const Orderbook = ({
 }) => {
   return (
     <Container scrollColor={theme.middleGray}>
-      <OrderContainer>
-        <OrderUl>
-          {askOrderbookData.map((orderbook, i) => {
-            return (
-              <OrderbookItem
-                theme={theme}
-                price={orderbook.askPrice}
-                size={orderbook.askSize}
-                maxOrderSize={maxOrderSize}
-                key={`askOrder-${orderbook.askPrice}`}
-                amountAlign={"right"}
-                changeRate24Hour={(
-                  ((orderbook.askPrice - beforeDayPrice) / beforeDayPrice) *
-                  100
-                ).toFixed(2)}
-                index={i}
-              />
-            );
-          })}
-          {bidOrderbookData.map((orderbook) => {
-            return (
-              <OrderbookItem
-                theme={theme}
-                price={orderbook.bidPrice}
-                size={orderbook.bidSize}
-                maxOrderSize={maxOrderSize}
-                key={`askOrder-${orderbook.bidPrice}`}
-                amountAlign={"left"}
-                changeRate24Hour={(
-                  ((orderbook.bidPrice - beforeDayPrice) / beforeDayPrice) *
-                  100
-                ).toFixed(2)}
-              />
-            );
-          })}
-        </OrderUl>
-      </OrderContainer>
+      {/* <OrderContainer> */}
+      <OrderUl scrollColor={theme.middleGray}>
+        {askOrderbookData.map((orderbook, i) => {
+          return (
+            <OrderbookItem
+              theme={theme}
+              price={orderbook.askPrice}
+              size={orderbook.askSize}
+              maxOrderSize={maxOrderSize}
+              key={`askOrder-${orderbook.askPrice}`}
+              type={"ask"}
+              changeRate24Hour={(
+                ((orderbook.askPrice - beforeDayPrice) / beforeDayPrice) *
+                100
+              ).toFixed(2)}
+              index={i}
+            />
+          );
+        })}
+        {bidOrderbookData.map((orderbook, i) => {
+          return (
+            <OrderbookItem
+              theme={theme}
+              price={orderbook.bidPrice}
+              size={orderbook.bidSize}
+              maxOrderSize={maxOrderSize}
+              key={`askOrder-${orderbook.bidPrice}`}
+              type={"bid"}
+              changeRate24Hour={(
+                ((orderbook.bidPrice - beforeDayPrice) / beforeDayPrice) *
+                100
+              ).toFixed(2)}
+              index={i}
+            />
+          );
+        })}
+      </OrderUl>
+      {/* </OrderContainer> */}
     </Container>
   );
 };
 
-const OrderbookMemo = React.memo(Orderbook);
+const OrderbookMemo = React.memo(Orderbook, isEqual);
 
 export default withOrderbookData()(OrderbookMemo);
