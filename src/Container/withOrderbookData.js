@@ -48,6 +48,9 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
     });
   });
 
+  const orderbookData = [...askOrderbookData, ...bidOrderbookData];
+  // console.log(orderbookData);
+
   // 매도 호가창은 가격 내림차순으로 정렬해줌 (매수는 원래 가격 내림차순임)
   askOrderbookData.sort((book1, book2) => +book2.askPrice - +book1.askPrice);
 
@@ -56,6 +59,7 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
       {...props}
       theme={theme}
       totalData={totalData}
+      orderbookData={orderbookData}
       bidOrderbookData={bidOrderbookData}
       askOrderbookData={askOrderbookData}
       maxOrderSize={maxOrderSize}

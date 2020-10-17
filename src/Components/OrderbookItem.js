@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
+import isEqual from "react-fast-compare";
 
 const OrderLi = styled.li`
   display: flex;
@@ -63,9 +64,8 @@ const OrderbookItem = ({
   index,
 }) => {
   const scrollRef = useRef();
-
   useEffect(() => {
-    if (index === 7) {
+    if (index === 7 && type === "ask") {
       const parentNode = scrollRef.current.parentNode;
       const parentAbsoluteTop = window.pageYOffset + parentNode.offsetTop;
       const absoluteTop = window.pageYOffset + scrollRef.current.offsetTop;
@@ -74,7 +74,7 @@ const OrderbookItem = ({
 
       scrollRef.current.parentNode.scrollTop = relativeTop;
     }
-  }, [index]);
+  }, []);
 
   return type === "ask" ? (
     <OrderLi ref={scrollRef}>
@@ -101,7 +101,7 @@ const OrderbookItem = ({
       </OrderPriceContainer>
     </OrderLi>
   ) : (
-    <OrderLi>
+    <OrderLi ref={scrollRef}>
       <OrderAmount amountAlign={"left"} borderColor={theme.lightGray}>
         {size}
         <OrderAmountSize
@@ -127,4 +127,4 @@ const OrderbookItem = ({
   );
 };
 
-export default React.memo(OrderbookItem);
+export default React.memo(OrderbookItem, isEqual);
