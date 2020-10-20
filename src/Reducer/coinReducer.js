@@ -29,11 +29,11 @@ const CONNECT_CANDLE_SOCKET = "coin/CONNECT_CANDLE_SOCKET";
 const CONNECT_CANDLE_SOCKET_SUCCESS = "coin/CONNECT_CANDLE_SOCKET_SUCCESS";
 const CONNECT_CANDLE_SOCKET_ERROR = "coin/CONNECT_CANDLE_SOCKET_ERROR";
 
-const GET_ONE_COIN_TRADELISTS = "coin/GET_ONE_COIN_CANDLES";
+const GET_ONE_COIN_TRADELISTS = "coin/GET_ONE_COIN_TRADELISTS";
 const GET_ONE_COIN_TRADELISTS_SUCCESS = "coin/GET_ONE_COIN_TRADELISTS_SUCCESS";
 const GET_ONE_COIN_TRADELISTS_ERROR = "coin/GET_ONE_COIN_TRADELISTS_ERROR";
 
-const CONNECT_TRADELIST_SOCKET = "coin/CONNECT_CANDLE_SOCKET";
+const CONNECT_TRADELIST_SOCKET = "coin/CONNECT_TRADELIST_SOCKET";
 const CONNECT_TRADELIST_SOCKET_SUCCESS =
   "coin/CONNECT_TRADELIST_SOCKET_SUCCESS";
 const CONNECT_TRADELIST_SOCKET_ERROR = "coin/CONNECT_TRADELIST_SOCKET_ERROR";
@@ -95,7 +95,7 @@ const connectOrderbookSocketThunk = createConnectSocketThunk(
 // 체결내역 200개 가져오기
 const getOneCoinTradeListsSaga = createRequestSaga(
   GET_ONE_COIN_TRADELISTS,
-  coinApi.getOneCoinTradeListsSaga,
+  coinApi.getOneCoinTradeLists,
   tradeListUtils.init
 );
 
@@ -125,8 +125,8 @@ function* startInittSaga() {
   const selectedTimeCount = state.Coin.selectedTimeCount;
 
   yield getInitCandleSaga({ payload: marketNames }); // 코인 캔들 초기값 받기
-  yield getInitOrderbookSaga({ payload: marketNames }); // 호가창 초기값 받기
-  yield getOneCoinTradeListsSaga({ payload: marketNames }); // 체결내역 초기값 받기
+  yield getInitOrderbookSaga({ payload: selectedMarket }); // 호가창 초기값 받기
+  yield getOneCoinTradeListsSaga({ payload: selectedMarket }); // 체결내역 초기값 받기
   yield getOneCoinCandlesSaga({
     payload: {
       coin: selectedMarket,
@@ -136,7 +136,7 @@ function* startInittSaga() {
   }); // 200개 코인 데이터 받기
   yield put(connectCandleSocketThunk({ payload: marketNames })); // 캔들 소켓 연결
   yield put(connectOrderbookSocketThunk({ payload: marketNames })); // 오더북 소켓 연결
-  // yield put(connectTradeListSocketThunk({ payload: marketNames })); // 체결내역 소켓 연결
+  yield put(connectTradeListSocketThunk({ payload: marketNames })); // 체결내역 소켓 연결
 }
 
 // 선택된 코인/마켓 변경 및 해당 마켓 데이터 받기
@@ -210,6 +210,10 @@ const initialState = {
         orderbook_units: [],
       },
     },
+  },
+  tradeList: {
+    error: false,
+    data: {},
   },
 };
 
