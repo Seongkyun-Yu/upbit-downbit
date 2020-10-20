@@ -307,6 +307,7 @@ const tradeListUtils = {
       ...tradeListData,
       [market]: {
         ...tradeList,
+        ...tradeListData[market],
         market,
       },
     };
