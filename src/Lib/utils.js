@@ -288,4 +288,35 @@ const orderbookUtils = {
   },
 };
 
-export { timestampToDatetime, numWithComma, candleDataUtils, orderbookUtils };
+const tradeListUtils = {
+  init: (tradeLists, _) => {
+    const data = {};
+    tradeLists.forEach((tradeList) => {
+      data[tradeList.market] = {
+        ...tradeList,
+        code: tradeList.market,
+      };
+    });
+
+    return data;
+  },
+  update: (tradeList, state) => {
+    const tradeListData = state.Coin.tradeList.data;
+    const market = tradeList.code;
+    return {
+      ...tradeListData,
+      [market]: {
+        ...tradeList,
+        market,
+      },
+    };
+  },
+};
+
+export {
+  timestampToDatetime,
+  numWithComma,
+  candleDataUtils,
+  orderbookUtils,
+  tradeListUtils,
+};
