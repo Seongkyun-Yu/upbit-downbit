@@ -18,4 +18,7 @@ export const coinApi = {
           data: res.data.sort((a, b) => a.timestamp - b.timestamp),
         };
       }),
+  getOneCoinTradeLists: (coin) => {
+    axios.get(`https://api.upbit.com/v1/trades/ticks?market=${coin}&count=200`);
+  },
 };
