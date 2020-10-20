@@ -10,6 +10,7 @@ const theme = {
   skyBlue2: "rgba(0,98,223,.09)",
   lightPink1: "rgba(216,14,53,.03);",
   lightPink2: "rgba(216,14,53,.09);",
+  strongRed: "#d80e35",
   priceUp: "rgb(210, 79, 69)",
   priceDown: "rgb(18, 97, 196)",
   priceUpTrans: "rgba(210, 79, 69, 0.5)",

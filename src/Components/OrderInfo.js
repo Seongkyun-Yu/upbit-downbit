@@ -20,10 +20,13 @@ const OrderTypeContainer = styled.div`
 
 const OrderType = styled.button`
   width: 33.33%;
-  height: 30px;
+  height: 100%;
   background-color: white;
   border: none;
+  border-bottom: 3px solid ${(props) => props.borderBottom || "tranceparent"};
   outline: 0;
+  font-weight: 800;
+  color: ${(props) => props.fontColor || "black"};
 `;
 
 const OrderInfoContainer = styled.div`
@@ -94,7 +97,9 @@ const OrderInfo = ({ theme }) => {
   return (
     <Container>
       <OrderTypeContainer borderBottom={theme.lightGray2}>
-        <OrderType>매수</OrderType>
+        <OrderType fontColor={theme.strongRed} borderBottom={theme.strongRed}>
+          매수
+        </OrderType>
         <OrderType>매도</OrderType>
         <OrderType>거래내역</OrderType>
       </OrderTypeContainer>
