@@ -289,28 +289,27 @@ const orderbookUtils = {
 };
 
 const tradeListUtils = {
-  init: (tradeLists, _) => {
-    const data = {};
-    tradeLists.forEach((tradeList) => {
-      data[tradeList.market] = {
-        ...tradeList,
-        code: tradeList.market,
-      };
-    });
-
-    return data;
+  init: (tradeLists, state) => {
+    const tradeListData = state.Coin.tradeList.data;
+    const market = tradeLists[0].market;
+    return {
+      ...tradeListData,
+      [market]: tradeLists,
+    };
   },
   update: (tradeList, state) => {
     const tradeListData = state.Coin.tradeList.data;
     const market = tradeList.code;
-    return {
-      ...tradeListData,
-      [market]: {
-        ...tradeList,
-        ...tradeListData[market],
-        market,
-      },
-    };
+    tradeListData[market] && tradeListData[market].pop();
+    return tradeListData[market]
+      ? {
+          ...tradeListData,
+          [market]: [tradeList, ...tradeListData[market]],
+        }
+      : {
+          ...tradeListData,
+          [market]: [tradeList],
+        };
   },
 };
 
