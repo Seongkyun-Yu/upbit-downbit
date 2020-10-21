@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Orderbook from "../Components/Orderbook";
 import CoinInfoHeader from "../Components/CoinInfoHeader";
 import OrderInfo from "../Components/OrderInfo";
+import TradeList from "../Components/TradeList";
 
 const MainContentContainer = styled.main`
   display: flex;
@@ -40,7 +41,17 @@ const Main = () => {
 
           <TradeContainer>
             <Orderbook />
-            <OrderInfo />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "53%",
+                marginLeft: "10px",
+              }}
+            >
+              <OrderInfo />
+              <TradeList />
+            </div>
           </TradeContainer>
         </ChartAndTradeContainer>
 

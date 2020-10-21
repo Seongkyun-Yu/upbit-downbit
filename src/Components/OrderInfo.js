@@ -3,10 +3,9 @@ import styled from "styled-components";
 import withOrderInfoData from "../Container/withOrderInfoData";
 
 const Container = styled.div`
-  width: 52.7%;
+  width: 100%;
   height: 50%;
   margin-top: 10px;
-  margin-left: 10px;
   background-color: white;
   box-sizing: border-box;
 `;

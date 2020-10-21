@@ -300,6 +300,13 @@ const tradeListUtils = {
   update: (tradeList, state) => {
     const tradeListData = state.Coin.tradeList.data;
     const market = tradeList.code;
+    if (
+      tradeListData[market] &&
+      tradeListData[market].find(
+        (data) => data.sequential_id === tradeList.sequential_id
+      )
+    )
+      return tradeListData;
     tradeListData[market] && tradeListData[market].pop();
     return tradeListData[market]
       ? {
