@@ -41,7 +41,7 @@ const TradeList = ({ theme, selectedTradeListData }) => {
                 time={moment(tradeList.timestamp).format("HH:mm")}
                 tradePrice={tradeList.trade_price}
                 changePrice={tradeList.change_price}
-                tradeAmount={+new Decimal(tradeList.trade_volume)}
+                tradeAmount={new Decimal(tradeList.trade_volume)}
                 askBid={tradeList.ask_bid}
                 key={`tradeList-${tradeList.sequential_id}`}
               />

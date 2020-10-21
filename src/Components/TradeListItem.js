@@ -50,7 +50,7 @@ const TradeListItem = ({
         <Time>{time}</Time>
       </Datetime>
       <TradePrice>{tradePrice}</TradePrice>
-      <TradeAmount>{tradeAmount}</TradeAmount>
+      <TradeAmount>{+tradeAmount}</TradeAmount>
       <TradeKRW>{Math.floor(tradePrice * tradeAmount)}</TradeKRW>
     </TradeListLi>
   );
