@@ -152,8 +152,8 @@ function* startChangeMarketAndDataSaga(action) {
   const selectedCoinCandles =
     state.Coin.candle.data[changingMarketName].candles;
 
-  // 선택된 마켓 변경
-  yield put(changeSelectedMarket(changingMarketName));
+  yield put(changeSelectedMarket(changingMarketName)); // 선택된 마켓 변경
+  yield getOneCoinTradeListsSaga({ payload: changingMarketName }); // 체결내역 초기값 받기
 
   // 상태에 저장된 데이터가 200개 미만일때만 api콜 요청함
   if (selectedCoinCandles.length < 200) {
