@@ -19,5 +19,5 @@ export const coinApi = {
         };
       }),
   getOneCoinTradeLists: (coin) =>
-    axios.get(`https://api.upbit.com/v1/trades/ticks?market=${coin}&count=200`),
+    axios.get(`https://api.upbit.com/v1/trades/ticks?market=${coin}&count=50`),
 };
