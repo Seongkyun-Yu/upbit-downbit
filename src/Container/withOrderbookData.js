@@ -33,19 +33,22 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
 
   let maxOrderSize = 0;
   // 호가 데이터 분리 정렬
-  orderbook.orderbook_units.forEach((orderbook) => {
+  orderbook.orderbook_units.forEach((orderbook, i) => {
     const bidSize = orderbook.bid_size.toFixed(3);
     const askSize = orderbook.ask_size.toFixed(3);
     maxOrderSize = Math.max(maxOrderSize, bidSize, askSize);
-    bidOrderbookData.push({
-      bidPrice: orderbook.bid_price,
-      bidSize: orderbook.bid_size.toFixed(3),
-    });
 
-    askOrderbookData.push({
-      askPrice: orderbook.ask_price,
-      askSize: orderbook.ask_size.toFixed(3),
-    });
+    if (i < 8) {
+      // 8개씩 자름
+      bidOrderbookData.push({
+        bidPrice: orderbook.bid_price,
+        bidSize: orderbook.bid_size.toFixed(3),
+      });
+      askOrderbookData.push({
+        askPrice: orderbook.ask_price,
+        askSize: orderbook.ask_size.toFixed(3),
+      });
+    }
   });
 
   const orderbookData = [...askOrderbookData, ...bidOrderbookData];

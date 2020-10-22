@@ -6,7 +6,7 @@ import isEqual from "react-fast-compare";
 
 const Container = styled.div`
   width: 45%;
-  max-height: 700px;
+  max-height: 750px;
   height: 100%;
   box-sizing: border-box;
   margin-top: 10px;
@@ -14,15 +14,10 @@ const Container = styled.div`
   overflow-y: hidden;
 `;
 
-const OrderContainer = styled.div`
-  display: flex;
-  width: 100%;
-`;
-
 const OrderUl = styled.ul`
   width: 100%;
   height: 100%;
-  max-height: 742px;
+  max-height: 750px;
   overflow-y: scroll;
   scrollbar-color: ${(props) => props.scrollColor};
   scrollbar-width: thin;
@@ -48,7 +43,6 @@ const Orderbook = ({
 }) => {
   return (
     <Container scrollColor={theme.middleGray}>
-      {/* <OrderContainer> */}
       <OrderUl scrollColor={theme.middleGray}>
         {askOrderbookData.map((orderbook, i) => {
           return (
@@ -85,7 +79,6 @@ const Orderbook = ({
           );
         })}
       </OrderUl>
-      {/* </OrderContainer> */}
     </Container>
   );
 };
