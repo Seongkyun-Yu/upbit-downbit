@@ -8,12 +8,14 @@ const withTradeListData = () => (OriginalComponent) => (props) => {
   const tradeListData = state.Coin.tradeList.data;
   const selectedMarket = state.Coin.selectedMarket;
   const selectedTradeListData = tradeListData[selectedMarket];
+  const selectedCoin = selectedMarket.split("-")[1];
 
   return (
     <OriginalComponent
       {...props}
       theme={theme}
       selectedTradeListData={selectedTradeListData}
+      selectedCoin={selectedCoin}
     />
   );
 };

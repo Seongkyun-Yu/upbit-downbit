@@ -6,7 +6,7 @@ import isEqual from "react-fast-compare";
 
 const Container = styled.div`
   width: 45%;
-  max-height: 742px;
+  max-height: 700px;
   height: 100%;
   box-sizing: border-box;
   margin-top: 10px;
