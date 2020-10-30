@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { numWithComma } from "../Lib/utils";
 import { startChangeMarketAndData } from "../Reducer/coinReducer";
 
 const CoinLi = styled.li`
@@ -110,12 +111,14 @@ const CoinListItem = ({
           <CoinName>{coinName}</CoinName>
           <CoinNameEn>{enCoinName}</CoinNameEn>
         </CoinNameContainer>
-        <Price color={fontColor}>{price}</Price>
+        <Price color={fontColor}>{numWithComma(price)}</Price>
         <ChangRateContainer>
           <ChangeRate color={fontColor}>{changeRate24Hour}</ChangeRate>
-          <ChangePrice color={fontColor}>{changePrice24Hour}</ChangePrice>
+          <ChangePrice color={fontColor}>
+            {numWithComma(changePrice24Hour)}
+          </ChangePrice>
         </ChangRateContainer>
-        <TradePrice>{tradePrice24Hour}</TradePrice>
+        <TradePrice>{numWithComma(tradePrice24Hour) + " 백만"}</TradePrice>
       </CoinBtn>
     </CoinLi>
   );

@@ -11,14 +11,14 @@ const Container = styled.div`
   box-sizing: border-box;
   margin-top: 10px;
   background-color: white;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
 `;
 
 const OrderUl = styled.ul`
   width: 100%;
   height: 100%;
   max-height: 750px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   scrollbar-color: ${(props) => props.scrollColor};
   scrollbar-width: thin;
   scrollbar-base-color: transparent;

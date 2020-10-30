@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import isEqual from "react-fast-compare";
+import { numWithComma } from "../Lib/utils";
 
 const OrderLi = styled.li`
   display: flex;
@@ -96,7 +97,7 @@ const OrderbookItem = ({
         borderColor={theme.lightGray}
         bgColor={theme.skyBlue1}
       >
-        <OrderPrice>{price}</OrderPrice>
+        <OrderPrice>{numWithComma(price)}</OrderPrice>
         <OrderPrcieRatio>{`${changeRate24Hour}%`}</OrderPrcieRatio>
       </OrderPriceContainer>
     </OrderLi>
@@ -120,7 +121,7 @@ const OrderbookItem = ({
         borderColor={theme.lightGray}
         bgColor={theme.lightPink1}
       >
-        <OrderPrice>{price}</OrderPrice>
+        <OrderPrice>{numWithComma(price)}</OrderPrice>
         <OrderPrcieRatio>{`${changeRate24Hour}%`}</OrderPrcieRatio>
       </OrderPriceContainer>
     </OrderLi>
