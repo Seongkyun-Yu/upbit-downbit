@@ -25,25 +25,49 @@ const TradeListUL = styled.ul`
     background-color: ${(props) => props.scrollColor};
     border-radius: 5rem;
   }
-  max-height: 250px;
+  max-height: 310px;
 `;
 
-const TradeList = ({ theme, selectedTradeListData }) => {
+const TradeListTitle = styled.ul`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 25px;
+  background-color: ${(props) => props.bgColor};
+  font-size: 0.9rem;
+`;
+
+const TitleListItem = styled.li`
+  width: 20%;
+  text-align: ${(props) => props.textAlign || "center"};
+`;
+
+const TradeList = ({ theme, selectedTradeListData, selectedCoin }) => {
   return (
     <Container>
+      <TradeListTitle bgColor={theme.lightGray1}>
+        <TitleListItem textAlign={"center"}>체결시간</TitleListItem>
+        <TitleListItem>체결가격(KRW)</TitleListItem>
+        <TitleListItem textAlign={"right"}>
+          체결량({selectedCoin})
+        </TitleListItem>
+        <TitleListItem textAlign={"right"}>체결금액(KRW)</TitleListItem>
+      </TradeListTitle>
       <TradeListUL scrollColor={theme.middleGray}>
         {selectedTradeListData &&
-          selectedTradeListData.map((tradeList) => {
+          selectedTradeListData.map((tradeList, i) => {
+            const tradeAmount = new Decimal(tradeList.trade_volume) + "";
             return (
               <TradeListItem
                 theme={theme}
+                index={i}
+                key={`tradeList-${tradeList.sequential_id}`}
                 date={moment(tradeList.timestamp).format("MM.DD")}
                 time={moment(tradeList.timestamp).format("HH:mm")}
                 tradePrice={tradeList.trade_price}
                 changePrice={tradeList.change_price}
-                tradeAmount={new Decimal(tradeList.trade_volume)}
+                tradeAmount={+tradeAmount}
                 askBid={tradeList.ask_bid}
-                key={`tradeList-${tradeList.sequential_id}`}
               />
             );
           })}

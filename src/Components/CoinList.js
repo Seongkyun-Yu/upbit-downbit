@@ -68,11 +68,9 @@ const CoinList = ({
                 ).toFixed(2) + "%"
               }
               changePrice24Hour={coinListDatas[marketName].changePrice24Hour}
-              tradePrice24Hour={
-                Math.floor(
-                  coinListDatas[marketName].tradePrice24Hour / 1000000
-                ) + " 백만"
-              }
+              tradePrice24Hour={Math.floor(
+                coinListDatas[marketName].tradePrice24Hour / 1000000
+              )}
               key={`coinList-${marketName}`}
             />
           );

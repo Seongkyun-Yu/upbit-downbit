@@ -17,6 +17,7 @@ const theme = {
   priceDownTrans: "rgba(18, 97, 196, 0.5)",
   middleGray: "#00000033",
   lightGray: "rgb(244, 245, 248)",
+  lightGray1: "rgb(249, 250, 252)",
   lightGray2: "rgb(212, 214, 220)",
   mobile: `(min-width: ${size.mobile})`,
   tablet: `(min-width: ${size.tablet})`,
