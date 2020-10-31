@@ -6,7 +6,7 @@ import withCoinListData from "../Container/withCoinListData";
 const CoinListContainer = styled.div`
   display: none;
   width: 100%;
-  margin-top: 10px;
+  /* margin-top: 10px; */
 
   @media ${(props) => props.subList || props.theme.desktop} {
     display: block;
@@ -16,7 +16,7 @@ const CoinListContainer = styled.div`
 
   @media ${(props) => (props.subList ? props.theme.tablet : true)} {
     display: block;
-    height: 150px;
+    height: 130px;
     margin-top: 0;
   }
 `;

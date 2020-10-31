@@ -9,7 +9,6 @@ const Container = styled.div`
   max-height: 750px;
   height: 100%;
   box-sizing: border-box;
-  margin-top: 10px;
   background-color: white;
   /* overflow-y: hidden; */
 `;

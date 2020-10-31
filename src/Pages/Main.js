@@ -10,19 +10,27 @@ import TradeList from "../Components/TradeList";
 
 const MainContentContainer = styled.main`
   display: flex;
+  justify-content: center;
   max-width: 1400px;
   margin: 0 auto;
+  margin-top: 10px;
   width: 100%;
   height: 100%;
+  background-color: green;
 `;
 
 const ChartAndTradeContainer = styled.div`
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
 `;
 
 const TradeContainer = styled.div`
   display: flex;
+  background-color: tomato;
   width: 100%;
+  margin-top: 10px;
 `;
 
 const Main = () => {
@@ -35,7 +43,7 @@ const Main = () => {
           <CoinList subList={true} />
           <div
             className="mainChartContainer"
-            style={{ width: "99%", height: 500 }}
+            style={{ width: "100%", height: 500 }}
           >
             <MainChart />
           </div>
@@ -46,7 +54,7 @@ const Main = () => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                width: "53%",
+                width: "55%",
                 marginLeft: "10px",
               }}
             >

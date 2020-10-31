@@ -7,7 +7,7 @@ const CoinInfoContainer = styled.div`
 
   justify-content: space-between;
   align-items: center;
-  width: 99%;
+  width: 100%;
   background-color: white;
   box-sizing: border-box;
   padding: 10px;

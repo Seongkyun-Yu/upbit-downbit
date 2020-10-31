@@ -5,7 +5,7 @@ import withOrderInfoData from "../Container/withOrderInfoData";
 const Container = styled.div`
   width: 100%;
   height: 50%;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   background-color: white;
   box-sizing: border-box;
 `;
