@@ -7,6 +7,7 @@ import withTradeListData from "../Container/withTradeListData";
 
 const Container = styled.article`
   width: 100%;
+  height: 100%;
   background-color: white;
   margin-top: 10px;
 `;
@@ -47,11 +48,9 @@ const TradeList = ({ theme, selectedTradeListData, selectedCoin }) => {
     <Container>
       <TradeListTitle bgColor={theme.lightGray1}>
         <TitleListItem textAlign={"center"}>체결시간</TitleListItem>
-        <TitleListItem>체결가격(KRW)</TitleListItem>
-        <TitleListItem textAlign={"right"}>
-          체결량({selectedCoin})
-        </TitleListItem>
-        <TitleListItem textAlign={"right"}>체결금액(KRW)</TitleListItem>
+        <TitleListItem>체결가격</TitleListItem>
+        <TitleListItem textAlign={"right"}>체결량</TitleListItem>
+        <TitleListItem textAlign={"right"}>체결금액</TitleListItem>
       </TradeListTitle>
       <TradeListUL scrollColor={theme.middleGray}>
         {selectedTradeListData &&

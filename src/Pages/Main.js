@@ -16,7 +16,6 @@ const MainContentContainer = styled.main`
   margin-top: 10px;
   width: 100%;
   height: 100%;
-  background-color: green;
 `;
 
 const ChartAndTradeContainer = styled.div`
@@ -28,7 +27,6 @@ const ChartAndTradeContainer = styled.div`
 
 const TradeContainer = styled.div`
   display: flex;
-  background-color: tomato;
   width: 100%;
   margin-top: 10px;
 `;

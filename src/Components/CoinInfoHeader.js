@@ -11,9 +11,7 @@ const CoinInfoContainer = styled.div`
   background-color: white;
   box-sizing: border-box;
   padding: 10px;
-  margin-top: 10px;
   border-bottom: 1px solid ${(props) => props.borderColor};
-  /* margin-right: 10px; */
 `;
 
 const CoinInfoMain = styled.div`

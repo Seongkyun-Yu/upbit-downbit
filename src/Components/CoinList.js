@@ -12,6 +12,7 @@ const CoinListContainer = styled.div`
     display: block;
     max-width: 400px;
     height: 100%;
+    margin-left: 10px;
   }
 
   @media ${(props) => (props.subList ? props.theme.tablet : true)} {
