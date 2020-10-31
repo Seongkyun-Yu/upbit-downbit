@@ -6,7 +6,6 @@ import withCoinListData from "../Container/withCoinListData";
 const CoinListContainer = styled.div`
   display: none;
   width: 100%;
-  /* margin-top: 10px; */
 
   @media ${(props) => props.subList || props.theme.desktop} {
     display: block;
@@ -17,13 +16,19 @@ const CoinListContainer = styled.div`
 
   @media ${(props) => (props.subList ? props.theme.tablet : true)} {
     display: block;
-    height: 130px;
+    height: 140px;
+    max-width: 500px;
+    background-color: tomato;
     margin-top: 0;
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    display: block;
   }
 `;
 const CoinUl = styled.ul`
   height: 100%;
-  max-height: 1250px;
+  max-height: 1310px;
   overflow-y: scroll;
   scrollbar-color: ${(props) => props.scrollColor};
   scrollbar-width: thin;

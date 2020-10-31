@@ -15,6 +15,8 @@ const CoinLi = styled.li`
 
 const CoinBtn = styled.button`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 100%;
   background-color: transparent;
@@ -24,11 +26,24 @@ const CoinBtn = styled.button`
   text-align: left;
 `;
 
+const CoinLogo = styled.i`
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: ${(props) =>
+    `url(https://static.upbit.com/logos/${props.coinNameEn}.png)`};
+  background-size: cover;
+  margin-left: 5px;
+  margin-right: 15px;
+`;
+
 const CoinNameContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 94px;
+  /* width: 94px; */
+  width: 20%;
+  min-width: 55px;
   height: 45px;
 `;
 
@@ -45,7 +60,9 @@ const CoinNameEn = styled.span`
 
 const Price = styled.strong`
   display: block;
-  width: 94px;
+  /* width: 94px; */
+  width: 20%;
+  min-width: 55px;
   height: 100%;
   text-align: right;
   line-height: 2.5rem;
@@ -57,7 +74,9 @@ const ChangRateContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 58px;
+  /* width: 58px; */
+  width: 20%;
+  min-width: 55px;
   height: 100%;
   text-align: right;
 `;
@@ -79,7 +98,8 @@ const TradePrice = styled.span`
   flex-direction: column;
   justify-content: center;
   font-size: 12px;
-  width: 98px;
+  /* width: 98px; */
+  width: 25%;
   height: 100%;
   text-align: right;
 `;
@@ -107,6 +127,7 @@ const CoinListItem = ({
       bgColor={selectedMarket === marketName ? theme.lightGray : "white"}
     >
       <CoinBtn onClick={changeMarket}>
+        <CoinLogo coinNameEn={enCoinName.split("/")[0]} />
         <CoinNameContainer>
           <CoinName>{coinName}</CoinName>
           <CoinNameEn>{enCoinName}</CoinNameEn>
