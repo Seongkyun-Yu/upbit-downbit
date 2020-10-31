@@ -32,6 +32,7 @@ const Main = () => {
       <MainContentContainer>
         <ChartAndTradeContainer>
           <CoinInfoHeader />
+          <CoinList subList={true} />
           <div
             className="mainChartContainer"
             style={{ width: "99%", height: 500 }}

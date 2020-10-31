@@ -1,7 +1,7 @@
 const size = {
   mobile: "0px",
   tablet: "770px",
-  desktop: "1024px",
+  desktop: "1280px",
 };
 
 const theme = {
@@ -19,8 +19,8 @@ const theme = {
   lightGray: "rgb(244, 245, 248)",
   lightGray1: "rgb(249, 250, 252)",
   lightGray2: "rgb(212, 214, 220)",
-  mobile: `(min-width: ${size.mobile})`,
-  tablet: `(min-width: ${size.tablet})`,
+  mobile: `(max-width: ${size.mobile})`,
+  tablet: `(max-width: ${size.tablet})`,
   desktop: `(min-width: ${size.desktop})`,
 };
 
