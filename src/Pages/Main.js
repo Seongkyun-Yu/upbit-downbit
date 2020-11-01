@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import CoinList from "../Components/CoinList";
 import Header from "../Components/Header";
 import MainChart from "../Components/MainChart";
@@ -7,6 +7,8 @@ import Orderbook from "../Components/Orderbook";
 import CoinInfoHeader from "../Components/CoinInfoHeader";
 import OrderInfo from "../Components/OrderInfo";
 import TradeList from "../Components/TradeList";
+import { useDispatch } from "react-redux";
+import { startInit } from "../Reducer/coinReducer";
 
 const MainContentContainer = styled.main`
   display: flex;
@@ -38,6 +40,12 @@ const TradeContainer = styled.div`
 
 const Main = () => {
   const theme = useContext(ThemeContext);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(startInit());
+  }, [dispatch]);
+
   return (
     <div className="container" style={{ height: "100%" }}>
       <Header />
