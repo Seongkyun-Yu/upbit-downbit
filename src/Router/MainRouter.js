@@ -6,6 +6,7 @@ const MainRouter = () => {
   return (
     <Switch>
       <Route exact path="/" component={Main} />
+      <Route exact path="/trade" component={Main} />
     </Switch>
   );
 };

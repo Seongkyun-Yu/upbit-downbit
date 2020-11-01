@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import CoinListItem from "./CoinListItem";
 import withCoinListData from "../Container/withCoinListData";
+import { useHistory } from "react-router-dom";
 
 const CoinListContainer = styled.div`
   display: none;
@@ -22,7 +23,11 @@ const CoinListContainer = styled.div`
     margin-top: 0;
   }
 
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => (!props.isRootURL ? props.theme.mobile : true)} {
+    display: none;
+  }
+
+  @media ${(props) => (props.isRootURL ? props.theme.mobile : true)} {
     display: block;
   }
 `;
@@ -52,8 +57,11 @@ const CoinList = ({
   theme,
   subList,
 }) => {
+  const history = useHistory();
+  const isRootURL = history.location.pathname === "/";
+
   return (
-    <CoinListContainer theme={theme} subList={subList}>
+    <CoinListContainer theme={theme} subList={subList} isRootURL={isRootURL}>
       <CoinUl scrollColor={theme.middleGray}>
         {marketNamesArr.map((marketName) => {
           const splitedName = marketName.split("-");

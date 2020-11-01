@@ -27,7 +27,7 @@ const ChartAndTradeContainer = styled.div`
   width: 95%;
   max-width: 950px;
 
-  @media ${(props) => props.theme.mobile} {
+  @media ${(props) => (props.isRootURL ? props.theme.mobile : true)} {
     display: none;
   }
 `;
@@ -38,19 +38,22 @@ const TradeContainer = styled.div`
   margin-top: 10px;
 `;
 
-const Main = () => {
+const CoinListContainer = styled.div`
+  @media ${(props) => props.theme.mobile} {
+    display: none;
+  }
+`;
+
+const Main = ({ match }) => {
   const theme = useContext(ThemeContext);
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(startInit());
-  }, [dispatch]);
+  const isRootURL = match.path === "/";
 
   return (
     <div className="container" style={{ height: "100%" }}>
       <Header />
       <MainContentContainer>
-        <ChartAndTradeContainer theme={theme}>
+        <ChartAndTradeContainer theme={theme} isRootURL={isRootURL}>
           {/* <CoinList subList={true} /> */}
           <CoinInfoHeader />
           <div
@@ -58,7 +61,6 @@ const Main = () => {
             style={{
               width: "100%",
               height: 500,
-              // borderTop: "1px solid rgb(212, 214, 220)",
             }}
           >
             <MainChart />
@@ -79,7 +81,6 @@ const Main = () => {
             </div>
           </TradeContainer>
         </ChartAndTradeContainer>
-
         <CoinList />
       </MainContentContainer>
     </div>

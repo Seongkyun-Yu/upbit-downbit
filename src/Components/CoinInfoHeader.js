@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import withCoinInfoData from "../Container/withCoinInfoData";
 import CoinList from "./CoinList";
@@ -142,6 +143,9 @@ const CoinInfoHeader = ({
   price,
   priceColor,
 }) => {
+  const history = useHistory();
+  const isRootURL = history.location.pathname === "/";
+
   return (
     <CoinInfoContainer borderColor={theme.lightGray2}>
       <CoinInfoMain>
@@ -190,7 +194,7 @@ const CoinInfoHeader = ({
           </TradeInfo>
         </InfoContainer>
       </TradeInfoContainer>
-      <CoinList subList={true} />
+      <CoinList subList={true} isRootURL={isRootURL} />
     </CoinInfoContainer>
   );
 };
