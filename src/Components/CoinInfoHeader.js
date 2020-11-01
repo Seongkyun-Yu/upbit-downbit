@@ -1,25 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 import withCoinInfoData from "../Container/withCoinInfoData";
+import CoinList from "./CoinList";
 
 const CoinInfoContainer = styled.div`
   display: flex;
-
   justify-content: space-between;
   align-items: center;
-  width: 99%;
+  width: 100%;
   background-color: white;
   box-sizing: border-box;
   padding: 10px;
-  margin-top: 10px;
   border-bottom: 1px solid ${(props) => props.borderColor};
-  /* margin-right: 10px; */
 `;
 
 const CoinInfoMain = styled.div`
   display: flex;
   align-items: center;
-  min-width: 450px;
+  min-width: 380px;
 `;
 
 const CoinLogo = styled.i`
@@ -86,15 +84,24 @@ const TradeInfoContainer = styled.dl`
   display: flex;
   justify-content: flex-end;
   width: 45%;
-  min-width: 340px;
+  /* min-width: 340px; */
   height: 100%;
   margin: 0 10px 0 0;
+
+  @media ${(props) => (props.tabletNone ? props.theme.tablet : true)} {
+    display: none;
+  }
 `;
 
 const InfoContainer = styled.div`
-  /* width: 50%; */
-  height: 100%;
+  height: 50%;
   margin-left: 15px;
+  @media ${(props) => (props.tabletNone ? props.theme.tablet : true)} {
+    display: none;
+  }
+  @media ${(props) => (props.mobileNone ? props.theme.mobile : true)} {
+    display: none;
+  }
 `;
 
 const TradeInfo = styled.div`
@@ -157,22 +164,22 @@ const CoinInfoHeader = ({
           </ChangeContainer>
         </PriceInfo>
       </CoinInfoMain>
-      <TradeInfoContainer>
-        <InfoContainer>
-          <TradeInfo borderColor={theme.lightGray2}>
+      <TradeInfoContainer theme={theme} tabletNone={true}>
+        <InfoContainer theme={theme} tabletNone={true}>
+          <TradeInfo minWidth={"150px"} borderColor={theme.lightGray2}>
             <TradeDT>고가</TradeDT>
             <TradeDD fontColor={theme.priceUp} fontWeight={800}>
               {highestPrice24Hour}
             </TradeDD>
           </TradeInfo>
-          <TradeInfo>
+          <TradeInfo minWidth={"150px"}>
             <TradeDT borderColor={theme.lightGray2}>저가</TradeDT>
             <TradeDD fontColor={theme.priceDown} fontWeight={800}>
               {lowestPrice24Hour}
             </TradeDD>
           </TradeInfo>
         </InfoContainer>
-        <InfoContainer>
+        <InfoContainer theme={theme} tabletNone={true}>
           <TradeInfo minWidth={"220px"} borderColor={theme.lightGray2}>
             <TradeDT>거래량(24h)</TradeDT>
             <TradeDD>{`${volumeDay} ${coinNameEn}`}</TradeDD>
@@ -183,6 +190,7 @@ const CoinInfoHeader = ({
           </TradeInfo>
         </InfoContainer>
       </TradeInfoContainer>
+      <CoinList subList={true} />
     </CoinInfoContainer>
   );
 };

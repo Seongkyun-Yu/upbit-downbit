@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import CoinList from "../Components/CoinList";
 import Header from "../Components/Header";
 import MainChart from "../Components/MainChart";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import Orderbook from "../Components/Orderbook";
 import CoinInfoHeader from "../Components/CoinInfoHeader";
 import OrderInfo from "../Components/OrderInfo";
@@ -10,31 +10,48 @@ import TradeList from "../Components/TradeList";
 
 const MainContentContainer = styled.main`
   display: flex;
-  max-width: 1400px;
+  justify-content: center;
+  max-width: 1500px;
   margin: 0 auto;
+  margin-top: 10px;
   width: 100%;
   height: 100%;
 `;
 
 const ChartAndTradeContainer = styled.div`
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+  max-width: 950px;
+
+  @media ${(props) => props.theme.mobile} {
+    display: none;
+  }
 `;
 
 const TradeContainer = styled.div`
   display: flex;
   width: 100%;
+  margin-top: 10px;
 `;
 
 const Main = () => {
+  const theme = useContext(ThemeContext);
   return (
     <div className="container" style={{ height: "100%" }}>
       <Header />
       <MainContentContainer>
-        <ChartAndTradeContainer>
+        <ChartAndTradeContainer theme={theme}>
+          {/* <CoinList subList={true} /> */}
           <CoinInfoHeader />
           <div
             className="mainChartContainer"
-            style={{ width: "99%", height: 500 }}
+            style={{
+              width: "100%",
+              height: 500,
+              // borderTop: "1px solid rgb(212, 214, 220)",
+            }}
           >
             <MainChart />
           </div>
@@ -45,7 +62,7 @@ const Main = () => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                width: "53%",
+                width: "55%",
                 marginLeft: "10px",
               }}
             >

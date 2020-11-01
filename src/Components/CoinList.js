@@ -4,14 +4,31 @@ import CoinListItem from "./CoinListItem";
 import withCoinListData from "../Container/withCoinListData";
 
 const CoinListContainer = styled.div`
-  height: 100%;
+  display: none;
   width: 100%;
-  max-width: 400px;
-  margin-top: 10px;
+
+  @media ${(props) => props.subList || props.theme.desktop} {
+    display: block;
+    max-width: 400px;
+    height: 100%;
+    margin-left: 10px;
+  }
+
+  @media ${(props) => (props.subList ? props.theme.tablet : true)} {
+    display: block;
+    height: 140px;
+    max-width: 500px;
+    background-color: tomato;
+    margin-top: 0;
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    display: block;
+  }
 `;
 const CoinUl = styled.ul`
   height: 100%;
-  max-height: 1250px;
+  max-height: 1310px;
   overflow-y: scroll;
   scrollbar-color: ${(props) => props.scrollColor};
   scrollbar-width: thin;
@@ -33,9 +50,10 @@ const CoinList = ({
   coinListDatas,
   selectedMarket,
   theme,
+  subList,
 }) => {
   return (
-    <CoinListContainer>
+    <CoinListContainer theme={theme} subList={subList}>
       <CoinUl scrollColor={theme.middleGray}>
         {marketNamesArr.map((marketName) => {
           const splitedName = marketName.split("-");
