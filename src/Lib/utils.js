@@ -256,7 +256,10 @@ const candleDataUtils = {
     const data = {};
     names.forEach((name) => {
       if (name.market.split("-")[0] !== "KRW") return;
-      data[name.market] = name.korean_name;
+      data[name.market] = {
+        korean: name.korean_name,
+        english: name.english_name,
+      };
     });
 
     return data;
@@ -320,10 +323,42 @@ const tradeListUtils = {
   },
 };
 
+const choHangul = (str) => {
+  const cho = [
+    "ㄱ",
+    "ㄲ",
+    "ㄴ",
+    "ㄷ",
+    "ㄸ",
+    "ㄹ",
+    "ㅁ",
+    "ㅂ",
+    "ㅃ",
+    "ㅅ",
+    "ㅆ",
+    "ㅇ",
+    "ㅈ",
+    "ㅉ",
+    "ㅊ",
+    "ㅋ",
+    "ㅌ",
+    "ㅍ",
+    "ㅎ",
+  ];
+
+  return [...str].reduce((acc, cur) => {
+    const code = cur.charCodeAt(0) - 44032;
+    return code > -1 && code < 11172
+      ? acc + cho[Math.floor(code / 588)]
+      : acc + cur.charAt(0);
+  }, "");
+};
+
 export {
   timestampToDatetime,
   numWithComma,
   candleDataUtils,
   orderbookUtils,
   tradeListUtils,
+  choHangul,
 };

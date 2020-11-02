@@ -3,6 +3,8 @@ import styled from "styled-components";
 import CoinListItem from "./CoinListItem";
 import withCoinListData from "../Container/withCoinListData";
 import { useHistory } from "react-router-dom";
+import { searchCoin } from "../Reducer/coinReducer";
+import { useDispatch } from "react-redux";
 
 const CoinListContainer = styled.div`
   display: none;
@@ -81,14 +83,19 @@ const CoinList = ({
   selectedMarket,
   theme,
   subList,
+  coinSearchInputData,
 }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const isRootURL = history.location.pathname === "/";
 
   return (
     <CoinListContainer theme={theme} subList={subList} isRootURL={isRootURL}>
       <CoinSearchContainer borderColor={theme.lightGray2}>
-        <CoinSearchInput />
+        <CoinSearchInput
+          onChange={(e) => dispatch(searchCoin(e.target.value))}
+          value={coinSearchInputData}
+        />
         <CoinSearchBtn />
       </CoinSearchContainer>
 
@@ -108,7 +115,7 @@ const CoinList = ({
               theme={theme}
               marketName={marketName}
               selectedMarket={selectedMarket}
-              coinName={marketNames[marketName]}
+              coinName={marketNames[marketName].korean}
               enCoinName={enCoinName}
               fontColor={fontColor}
               price={
