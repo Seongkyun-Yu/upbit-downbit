@@ -15,6 +15,10 @@ const OrderTypeContainer = styled.div`
   height: 40px;
   align-items: center;
   border-bottom: 1px solid ${(props) => props.borderBottom};
+
+  @media ${(props) => props.theme.mobileS} {
+    font-size: 0.8rem;
+  }
 `;
 
 const OrderType = styled.button`
@@ -41,13 +45,18 @@ const OrderInfoDetailContainer = styled.div`
   width: 100%;
   height: 38px;
   margin-top: 15px;
+
+  @media ${(props) => props.theme.mobileS} {
+    font-size: 0.6rem;
+    margint-right: 10px;
+  }
 `;
 
 const OrderInfoDetailTitle = styled.span`
   display: block;
   width: 40%;
   max-width: 100px;
-  font-size: 0.8rem;
+  /* font-size: 0.8rem; */
 `;
 
 const OrderInfoInputContainer = styled.div`
@@ -67,6 +76,7 @@ const OrderInfoInput = styled.input`
 
 const Button = styled.button`
   width: ${(props) => props.width || "38px"};
+  min-width: ${(props) => props.minWidth};
   height: ${(props) => props.height || "38px"};
   background-color: ${(props) => props.bgColor || "tranceparent"};
   border: none;
@@ -75,6 +85,7 @@ const Button = styled.button`
   border-bottom: 1px solid ${(props) => props.borderColor || "tranceparent"};
   outline: none;
   color: ${(props) => props.fontColor || "black"};
+  margin-right: ${(props) => props.marginRight};
 `;
 
 const PossibleAmount = styled.span`
@@ -90,12 +101,16 @@ const OrderBtnContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   margin-top: 50px;
+
+  @media ${(props) => props.theme.mobileS} {
+    font-size: 0.8rem;
+  }
 `;
 
 const OrderInfo = ({ theme }) => {
   return (
     <Container>
-      <OrderTypeContainer borderBottom={theme.lightGray2}>
+      <OrderTypeContainer theme={theme} borderBottom={theme.lightGray2}>
         <OrderType fontColor={theme.strongRed} borderBottom={theme.strongRed}>
           매수
         </OrderType>
@@ -103,7 +118,7 @@ const OrderInfo = ({ theme }) => {
         <OrderType>거래내역</OrderType>
       </OrderTypeContainer>
       <OrderInfoContainer>
-        <OrderInfoDetailContainer>
+        <OrderInfoDetailContainer theme={theme}>
           <OrderInfoDetailTitle>주문가능</OrderInfoDetailTitle>
           <PossibleAmount>
             0<Unit>KRW</Unit>
@@ -132,8 +147,14 @@ const OrderInfo = ({ theme }) => {
           <OrderInfoDetailTitle>주문총액</OrderInfoDetailTitle>
           <OrderInfoInput borderColor={theme.lightGray2} />
         </OrderInfoDetailContainer>
-        <OrderBtnContainer>
-          <Button width={"30%"} bgColor={theme.deepBlue} fontColor={"white"}>
+        <OrderBtnContainer theme={theme}>
+          <Button
+            width={"30%"}
+            minWidth={"65px"}
+            marginRight={"5px"}
+            bgColor={theme.deepBlue}
+            fontColor={"white"}
+          >
             회원가입
           </Button>
           <Button width={"65%"} bgColor={theme.priceDown} fontColor={"white"}>

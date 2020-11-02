@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { numWithComma } from "../Lib/utils";
 import { startChangeMarketAndData } from "../Reducer/coinReducer";
@@ -117,10 +118,13 @@ const CoinListItem = ({
   tradePrice24Hour,
 }) => {
   const dispatch = useDispatch();
-  const changeMarket = useCallback(
-    () => dispatch(startChangeMarketAndData(marketName)),
-    [dispatch, marketName]
-  );
+  const history = useHistory();
+
+  const changeMarket = useCallback(() => {
+    dispatch(startChangeMarketAndData(marketName));
+    history.push("/trade");
+  }, [dispatch, marketName, history]);
+
   return (
     <CoinLi
       borderBottomColor={theme.lightGray}

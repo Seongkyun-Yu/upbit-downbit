@@ -10,6 +10,10 @@ const OrderLi = styled.li`
   &:nth-last-child() {
     border-bottom: none;
   }
+  font-size: 0.8rem;
+  @media ${(props) => props.theme.mobileS} {
+    font-size: 0.7rem;
+  }
 `;
 
 const OrderAmount = styled.div`
@@ -22,8 +26,6 @@ const OrderAmount = styled.div`
   padding-right: 10px;
   margin-top: -1px;
   margin-left: -1px;
-  font-size: 0.8rem;
-  /* text-align: ${(props) => props.amountAlign}; */
   text-align: right;
 `;
 
@@ -44,14 +46,21 @@ const OrderPriceContainer = styled.div`
   margin-top: -1px;
   margin-left: -1px;
   text-align: right;
-  font-size: 0.8rem;
+  /* font-size: 0.8rem; */
   color: ${(props) => props.fontColor};
   background-color: ${(props) => props.bgColor};
+
+  @media ${(props) => props.theme.mobileM} {
+    flex-direction: column;
+  }
 `;
 
-const OrderPrice = styled.strong``;
+const OrderPrice = styled.strong`
+  /* display: block; */
+`;
 
 const OrderPrcieRatio = styled.span`
+  /* display: block; */
   padding-left: 13px;
 `;
 
@@ -78,7 +87,7 @@ const OrderbookItem = ({
   }, []);
 
   return type === "ask" ? (
-    <OrderLi ref={scrollRef}>
+    <OrderLi ref={scrollRef} theme={theme}>
       <OrderAmount borderColor={theme.lightGray}>
         {size}
         <OrderAmountSize
@@ -87,6 +96,7 @@ const OrderbookItem = ({
         />
       </OrderAmount>
       <OrderPriceContainer
+        theme={theme}
         fontColor={
           changeRate24Hour > 0
             ? theme.priceUp
@@ -111,6 +121,7 @@ const OrderbookItem = ({
         />
       </OrderAmount>
       <OrderPriceContainer
+        theme={theme}
         fontColor={
           changeRate24Hour > 0
             ? theme.priceUp
