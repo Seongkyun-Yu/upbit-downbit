@@ -36,21 +36,40 @@ const TradeListTitle = styled.ul`
   height: 25px;
   background-color: ${(props) => props.bgColor};
   font-size: 0.9rem;
+
+  @media ${(props) => props.theme.mobileS} {
+    font-size: 0.6rem;
+  }
 `;
 
 const TitleListItem = styled.li`
   width: 20%;
   text-align: ${(props) => props.textAlign || "center"};
+  @media ${(props) => (props.mobileSNone ? props.theme.mobileS : true)} {
+    display: none;
+  }
+
+  @media ${(props) => (props.mobileMNone ? props.theme.mobileM : true)} {
+    display: none;
+  }
+
+  @media ${(props) => props.mobileSNone || props.theme.mobileS} {
+    width: 50%;
+  }
 `;
 
 const TradeList = ({ theme, selectedTradeListData, selectedCoin }) => {
   return (
     <Container>
-      <TradeListTitle bgColor={theme.lightGray1}>
-        <TitleListItem textAlign={"center"}>체결시간</TitleListItem>
+      <TradeListTitle theme={theme} bgColor={theme.lightGray1}>
+        <TitleListItem mobileSNone={true} textAlign={"center"}>
+          체결시간
+        </TitleListItem>
         <TitleListItem>체결가격</TitleListItem>
-        <TitleListItem textAlign={"right"}>체결량</TitleListItem>
-        <TitleListItem textAlign={"right"}>체결금액</TitleListItem>
+        <TitleListItem>체결량</TitleListItem>
+        <TitleListItem mobileMNone={true} textAlign={"right"}>
+          체결금액
+        </TitleListItem>
       </TradeListTitle>
       <TradeListUL scrollColor={theme.middleGray}>
         {selectedTradeListData &&

@@ -23,11 +23,11 @@ const CoinListContainer = styled.div`
     margin-top: 0;
   }
 
-  @media ${(props) => (!props.isRootURL ? props.theme.mobile : true)} {
+  @media ${(props) => (!props.isRootURL ? props.theme.mobileM : true)} {
     display: none;
   }
 
-  @media ${(props) => (props.isRootURL ? props.theme.mobile : true)} {
+  @media ${(props) => (props.isRootURL ? props.theme.tablet : true)} {
     display: block;
   }
 `;

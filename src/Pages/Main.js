@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import CoinList from "../Components/CoinList";
 import Header from "../Components/Header";
 import MainChart from "../Components/MainChart";
@@ -7,8 +7,6 @@ import Orderbook from "../Components/Orderbook";
 import CoinInfoHeader from "../Components/CoinInfoHeader";
 import OrderInfo from "../Components/OrderInfo";
 import TradeList from "../Components/TradeList";
-import { useDispatch } from "react-redux";
-import { startInit } from "../Reducer/coinReducer";
 
 const MainContentContainer = styled.main`
   display: flex;
@@ -27,7 +25,7 @@ const ChartAndTradeContainer = styled.div`
   width: 95%;
   max-width: 950px;
 
-  @media ${(props) => (props.isRootURL ? props.theme.mobile : true)} {
+  @media ${(props) => (props.isRootURL ? props.theme.tablet : true)} {
     display: none;
   }
 `;
@@ -36,12 +34,6 @@ const TradeContainer = styled.div`
   display: flex;
   width: 100%;
   margin-top: 10px;
-`;
-
-const CoinListContainer = styled.div`
-  @media ${(props) => props.theme.mobile} {
-    display: none;
-  }
 `;
 
 const Main = ({ match }) => {
