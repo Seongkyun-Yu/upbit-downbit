@@ -31,6 +31,31 @@ const CoinListContainer = styled.div`
     display: block;
   }
 `;
+
+const CoinSearchContainer = styled.div`
+  display: flex;
+  width: 100%;
+
+  border-bottom: 1px solid ${(props) => props.borderColor};
+`;
+
+const CoinSearchInput = styled.input`
+  width: 100%;
+  border: none;
+  padding: 5px;
+`;
+
+const CoinSearchBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  background: url("https://cdn.upbit.com/images/bg.e801517.png") -90px 2px no-repeat;
+
+  background-color: white;
+  padding: 10px;
+  padding-right: 25px;
+  border: none;
+`;
+
 const CoinUl = styled.ul`
   height: 100%;
   max-height: 1310px;
@@ -62,6 +87,11 @@ const CoinList = ({
 
   return (
     <CoinListContainer theme={theme} subList={subList} isRootURL={isRootURL}>
+      <CoinSearchContainer borderColor={theme.lightGray2}>
+        <CoinSearchInput />
+        <CoinSearchBtn />
+      </CoinSearchContainer>
+
       <CoinUl scrollColor={theme.middleGray}>
         {marketNamesArr.map((marketName) => {
           const splitedName = marketName.split("-");
