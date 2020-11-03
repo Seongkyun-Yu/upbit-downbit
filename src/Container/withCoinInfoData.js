@@ -11,7 +11,7 @@ const withCoinInfoData = () => (OriginalComponent) => (props) => {
   const splitedName = selectedMarket.split("-");
   const candles = state.Coin.candle.data[selectedMarket].candles;
 
-  const coinNameKor = state.Coin.marketNames.data[selectedMarket];
+  const coinNameKor = state.Coin.marketNames.data[selectedMarket].korean;
   const coinNameEn = splitedName[1];
   const coinNameAndMarketEng = splitedName[1] + "/" + splitedName[0];
 

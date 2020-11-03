@@ -50,6 +50,9 @@ const CONNECT_ORDERBOOK_SOCKET_ERROR = "coin/CONNECT_ORDERBOOK_SOCKET_ERROR";
 const CHANGE_COIN_MARKET = "coin/CHANGE_COIN_MARKET";
 const CHANGE_COIN_MARKET_SUCCESS = "coin/CHANGE_COIN_MARKET_SUCCESS";
 
+const SEARCH_COIN = "coin/SEARCH_COIN";
+const SEARCH_COIN_SUCCESS = "coin/SEARCH_COIN_SUCCESS";
+
 // 업비트에서 제공하는 코인/마켓 이름들 가져오기 Saga
 const getMarketNameSaga = createRequestSaga(
   GET_MARKET_NAMES,
@@ -113,6 +116,13 @@ const changeSelectedMarket = (marketName) => ({
 });
 const changeSelectedMarketSaga = createChangeOptionSaga(CHANGE_COIN_MARKET);
 
+// 코인 검색 내용 변경하기 Saga
+const searchCoin = (searchName) => ({
+  type: SEARCH_COIN,
+  payload: searchName,
+});
+const searchCoinSaga = createChangeOptionSaga(SEARCH_COIN);
+
 // 시작시 데이터 초기화 작업들
 const startInit = () => ({ type: START_INIT });
 function* startInittSaga() {
@@ -174,6 +184,7 @@ function* coinSaga() {
   yield takeEvery(GET_ONE_COIN_CANDLES, getOneCoinCandlesSaga);
   yield takeEvery(GET_ONE_COIN_TRADELISTS, getOneCoinTradeListsSaga);
   yield takeEvery(CHANGE_COIN_MARKET, changeSelectedMarketSaga);
+  yield takeEvery(SEARCH_COIN, searchCoinSaga);
   yield takeEvery(START_INIT, startInittSaga);
   yield takeEvery(START_CHANGE_MARKET_AND_DATA, startChangeMarketAndDataSaga);
 }
@@ -188,6 +199,7 @@ const initialState = {
   selectedMarket: "KRW-BTC",
   selectedTimeType: "minutes",
   selectedTimeCount: 5,
+  searchCoin: "",
   candle: {
     error: false,
     data: {
@@ -273,9 +285,18 @@ const coinReducer = (state = initialState, action) => {
         state,
         action
       );
+
+    case SEARCH_COIN_SUCCESS:
+      return changeOptionActions(SEARCH_COIN, "searchCoin")(state, action);
     default:
       return state;
   }
 };
 
-export { startInit, startChangeMarketAndData, coinReducer, coinSaga };
+export {
+  startInit,
+  startChangeMarketAndData,
+  coinReducer,
+  coinSaga,
+  searchCoin,
+};

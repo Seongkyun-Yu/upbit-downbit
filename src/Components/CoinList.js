@@ -3,15 +3,19 @@ import styled from "styled-components";
 import CoinListItem from "./CoinListItem";
 import withCoinListData from "../Container/withCoinListData";
 import { useHistory } from "react-router-dom";
+import { searchCoin } from "../Reducer/coinReducer";
+import { useDispatch } from "react-redux";
 
 const CoinListContainer = styled.div`
   display: none;
   width: 100%;
+  background-color: white;
 
   @media ${(props) => props.subList || props.theme.desktop} {
     display: block;
     max-width: 400px;
-    height: 100%;
+    /* height: 100%; */
+    height: 1250px;
     margin-left: 10px;
   }
 
@@ -31,9 +35,53 @@ const CoinListContainer = styled.div`
     display: block;
   }
 `;
+
+const CoinSearchContainer = styled.div`
+  display: flex;
+  width: 100%;
+
+  border-bottom: 1px solid ${(props) => props.borderColor};
+`;
+
+const CoinSearchInput = styled.input`
+  width: 100%;
+  border: none;
+  padding: 5px;
+`;
+
+const CoinSearchBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  background: url("https://cdn.upbit.com/images/bg.e801517.png") -83px 2px no-repeat;
+
+  background-color: white;
+  padding: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+  border: none;
+`;
+
+const CoinSortContainer = styled.ul`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  width: 100%;
+  height: 30px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-bottom: 1px solid ${({ borderColor }) => borderColor};
+`;
+
+const CoinSortList = styled.li`
+  width: ${({ width }) => width || "20%"};
+  text-align: ${({ textAlign }) => textAlign || "right"};
+  margin-right: ${({ marginRight }) => marginRight || 0}; ;
+`;
+
 const CoinUl = styled.ul`
   height: 100%;
-  max-height: 1310px;
+  background-color: white;
   overflow-y: scroll;
   scrollbar-color: ${(props) => props.scrollColor};
   scrollbar-width: thin;
@@ -56,12 +104,31 @@ const CoinList = ({
   selectedMarket,
   theme,
   subList,
+  coinSearchInputData,
 }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const isRootURL = history.location.pathname === "/";
 
   return (
     <CoinListContainer theme={theme} subList={subList} isRootURL={isRootURL}>
+      <CoinSearchContainer borderColor={theme.lightGray2}>
+        <CoinSearchInput
+          onChange={(e) => dispatch(searchCoin(e.target.value))}
+          value={coinSearchInputData}
+        />
+        <CoinSearchBtn />
+      </CoinSearchContainer>
+      <CoinSortContainer borderColor={theme.lightGray2}>
+        <CoinSortList width={"50px"} />
+        <CoinSortList textAlign={"left"}>한글명</CoinSortList>
+        <CoinSortList>현재가</CoinSortList>
+        <CoinSortList>상승률</CoinSortList>
+        <CoinSortList width={"25%"} marginRight={"10px"}>
+          거래대금
+        </CoinSortList>
+      </CoinSortContainer>
+
       <CoinUl scrollColor={theme.middleGray}>
         {marketNamesArr.map((marketName) => {
           const splitedName = marketName.split("-");
@@ -78,7 +145,7 @@ const CoinList = ({
               theme={theme}
               marketName={marketName}
               selectedMarket={selectedMarket}
-              coinName={marketNames[marketName]}
+              coinName={marketNames[marketName].korean}
               enCoinName={enCoinName}
               fontColor={fontColor}
               price={
