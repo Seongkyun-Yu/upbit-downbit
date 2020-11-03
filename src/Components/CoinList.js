@@ -15,7 +15,7 @@ const CoinListContainer = styled.div`
     display: block;
     max-width: 400px;
     /* height: 100%; */
-    height: 1280px;
+    height: 1250px;
     margin-left: 10px;
   }
 
@@ -65,10 +65,11 @@ const CoinSortContainer = styled.ul`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: white;
   width: 100%;
   height: 30px;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 500;
   border-bottom: 1px solid ${({ borderColor }) => borderColor};
 `;
 
@@ -79,8 +80,8 @@ const CoinSortList = styled.li`
 `;
 
 const CoinUl = styled.ul`
-  /* height: 100%; */
-  height: 1280px;
+  height: 100%;
+  background-color: white;
   overflow-y: scroll;
   scrollbar-color: ${(props) => props.scrollColor};
   scrollbar-width: thin;
