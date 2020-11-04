@@ -56,10 +56,13 @@ const OrderInfoDetailTitle = styled.span`
   display: block;
   width: 40%;
   max-width: 100px;
-  /* font-size: 0.8rem; */
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #666;
 `;
 
 const OrderInfoInputContainer = styled.div`
+  display: flex;
   width: 100%;
   height: 100%;
 `;
@@ -92,9 +95,15 @@ const PossibleAmount = styled.span`
   display: block;
   width: 100%;
   text-align: right;
+  font-size: 1.2rem;
+  font-weight: 600;
 `;
 
-const Unit = styled.span``;
+const Unit = styled.span`
+  margin-left: 5px;
+  font-size: 0.8rem;
+  font-weight: 500;
+`;
 
 const OrderBtnContainer = styled.div`
   display: flex;
@@ -126,7 +135,7 @@ const OrderInfo = ({ theme }) => {
         </OrderInfoDetailContainer>
         <OrderInfoDetailContainer>
           <OrderInfoDetailTitle>매수가격</OrderInfoDetailTitle>
-          <div style={{ display: "flex", width: "100%", height: "100%" }}>
+          <OrderInfoInputContainer>
             <OrderInfoInput borderColor={theme.lightGray2} />
             <Button bgColor={theme.lightGray} borderColor={theme.lightGray2}>
               +
@@ -134,14 +143,14 @@ const OrderInfo = ({ theme }) => {
             <Button bgColor={theme.lightGray} borderColor={theme.lightGray2}>
               -
             </Button>
-          </div>
+          </OrderInfoInputContainer>
         </OrderInfoDetailContainer>
         <OrderInfoDetailContainer>
           <OrderInfoDetailTitle>주문수량</OrderInfoDetailTitle>
 
-          <OrderInfoInputContainer>
-            <OrderInfoInput borderColor={theme.lightGray2} />
-          </OrderInfoInputContainer>
+          {/* <OrderInfoInputContainer> */}
+          <OrderInfoInput borderColor={theme.lightGray2} />
+          {/* </OrderInfoInputContainer> */}
         </OrderInfoDetailContainer>
         <OrderInfoDetailContainer>
           <OrderInfoDetailTitle>주문총액</OrderInfoDetailTitle>
