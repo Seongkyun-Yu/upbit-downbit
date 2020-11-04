@@ -54,11 +54,15 @@ const OrderInfoDetailContainer = styled.div`
 
 const OrderInfoDetailTitle = styled.span`
   display: block;
-  width: 40%;
+  width: 20%;
+  min-width: 52px;
   max-width: 100px;
   font-size: 0.8rem;
   font-weight: 600;
   color: #666;
+  /* text-align: left; */
+  margin-left: 5px;
+  margin-right: 5px;
 `;
 
 const OrderInfoInputContainer = styled.div`

@@ -68,9 +68,10 @@ const CoinSortContainer = styled.ul`
   background-color: white;
   width: 100%;
   height: 30px;
+  border-bottom: 1px solid ${({ borderColor }) => borderColor};
   font-size: 0.9rem;
   font-weight: 500;
-  border-bottom: 1px solid ${({ borderColor }) => borderColor};
+  color: #666666;
 `;
 
 const CoinSortList = styled.li`
