@@ -9,13 +9,13 @@ const TradeListLi = styled.li`
   width: 100%;
   height: 25px;
   font-size: 0.9em;
-  background-color: ${(props) => props.bgColor || "white"};
+  background-color: ${({ bgColor }) => bgColor || "white"};
 `;
 
 const Datetime = styled.div`
   width: 20%;
   text-align: center;
-  @media ${(props) => props.theme.mobileS} {
+  @media ${({ theme }) => theme.mobileS} {
     display: none;
   }
 `;
@@ -33,10 +33,10 @@ const TradePrice = styled.span`
   display: block;
   width: 20%;
   text-align: center;
-  color: ${(props) => props.fontColor};
+  color: ${({ fontColor }) => fontColor};
   font-weight: 600;
 
-  @media ${(props) => props.theme.mobileS} {
+  @media ${({ theme }) => theme.mobileS} {
     width: 50%;
     font-size: 0.7rem;
   }
@@ -46,9 +46,9 @@ const TradeAmount = styled.span`
   display: block;
   width: 20%;
   text-align: center;
-  color: ${(props) => props.fontColor};
+  color: ${({ fontColor }) => fontColor};
 
-  @media ${(props) => props.theme.mobileS} {
+  @media ${({ theme }) => theme.mobileS} {
     width: 50%;
     font-size: 0.7rem;
   }
@@ -59,11 +59,11 @@ const TradeKRW = styled.span`
   width: 20%;
   text-align: right;
 
-  @media ${(props) => props.theme.mobileS} {
+  @media ${({ theme }) => theme.mobileS} {
     display: none;
   }
 
-  @media ${(props) => props.theme.mobileM} {
+  @media ${({ theme }) => theme.mobileM} {
     display: none;
   }
 `;

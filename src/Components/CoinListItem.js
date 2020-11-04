@@ -2,16 +2,15 @@ import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { numWithComma } from "../Lib/utils";
 import { startChangeMarketAndData } from "../Reducer/coinReducer";
 
 const CoinLi = styled.li`
   height: 45px;
-  border-bottom: 1px solid ${(props) => props.borderBottomColor};
+  border-bottom: 1px solid ${({ borderBottomColor }) => borderBottomColor};
   &:last-child {
     border-bottom: none;
   }
-  background-color: ${(props) => props.bgColor};
+  background-color: ${({ bgColor }) => bgColor};
 `;
 
 const CoinBtn = styled.button`
@@ -31,8 +30,8 @@ const CoinLogo = styled.i`
   display: inline-block;
   width: 20px;
   height: 20px;
-  background-image: ${(props) =>
-    `url(https://static.upbit.com/logos/${props.coinNameEn}.png)`};
+  background-image: ${({ coinNameEn }) =>
+    `url(https://static.upbit.com/logos/${coinNameEn}.png)`};
   background-size: cover;
   margin-left: 5px;
   margin-right: 15px;
@@ -42,7 +41,6 @@ const CoinNameContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* width: 94px; */
   width: 20%;
   min-width: 55px;
   height: 45px;
@@ -61,21 +59,19 @@ const CoinNameEn = styled.span`
 
 const Price = styled.strong`
   display: block;
-  /* width: 94px; */
   width: 20%;
   min-width: 55px;
   height: 100%;
   text-align: right;
   line-height: 2.5rem;
   font-size: 12px;
-  color: ${(props) => props.color};
+  color: ${({ fontColor }) => fontColor};
 `;
 
 const ChangRateContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* width: 58px; */
   width: 20%;
   min-width: 55px;
   height: 100%;
@@ -85,13 +81,13 @@ const ChangRateContainer = styled.div`
 const ChangeRate = styled.span`
   display: block;
   font-size: 12px;
-  color: ${(props) => props.color};
+  color: ${({ fontColor }) => fontColor};
 `;
 
 const ChangePrice = styled.span`
   display: block;
   font-size: 12px;
-  color: ${(props) => props.color};
+  color: ${({ fontColor }) => fontColor};
 `;
 
 const TradePrice = styled.span`
@@ -99,7 +95,6 @@ const TradePrice = styled.span`
   flex-direction: column;
   justify-content: center;
   font-size: 12px;
-  /* width: 98px; */
   width: 25%;
   height: 100%;
   text-align: right;
@@ -136,14 +131,14 @@ const CoinListItem = ({
           <CoinName>{coinName}</CoinName>
           <CoinNameEn>{enCoinName}</CoinNameEn>
         </CoinNameContainer>
-        <Price color={fontColor}>{numWithComma(price)}</Price>
+        <Price fontColor={fontColor}>{price.toLocaleString()}</Price>
         <ChangRateContainer>
-          <ChangeRate color={fontColor}>{changeRate24Hour}</ChangeRate>
-          <ChangePrice color={fontColor}>
-            {numWithComma(changePrice24Hour)}
+          <ChangeRate fontColor={fontColor}>{changeRate24Hour}</ChangeRate>
+          <ChangePrice fontColor={fontColor}>
+            {changePrice24Hour.toLocaleString()}
           </ChangePrice>
         </ChangRateContainer>
-        <TradePrice>{numWithComma(tradePrice24Hour) + " 백만"}</TradePrice>
+        <TradePrice>{tradePrice24Hour.toLocaleString() + " 백만"}</TradePrice>
       </CoinBtn>
     </CoinLi>
   );

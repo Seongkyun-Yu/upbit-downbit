@@ -5,7 +5,6 @@ import withOrderInfoData from "../Container/withOrderInfoData";
 const Container = styled.div`
   width: 100%;
   height: 50%;
-  /* margin-top: 10px; */
   background-color: white;
   box-sizing: border-box;
 `;
@@ -14,9 +13,9 @@ const OrderTypeContainer = styled.div`
   display: flex;
   height: 40px;
   align-items: center;
-  border-bottom: 1px solid ${(props) => props.borderBottom};
+  border-bottom: 1px solid ${({ theme }) => theme.lightGray2};
 
-  @media ${(props) => props.theme.mobileS} {
+  @media ${({ theme }) => theme.mobileS} {
     font-size: 0.8rem;
   }
 `;
@@ -26,10 +25,11 @@ const OrderType = styled.button`
   height: 100%;
   background-color: white;
   border: none;
-  border-bottom: 3px solid ${(props) => props.borderBottom || "tranceparent"};
+  border-bottom: 3px solid
+    ${({ borderBottom }) => borderBottom || "tranceparent"};
   outline: 0;
   font-weight: 800;
-  color: ${(props) => props.fontColor || "black"};
+  color: ${({ fontColor }) => fontColor || "black"};
 `;
 
 const OrderInfoContainer = styled.div`
@@ -46,7 +46,7 @@ const OrderInfoDetailContainer = styled.div`
   height: 38px;
   margin-top: 15px;
 
-  @media ${(props) => props.theme.mobileS} {
+  @media ${({ theme }) => theme.mobileS} {
     font-size: 0.6rem;
     margint-right: 10px;
   }
@@ -60,7 +60,6 @@ const OrderInfoDetailTitle = styled.span`
   font-size: 0.8rem;
   font-weight: 600;
   color: #666;
-  /* text-align: left; */
   margin-left: 5px;
   margin-right: 5px;
 `;
@@ -72,27 +71,27 @@ const OrderInfoInputContainer = styled.div`
 `;
 
 const OrderInfoInput = styled.input`
-  width: ${(props) => props.width || "100%"};
+  width: ${({ width }) => width || "100%"};
   height: 100%;
   box-sizing: border-box;
   margin: 0;
   padding: 5px;
-  border: 1px solid ${(props) => props.borderColor};
+  border: 1px solid ${({ theme }) => theme.lightGray2};
   text-align: right;
 `;
 
 const Button = styled.button`
-  width: ${(props) => props.width || "38px"};
-  min-width: ${(props) => props.minWidth};
-  height: ${(props) => props.height || "38px"};
-  background-color: ${(props) => props.bgColor || "tranceparent"};
+  width: ${({ width }) => width || "38px"};
+  min-width: ${({ minWidth }) => minWidth};
+  height: ${({ height }) => height || "38px"};
+  background-color: ${({ bgColor }) => bgColor || "tranceparent"};
   border: none;
-  border-top: 1px solid ${(props) => props.borderColor || "tranceparent"};
-  border-right: 1px solid ${(props) => props.borderColor || "tranceparent"};
-  border-bottom: 1px solid ${(props) => props.borderColor || "tranceparent"};
+  border-top: 1px solid ${({ borderColor }) => borderColor || "tranceparent"};
+  border-right: 1px solid ${({ borderColor }) => borderColor || "tranceparent"};
+  border-bottom: 1px solid ${({ borderColor }) => borderColor || "tranceparent"};
   outline: none;
-  color: ${(props) => props.fontColor || "black"};
-  margin-right: ${(props) => props.marginRight};
+  color: ${({ fontColor }) => fontColor || "black"};
+  margin-right: ${({ marginRight }) => marginRight};
 `;
 
 const PossibleAmount = styled.span`
@@ -115,7 +114,7 @@ const OrderBtnContainer = styled.div`
   width: 100%;
   margin-top: 50px;
 
-  @media ${(props) => props.theme.mobileS} {
+  @media ${({ theme }) => theme.mobileS} {
     font-size: 0.8rem;
   }
 `;
@@ -123,15 +122,13 @@ const OrderBtnContainer = styled.div`
 const OrderInfo = ({ theme }) => {
   return (
     <Container>
-      <OrderTypeContainer theme={theme} borderBottom={theme.lightGray2}>
-        <OrderType fontColor={theme.strongRed} borderBottom={theme.strongRed}>
-          매수
-        </OrderType>
+      <OrderTypeContainer>
+        <OrderType borderBottom={theme.strongRed}>매수</OrderType>
         <OrderType>매도</OrderType>
         <OrderType>거래내역</OrderType>
       </OrderTypeContainer>
       <OrderInfoContainer>
-        <OrderInfoDetailContainer theme={theme}>
+        <OrderInfoDetailContainer>
           <OrderInfoDetailTitle>주문가능</OrderInfoDetailTitle>
           <PossibleAmount>
             0<Unit>KRW</Unit>
@@ -140,7 +137,7 @@ const OrderInfo = ({ theme }) => {
         <OrderInfoDetailContainer>
           <OrderInfoDetailTitle>매수가격</OrderInfoDetailTitle>
           <OrderInfoInputContainer>
-            <OrderInfoInput borderColor={theme.lightGray2} />
+            <OrderInfoInput />
             <Button bgColor={theme.lightGray} borderColor={theme.lightGray2}>
               +
             </Button>
@@ -151,16 +148,13 @@ const OrderInfo = ({ theme }) => {
         </OrderInfoDetailContainer>
         <OrderInfoDetailContainer>
           <OrderInfoDetailTitle>주문수량</OrderInfoDetailTitle>
-
-          {/* <OrderInfoInputContainer> */}
-          <OrderInfoInput borderColor={theme.lightGray2} />
-          {/* </OrderInfoInputContainer> */}
+          <OrderInfoInput />
         </OrderInfoDetailContainer>
         <OrderInfoDetailContainer>
           <OrderInfoDetailTitle>주문총액</OrderInfoDetailTitle>
-          <OrderInfoInput borderColor={theme.lightGray2} />
+          <OrderInfoInput />
         </OrderInfoDetailContainer>
-        <OrderBtnContainer theme={theme}>
+        <OrderBtnContainer>
           <Button
             width={"30%"}
             minWidth={"65px"}

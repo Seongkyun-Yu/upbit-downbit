@@ -10,15 +10,13 @@ const Container = styled.div`
   height: 100%;
   box-sizing: border-box;
   background-color: white;
-  /* overflow-y: hidden; */
 `;
 
 const OrderUl = styled.ul`
   width: 100%;
   height: 100%;
   max-height: 750px;
-  /* overflow-y: scroll; */
-  scrollbar-color: ${(props) => props.scrollColor};
+  scrollbar-color: ${({ theme }) => theme.middleGray};
   scrollbar-width: thin;
   scrollbar-base-color: transparent;
   &::-webkit-scrollbar {
@@ -41,8 +39,8 @@ const Orderbook = ({
   beforeDayPrice,
 }) => {
   return (
-    <Container scrollColor={theme.middleGray}>
-      <OrderUl scrollColor={theme.middleGray}>
+    <Container>
+      <OrderUl>
         {askOrderbookData.map((orderbook, i) => {
           return (
             <OrderbookItem

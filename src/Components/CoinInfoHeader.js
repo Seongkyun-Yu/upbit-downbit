@@ -1,8 +1,6 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import withCoinInfoData from "../Container/withCoinInfoData";
-import CoinList from "./CoinList";
 
 const CoinInfoContainer = styled.div`
   display: flex;
@@ -12,7 +10,7 @@ const CoinInfoContainer = styled.div`
   background-color: white;
   box-sizing: border-box;
   padding: 10px;
-  border-bottom: 1px solid ${(props) => props.borderColor};
+  border-bottom: 1px solid ${({ theme }) => theme.lightGray2};
 `;
 
 const CoinInfoMain = styled.div`
@@ -25,8 +23,8 @@ const CoinLogo = styled.i`
   display: inline-block;
   width: 35px;
   height: 35px;
-  background-image: ${(props) =>
-    `url(https://static.upbit.com/logos/${props.coinNameEn}.png)`};
+  background-image: ${({ coinNameEn }) =>
+    `url(https://static.upbit.com/logos/${coinNameEn}.png)`};
   background-size: cover;
   margin-left: 5px;
 `;
@@ -40,7 +38,7 @@ const CoinName = styled.strong`
   font-weight: 1500;
   color: #2b2b2b;
 
-  @media ${(props) => props.theme.mobileS} {
+  @media ${({ theme }) => theme.mobileS} {
     font-size: 1.5rem;
   }
 `;
@@ -59,10 +57,10 @@ const PriceInfo = styled.div`
 `;
 
 const Price = styled.strong`
-  color: ${(props) => props.priceColor};
+  color: ${({ priceColor }) => priceColor};
   font-size: 2rem;
 
-  @media ${(props) => props.theme.mobileS} {
+  @media ${({ theme }) => theme.mobileS} {
     font-size: 1.5rem;
   }
 `;
@@ -80,24 +78,23 @@ const ChangeContainer = styled.span`
 
 const ChangeRate = styled.strong`
   font-size: 1rem;
-  color: ${(props) => props.priceColor};
+  color: ${({ priceColor }) => priceColor};
   margin: 0 10px 0 5px;
 `;
 
 const ChangePrice = styled.strong`
   font-size: 1rem;
-  color: ${(props) => props.priceColor};
+  color: ${({ priceColor }) => priceColor};
 `;
 
 const TradeInfoContainer = styled.dl`
   display: flex;
   justify-content: flex-end;
   width: 45%;
-  /* min-width: 340px; */
   height: 100%;
   margin: 0 10px 0 0;
 
-  @media ${(props) => (props.mobileMNone ? props.theme.mobileM : true)} {
+  @media ${({ theme, mobileMNone }) => (mobileMNone ? theme.mobileM : true)} {
     display: none;
   }
 `;
@@ -105,10 +102,10 @@ const TradeInfoContainer = styled.dl`
 const InfoContainer = styled.div`
   height: 50%;
   margin-left: 15px;
-  @media ${(props) => (props.tabletNone ? props.theme.tablet : true)} {
+  @media ${({ theme, tabletNone }) => (tabletNone ? theme.tablet : true)} {
     display: none;
   }
-  @media ${(props) => (props.mobileMNone ? props.theme.mobileM : true)} {
+  @media ${({ theme, mobileMNone }) => (mobileMNone ? theme.mobileM : true)} {
     display: none;
   }
 `;
@@ -117,8 +114,8 @@ const TradeInfo = styled.div`
   display: flex;
   justify-content: space-between;
   height: 50%;
-  min-width: ${(props) => props.minWidth || "none"};
-  border-bottom: 1px solid ${(props) => props.borderColor || "none"};
+  min-width: ${({ minWidth }) => minWidth || "none"};
+  border-bottom: 1px solid ${({ borderColor }) => borderColor || "none"};
   padding: 5px 0 5px 0;
   font-size: 0.8rem;
 `;
@@ -133,8 +130,8 @@ const TradeDD = styled.dd`
   margin: 0;
   display: inline-block;
   height: 50%;
-  color: ${(props) => props.fontColor || "black"};
-  font-weight: ${(props) => props.fontWeight || 500};
+  color: ${({ fontColor }) => fontColor || "black"};
+  font-weight: ${({ fontWeight }) => fontWeight || 500};
 `;
 
 const CoinInfoHeader = ({
@@ -151,11 +148,8 @@ const CoinInfoHeader = ({
   price,
   priceColor,
 }) => {
-  const history = useHistory();
-  const isRootURL = history.location.pathname === "/";
-
   return (
-    <CoinInfoContainer borderColor={theme.lightGray2}>
+    <CoinInfoContainer>
       <CoinInfoMain>
         <CoinLogo coinNameEn={coinNameEn} />
         <CoinNameContainer>
@@ -163,50 +157,52 @@ const CoinInfoHeader = ({
           <CoinMarketName>{coinNameAndMarketEng}</CoinMarketName>
         </CoinNameContainer>
         <PriceInfo>
-          <Price theme={theme} priceColor={priceColor}>
-            {price}
+          <Price priceColor={priceColor}>
+            {price.toLocaleString()}
             <PriceUnit priceColor={priceColor}>KRW</PriceUnit>
           </Price>
           <ChangeContainer>
             전일대비
             <ChangeRate priceColor={priceColor}>{changeRate24Hour}%</ChangeRate>
             <ChangePrice priceColor={priceColor}>
-              {changePrice24Hour}
+              {changePrice24Hour.toLocaleString()}
             </ChangePrice>
           </ChangeContainer>
         </PriceInfo>
       </CoinInfoMain>
-      <TradeInfoContainer theme={theme} mobileMNone={true}>
-        <InfoContainer theme={theme} tabletNone={true}>
+      <TradeInfoContainer mobileMNone={true}>
+        <InfoContainer tabletNone={true}>
           <TradeInfo minWidth={"100px"} borderColor={theme.lightGray2}>
             <TradeDT>고가</TradeDT>
             <TradeDD fontColor={theme.priceUp} fontWeight={800}>
-              {highestPrice24Hour}
+              {highestPrice24Hour ? highestPrice24Hour.toLocaleString() : 0}
             </TradeDD>
           </TradeInfo>
           <TradeInfo minWidth={"100px"}>
             <TradeDT borderColor={theme.lightGray2}>저가</TradeDT>
             <TradeDD fontColor={theme.priceDown} fontWeight={800}>
-              {lowestPrice24Hour}
+              {lowestPrice24Hour ? lowestPrice24Hour.toLocaleString() : 0}
             </TradeDD>
           </TradeInfo>
         </InfoContainer>
-        <InfoContainer theme={theme} mobileMNone={true}>
+        <InfoContainer mobileMNone={true}>
           <TradeInfo minWidth={"220px"} borderColor={theme.lightGray2}>
             <TradeDT>거래량(24h)</TradeDT>
             <TradeDD>{`${volumeDay} ${coinNameEn}`}</TradeDD>
           </TradeInfo>
           <TradeInfo minWidth={"220px"}>
             <TradeDT borderColor={theme.lightGray2}>거래대금(24h)</TradeDT>
-            <TradeDD>{changeTradePriceDay} KRW</TradeDD>
+            <TradeDD>
+              {changeTradePriceDay ? changeTradePriceDay.toLocaleString() : 0}{" "}
+              KRW
+            </TradeDD>
           </TradeInfo>
         </InfoContainer>
       </TradeInfoContainer>
-      {/* <CoinList subList={true} isRootURL={isRootURL} /> */}
     </CoinInfoContainer>
   );
 };
 
-const CoinInfoHeaderMemo = React.memo(CoinInfoHeader);
+// const CoinInfoHeaderMemo = React.memo(CoinInfoHeader);
 
-export default withCoinInfoData()(CoinInfoHeaderMemo);
+export default withCoinInfoData()(React.memo(CoinInfoHeader));

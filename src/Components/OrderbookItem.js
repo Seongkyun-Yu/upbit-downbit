@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import isEqual from "react-fast-compare";
-import { numWithComma } from "../Lib/utils";
 
 const OrderLi = styled.li`
   display: flex;
@@ -11,7 +10,7 @@ const OrderLi = styled.li`
     border-bottom: none;
   }
   font-size: 0.8rem;
-  @media ${(props) => props.theme.mobileS} {
+  @media ${({ theme }) => theme.mobileS} {
     font-size: 0.7rem;
   }
 `;
@@ -22,7 +21,7 @@ const OrderAmount = styled.div`
   align-items: center;
   position: relative;
   width: 50%;
-  border: 1px solid ${(props) => props.borderColor};
+  border: 1px solid ${({ borderColor }) => borderColor};
   padding-right: 10px;
   margin-top: -1px;
   margin-left: -1px;
@@ -31,10 +30,10 @@ const OrderAmount = styled.div`
 
 const OrderAmountSize = styled.div`
   position: absolute;
-  width: ${(props) => props.witdhSize};
+  width: ${({ witdhSize }) => witdhSize};
   right: 0;
   height: 70%;
-  background-color: ${(props) => props.bgColor};
+  background-color: ${({ bgColor }) => bgColor};
 `;
 
 const OrderPriceContainer = styled.div`
@@ -42,25 +41,21 @@ const OrderPriceContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 50%;
-  border: 1px solid ${(props) => props.borderColor};
+  border: 1px solid ${({ borderColor }) => borderColor};
   margin-top: -1px;
   margin-left: -1px;
   text-align: right;
-  /* font-size: 0.8rem; */
-  color: ${(props) => props.fontColor};
-  background-color: ${(props) => props.bgColor};
+  color: ${({ fontColor }) => fontColor};
+  background-color: ${({ bgColor }) => bgColor};
 
-  @media ${(props) => props.theme.mobileM} {
+  @media ${({ theme }) => theme.mobileM} {
     flex-direction: column;
   }
 `;
 
-const OrderPrice = styled.strong`
-  /* display: block; */
-`;
+const OrderPrice = styled.strong``;
 
 const OrderPrcieRatio = styled.span`
-  /* display: block; */
   padding-left: 13px;
 `;
 
@@ -73,21 +68,21 @@ const OrderbookItem = ({
   changeRate24Hour,
   index,
 }) => {
-  const scrollRef = useRef();
-  useEffect(() => {
-    if (index === 7 && type === "ask") {
-      const parentNode = scrollRef.current.parentNode;
-      const parentAbsoluteTop = window.pageYOffset + parentNode.offsetTop;
-      const absoluteTop = window.pageYOffset + scrollRef.current.offsetTop;
+  // const scrollRef = useRef();
+  // useEffect(() => {
+  //   if (index === 7 && type === "ask") {
+  //     const parentNode = scrollRef.current.parentNode;
+  //     const parentAbsoluteTop = window.pageYOffset + parentNode.offsetTop;
+  //     const absoluteTop = window.pageYOffset + scrollRef.current.offsetTop;
 
-      const relativeTop = absoluteTop - parentAbsoluteTop;
+  //     const relativeTop = absoluteTop - parentAbsoluteTop;
 
-      scrollRef.current.parentNode.scrollTop = relativeTop;
-    }
-  }, []);
+  //     scrollRef.current.parentNode.scrollTop = relativeTop;
+  //   }
+  // }, []);
 
   return type === "ask" ? (
-    <OrderLi ref={scrollRef} theme={theme}>
+    <OrderLi theme={theme}>
       <OrderAmount borderColor={theme.lightGray}>
         {size}
         <OrderAmountSize
@@ -107,12 +102,12 @@ const OrderbookItem = ({
         borderColor={theme.lightGray}
         bgColor={theme.skyBlue1}
       >
-        <OrderPrice>{numWithComma(price)}</OrderPrice>
+        <OrderPrice>{price.toLocaleString()}</OrderPrice>
         <OrderPrcieRatio>{`${changeRate24Hour}%`}</OrderPrcieRatio>
       </OrderPriceContainer>
     </OrderLi>
   ) : (
-    <OrderLi ref={scrollRef}>
+    <OrderLi>
       <OrderAmount amountAlign={"left"} borderColor={theme.lightGray}>
         {size}
         <OrderAmountSize
@@ -132,7 +127,7 @@ const OrderbookItem = ({
         borderColor={theme.lightGray}
         bgColor={theme.lightPink1}
       >
-        <OrderPrice>{numWithComma(price)}</OrderPrice>
+        <OrderPrice>{price.toLocaleString()}</OrderPrice>
         <OrderPrcieRatio>{`${changeRate24Hour}%`}</OrderPrcieRatio>
       </OrderPriceContainer>
     </OrderLi>

@@ -34,34 +34,34 @@ const TradeListTitle = styled.ul`
   justify-content: space-around;
   align-items: center;
   height: 25px;
-  background-color: ${(props) => props.bgColor};
+  background-color: ${({ theme }) => theme.lightGray1};
   font-size: 0.9rem;
 
-  @media ${(props) => props.theme.mobileS} {
+  @media ${({ theme }) => theme.mobileS} {
     font-size: 0.6rem;
   }
 `;
 
 const TitleListItem = styled.li`
   width: 20%;
-  text-align: ${(props) => props.textAlign || "center"};
-  @media ${(props) => (props.mobileSNone ? props.theme.mobileS : true)} {
+  text-align: ${({ textAlign }) => textAlign || "center"};
+  @media ${({ theme, mobileSNone }) => (mobileSNone ? theme.mobileS : true)} {
     display: none;
   }
 
-  @media ${(props) => (props.mobileMNone ? props.theme.mobileM : true)} {
+  @media ${({ theme, mobileMNone }) => (mobileMNone ? theme.mobileM : true)} {
     display: none;
   }
 
-  @media ${(props) => props.mobileSNone || props.theme.mobileS} {
+  @media ${({ theme, mobileSNone }) => mobileSNone || theme.mobileS} {
     width: 50%;
   }
 `;
 
-const TradeList = ({ theme, selectedTradeListData, selectedCoin }) => {
+const TradeList = ({ theme, selectedTradeListData }) => {
   return (
     <Container>
-      <TradeListTitle theme={theme} bgColor={theme.lightGray1}>
+      <TradeListTitle bgColor={theme.lightGray1}>
         <TitleListItem mobileSNone={true} textAlign={"center"}>
           체결시간
         </TitleListItem>

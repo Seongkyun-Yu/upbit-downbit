@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useSelector } from "react-redux";
 import { ThemeContext } from "styled-components";
-import { numWithComma } from "../Lib/utils";
 
 const withCoinInfoData = () => (OriginalComponent) => (props) => {
   const state = useSelector((state) => state);
@@ -15,33 +14,26 @@ const withCoinInfoData = () => (OriginalComponent) => (props) => {
   const coinNameEn = splitedName[1];
   const coinNameAndMarketEng = splitedName[1] + "/" + splitedName[0];
 
-  const highestPrice24Hour = numWithComma(
-    state.Coin.candle.data[selectedMarket].highestPrice24Hour
-  );
-  const lowestPrice24Hour = numWithComma(
-    state.Coin.candle.data[selectedMarket].lowestPrice24Hour
-  );
-
+  const highestPrice24Hour =
+    state.Coin.candle.data[selectedMarket].highestPrice24Hour;
+  const lowestPrice24Hour =
+    state.Coin.candle.data[selectedMarket].lowestPrice24Hour;
   const changeRate24Hour =
     Math.round(
       state.Coin.candle.data[selectedMarket].changeRate24Hour * 10000
     ) / 100;
   const changePrice24Hour = state.Coin.candle.data[selectedMarket]
     .changePrice24Hour
-    ? numWithComma(state.Coin.candle.data[selectedMarket].changePrice24Hour)
+    ? state.Coin.candle.data[selectedMarket].changePrice24Hour
     : 0;
 
-  const changeTradePriceDay = numWithComma(
-    Math.floor(state.Coin.candle.data[selectedMarket].tradePrice24Hour)
+  const changeTradePriceDay = Math.floor(
+    state.Coin.candle.data[selectedMarket].tradePrice24Hour
   );
-  const volumeDay = numWithComma(
+  const volumeDay =
     Math.floor(state.Coin.candle.data[selectedMarket].volume24Hour * 10000) /
-      100
-  );
-
-  const price = candles.length
-    ? numWithComma(candles[candles.length - 1].close)
-    : 0;
+    100;
+  const price = candles.length ? candles[candles.length - 1].close : 0;
 
   const priceColor = changeRate24Hour > 0 ? theme.priceUp : theme.priceDown;
 
