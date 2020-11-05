@@ -4,31 +4,33 @@ import withOrderbookData from "../Container/withOrderbookData";
 import OrderbookItem from "./OrderbookItem";
 import isEqual from "react-fast-compare";
 
-const Container = styled.div`
-  width: 45%;
-  max-height: 750px;
-  height: 100%;
-  box-sizing: border-box;
-  background-color: white;
-`;
+const St = {
+  Container: styled.div`
+    width: 45%;
+    max-height: 750px;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: white;
+  `,
 
-const OrderUl = styled.ul`
-  width: 100%;
-  height: 100%;
-  max-height: 750px;
-  scrollbar-color: ${({ theme }) => theme.middleGray};
-  scrollbar-width: thin;
-  scrollbar-base-color: transparent;
-  &::-webkit-scrollbar {
-    width: 5px;
-    background-color: transparent;
-    border-radius: 5rem;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.scrollColor};
-    border-radius: 5rem;
-  }
-`;
+  OrderUl: styled.ul`
+    width: 100%;
+    height: 100%;
+    max-height: 750px;
+    scrollbar-color: ${({ theme }) => theme.middleGray};
+    scrollbar-width: thin;
+    scrollbar-base-color: transparent;
+    &::-webkit-scrollbar {
+      width: 5px;
+      background-color: transparent;
+      border-radius: 5rem;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: ${(props) => props.scrollColor};
+      border-radius: 5rem;
+    }
+  `,
+};
 
 const Orderbook = ({
   theme,
@@ -39,8 +41,8 @@ const Orderbook = ({
   beforeDayPrice,
 }) => {
   return (
-    <Container>
-      <OrderUl>
+    <St.Container>
+      <St.OrderUl>
         {askOrderbookData.map((orderbook, i) => {
           return (
             <OrderbookItem
@@ -75,11 +77,11 @@ const Orderbook = ({
             />
           );
         })}
-      </OrderUl>
-    </Container>
+      </St.OrderUl>
+    </St.Container>
   );
 };
 
-const OrderbookMemo = React.memo(Orderbook, isEqual);
+// const OrderbookMemo = React.memo(Orderbook, isEqual);
 
-export default withOrderbookData()(OrderbookMemo);
+export default withOrderbookData()(React.memo(Orderbook, isEqual));
