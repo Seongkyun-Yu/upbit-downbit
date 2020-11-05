@@ -2,71 +2,73 @@ import React from "react";
 import styled from "styled-components";
 import { numWithComma } from "../Lib/utils";
 
-const TradeListLi = styled.li`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 25px;
-  font-size: 0.9em;
-  background-color: ${(props) => props.bgColor || "white"};
-`;
+const St = {
+  TradeListLi: styled.li`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 25px;
+    font-size: 0.9em;
+    background-color: ${({ bgColor }) => bgColor || "white"};
+  `,
 
-const Datetime = styled.div`
-  width: 20%;
-  text-align: center;
-  @media ${(props) => props.theme.mobileS} {
-    display: none;
-  }
-`;
-const Date = styled.span`
-  text-align: center;
-`;
+  Datetime: styled.div`
+    width: 20%;
+    text-align: center;
+    @media ${({ theme }) => theme.mobileS} {
+      display: none;
+    }
+  `,
+  Date: styled.span`
+    text-align: center;
+  `,
 
-const Time = styled.span`
-  text-align: center;
-  font-size: 0.8rem;
-  margin-left: 5px;
-`;
+  Time: styled.span`
+    text-align: center;
+    font-size: 0.8rem;
+    margin-left: 5px;
+  `,
 
-const TradePrice = styled.span`
-  display: block;
-  width: 20%;
-  text-align: center;
-  color: ${(props) => props.fontColor};
-  font-weight: 600;
+  TradePrice: styled.span`
+    display: block;
+    width: 20%;
+    text-align: center;
+    color: ${({ fontColor }) => fontColor};
+    font-weight: 600;
 
-  @media ${(props) => props.theme.mobileS} {
-    width: 50%;
-    font-size: 0.7rem;
-  }
-`;
+    @media ${({ theme }) => theme.mobileS} {
+      width: 50%;
+      font-size: 0.7rem;
+    }
+  `,
 
-const TradeAmount = styled.span`
-  display: block;
-  width: 20%;
-  text-align: center;
-  color: ${(props) => props.fontColor};
+  TradeAmount: styled.span`
+    display: block;
+    width: 20%;
+    text-align: center;
+    color: ${({ fontColor }) => fontColor};
 
-  @media ${(props) => props.theme.mobileS} {
-    width: 50%;
-    font-size: 0.7rem;
-  }
-`;
+    @media ${({ theme }) => theme.mobileS} {
+      width: 50%;
+      font-size: 0.7rem;
+    }
+  `,
 
-const TradeKRW = styled.span`
-  display: block;
-  width: 20%;
-  text-align: right;
+  TradeKRW: styled.span`
+    display: block;
+    width: 20%;
+    text-align: right;
 
-  @media ${(props) => props.theme.mobileS} {
-    display: none;
-  }
+    @media ${({ theme }) => theme.mobileS} {
+      display: none;
+    }
 
-  @media ${(props) => props.theme.mobileM} {
-    display: none;
-  }
-`;
+    @media ${({ theme }) => theme.mobileM} {
+      display: none;
+    }
+  `,
+};
 
 const TradeListItem = ({
   theme,
@@ -79,24 +81,29 @@ const TradeListItem = ({
   askBid,
 }) => {
   return (
-    <TradeListLi bgColor={index % 2 ? theme.lightGray1 : "white"} index={index}>
-      <Datetime>
-        <Date>{date}</Date>
-        <Time>{time}</Time>
-      </Datetime>
-      <TradePrice fontColor={changePrice > 0 ? theme.priceUp : theme.priceDown}>
+    <St.TradeListLi
+      bgColor={index % 2 ? theme.lightGray1 : "white"}
+      index={index}
+    >
+      <St.Datetime>
+        <St.Date>{date}</St.Date>
+        <St.Time>{time}</St.Time>
+      </St.Datetime>
+      <St.TradePrice
+        fontColor={changePrice > 0 ? theme.priceUp : theme.priceDown}
+      >
         {numWithComma(tradePrice)}
-      </TradePrice>
-      <TradeAmount
+      </St.TradePrice>
+      <St.TradeAmount
         theme={theme}
         fontColor={askBid === "BID" ? theme.priceUp : theme.priceDown}
       >
         {tradeAmount.toFixed(5)}
-      </TradeAmount>
-      <TradeKRW theme={theme}>
+      </St.TradeAmount>
+      <St.TradeKRW theme={theme}>
         {numWithComma(Math.floor(tradePrice * tradeAmount))}
-      </TradeKRW>
-    </TradeListLi>
+      </St.TradeKRW>
+    </St.TradeListLi>
   );
 };
 
