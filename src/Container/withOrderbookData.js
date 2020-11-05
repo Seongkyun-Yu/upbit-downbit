@@ -1,26 +1,23 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { ThemeContext } from "styled-components";
 
 const withOrderbookData = () => (OriginalComponent) => (props) => {
-  const theme = useContext(ThemeContext); // 테마 정보
+  // const theme = useContext(ThemeContext); // 테마 정보
   const state = useSelector((state) => state);
   const selectedMarket = state.Coin.selectedMarket;
-  const selectedCoinData = state.Coin.candle.data[selectedMarket];
-  const selecteCoinCadnles = selectedCoinData.candles;
 
-  const volume24 = Math.floor(selectedCoinData.volume24Hour);
-  const highestPrice52Week = selectedCoinData.highestPrice52Week;
-  const highestDate52Week = selectedCoinData.highestDate52Week;
-  const lowestPrice52Week = selectedCoinData.lowestPrice52Week;
-  const lowestDate52Week = selectedCoinData.lowestDate52Week;
-  const tradePrice24 = Math.floor(selectedCoinData.tradePrice24Hour / 1000000);
-  const lastCandleIndex = selecteCoinCadnles.length - 1;
+  // const volume24 = Math.floor(selectedCoinData.volume24Hour);
+  // const highestPrice52Week = selectedCoinData.highestPrice52Week;
+  // const highestDate52Week = selectedCoinData.highestDate52Week;
+  // const lowestPrice52Week = selectedCoinData.lowestPrice52Week;
+  // const lowestDate52Week = selectedCoinData.lowestDate52Week;
+  // const tradePrice24 = Math.floor(selectedCoinData.tradePrice24Hour / 1000000);
+  // const lastCandleIndex = selecteCoinCadnles.length - 1;
 
-  const beforeDayPrice = selecteCoinCadnles.length
-    ? selecteCoinCadnles[lastCandleIndex].close -
-      selectedCoinData.changePrice24Hour
-    : 0;
+  // const beforeDayPrice = selecteCoinCadnles.length
+  //   ? selecteCoinCadnles[lastCandleIndex].close -
+  //     selectedCoinData.changePrice24Hour
+  //   : 0;
 
   const orderbook = state.Coin.orderbook.data[selectedMarket];
   const totalData = {
@@ -52,7 +49,6 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
   });
 
   const orderbookData = [...askOrderbookData, ...bidOrderbookData];
-  // console.log(orderbookData);
 
   // 매도 호가창은 가격 내림차순으로 정렬해줌 (매수는 원래 가격 내림차순임)
   askOrderbookData.sort((book1, book2) => +book2.askPrice - +book1.askPrice);
@@ -60,19 +56,19 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
   return orderbook.orderbook_units.length ? (
     <OriginalComponent
       {...props}
-      theme={theme}
+      // theme={theme}
       totalData={totalData}
       orderbookData={orderbookData}
       bidOrderbookData={bidOrderbookData}
       askOrderbookData={askOrderbookData}
       maxOrderSize={maxOrderSize}
-      volume24={volume24}
-      highestPrice52Week={highestPrice52Week}
-      highestDate52Week={highestDate52Week}
-      lowestPrice52Week={lowestPrice52Week}
-      lowestDate52Week={lowestDate52Week}
-      tradePrice24={tradePrice24}
-      beforeDayPrice={beforeDayPrice}
+      // volume24={volume24}
+      // highestPrice52Week={highestPrice52Week}
+      // highestDate52Week={highestDate52Week}
+      // lowestPrice52Week={lowestPrice52Week}
+      // lowestDate52Week={lowestDate52Week}
+      // tradePrice24={tradePrice24}
+      // beforeDayPrice={beforeDayPrice}
     />
   ) : (
     <div>Orderbook Loading</div>

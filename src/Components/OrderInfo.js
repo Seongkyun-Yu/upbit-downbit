@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import withSelectedOption from "../Container/withSelectedOption";
-import withTheme from "../Container/withTheme";
+import withThemeData from "../Container/withThemeData";
 import { changeAskBidOrder } from "../Reducer/coinReducer";
 import OrderInfoAskBid from "./OrderInfoAskBid";
 import OrderInfoTradeList from "./OrderInfoTradeList";
@@ -171,4 +171,4 @@ const OrderInfo = ({ theme, selectedAskBidOrder }) => {
   );
 };
 
-export default withSelectedOption()(withTheme()(React.memo(OrderInfo)));
+export default withSelectedOption()(withThemeData()(React.memo(OrderInfo)));

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import withCoinInfoData from "../Container/withCoinInfoData";
+import withSelectedCoinName from "../Container/withSelectedCoinName";
+import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
+import withThemeData from "../Container/withThemeData";
 
 const St = {
   CoinInfoContainer: styled.div`
@@ -24,8 +26,8 @@ const St = {
     display: inline-block;
     width: 35px;
     height: 35px;
-    background-image: ${({ coinNameEn }) =>
-      `url(https://static.upbit.com/logos/${coinNameEn}.png)`};
+    background-image: ${({ coinSymbol }) =>
+      `url(https://static.upbit.com/logos/${coinSymbol}.png)`};
     background-size: cover;
     margin-left: 5px;
   `,
@@ -139,21 +141,21 @@ const St = {
 const CoinInfoHeader = ({
   theme,
   coinNameKor,
-  coinNameEn,
+  coinSymbol,
   coinNameAndMarketEng,
   highestPrice24Hour,
   lowestPrice24Hour,
   changeRate24Hour,
   changePrice24Hour,
-  changeTradePriceDay,
-  volumeDay,
+  tradePrice24Hour,
+  volume24Hour,
   price,
-  priceColor,
 }) => {
+  const priceColor = changeRate24Hour > 0 ? theme.priceUp : theme.priceDown;
   return (
     <St.CoinInfoContainer>
       <St.CoinInfoMain>
-        <St.CoinLogo coinNameEn={coinNameEn} />
+        <St.CoinLogo coinSymbol={coinSymbol} />
         <St.CoinNameContainer>
           <St.CoinName>{coinNameKor}</St.CoinName>
           <St.CoinMarketName>{coinNameAndMarketEng}</St.CoinMarketName>
@@ -192,15 +194,14 @@ const CoinInfoHeader = ({
         <St.InfoContainer mobileMNone={true}>
           <St.TradeInfo minWidth={"220px"} borderColor={theme.lightGray2}>
             <St.TradeDT>거래량(24h)</St.TradeDT>
-            <St.TradeDD>{`${volumeDay} ${coinNameEn}`}</St.TradeDD>
+            <St.TradeDD>{`${volume24Hour.toLocaleString()} ${coinSymbol}`}</St.TradeDD>
           </St.TradeInfo>
           <St.TradeInfo minWidth={"220px"}>
             <St.TradeDT borderColor={theme.lightGray2}>
               거래대금(24h)
             </St.TradeDT>
             <St.TradeDD>
-              {changeTradePriceDay ? changeTradePriceDay.toLocaleString() : 0}{" "}
-              KRW
+              {tradePrice24Hour ? tradePrice24Hour.toLocaleString() : 0} KRW
             </St.TradeDD>
           </St.TradeInfo>
         </St.InfoContainer>
@@ -209,6 +210,6 @@ const CoinInfoHeader = ({
   );
 };
 
-// const CoinInfoHeaderMemo = React.memo(CoinInfoHeader);
-
-export default withCoinInfoData()(React.memo(CoinInfoHeader));
+export default withSelectedCoinName()(
+  withSelectedCoinPrice()(withThemeData()(React.memo(CoinInfoHeader)))
+);

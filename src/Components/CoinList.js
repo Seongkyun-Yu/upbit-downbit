@@ -5,6 +5,10 @@ import withCoinListData from "../Container/withCoinListData";
 import { useHistory } from "react-router-dom";
 import { searchCoin } from "../Reducer/coinReducer";
 import { useDispatch } from "react-redux";
+import withThemeData from "../Container/withThemeData";
+import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
+import withSelectedOption from "../Container/withSelectedOption";
+import withMarketNames from "../Container/withMarketNames";
 
 const St = {
   CoinListContainer: styled.div`
@@ -98,13 +102,13 @@ const St = {
 };
 
 const CoinList = ({
+  theme,
   marketNames,
-  marketNamesArr,
+  sortedMarketNames,
   coinListDatas,
   selectedMarket,
-  theme,
   subList,
-  coinSearchInputData,
+  searchCoinInput,
 }) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -115,7 +119,7 @@ const CoinList = ({
       <St.CoinSearchContainer>
         <St.CoinSearchInput
           onChange={(e) => dispatch(searchCoin(e.target.value))}
-          value={coinSearchInputData}
+          value={searchCoinInput}
         />
         <St.CoinSearchBtn />
       </St.CoinSearchContainer>
@@ -130,7 +134,7 @@ const CoinList = ({
       </St.CoinSortContainer>
 
       <St.CoinUl>
-        {marketNamesArr.map((marketName) => {
+        {sortedMarketNames.map((marketName) => {
           const splitedName = marketName.split("-");
           const enCoinName = splitedName[1] + "/" + splitedName[0];
           const changePrice24Hour = coinListDatas[marketName].changePrice24Hour;
@@ -173,6 +177,6 @@ const CoinList = ({
   );
 };
 
-// const CoinListMemo = React.memo(CoinList);
-
-export default withCoinListData()(React.memo(CoinList));
+export default withCoinListData()(
+  withMarketNames()(withSelectedOption()(withThemeData()(React.memo(CoinList))))
+);
