@@ -1,6 +1,8 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import withOrderInfoData from "../Container/withOrderInfoData";
+import { changeAskBidOrder } from "../Reducer/coinReducer";
 
 const St = {
   Container: styled.div`
@@ -125,12 +127,22 @@ const St = {
 };
 
 const OrderInfo = ({ theme }) => {
+  const dispatch = useDispatch();
   return (
     <St.Container>
       <St.OrderTypeContainer>
-        <St.OrderType borderBottom={theme.strongRed}>매수</St.OrderType>
-        <St.OrderType>매도</St.OrderType>
-        <St.OrderType>거래내역</St.OrderType>
+        <St.OrderType
+          borderBottom={theme.strongRed}
+          onClick={() => dispatch(changeAskBidOrder("bid"))}
+        >
+          매수
+        </St.OrderType>
+        <St.OrderType onClick={() => dispatch(changeAskBidOrder("ask"))}>
+          매도
+        </St.OrderType>
+        <St.OrderType onClick={() => dispatch(changeAskBidOrder("tradeList"))}>
+          거래내역
+        </St.OrderType>
       </St.OrderTypeContainer>
       <St.OrderInfoContainer>
         <St.OrderInfoDetailContainer>

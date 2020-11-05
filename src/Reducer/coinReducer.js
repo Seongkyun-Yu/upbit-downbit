@@ -50,6 +50,9 @@ const CONNECT_ORDERBOOK_SOCKET_ERROR = "coin/CONNECT_ORDERBOOK_SOCKET_ERROR";
 const CHANGE_COIN_MARKET = "coin/CHANGE_COIN_MARKET";
 const CHANGE_COIN_MARKET_SUCCESS = "coin/CHANGE_COIN_MARKET_SUCCESS";
 
+const CHANGE_ASK_BID_ORDER = "coin/CHANGE_ASK_BID_ORDER";
+const CHANGE_ASK_BID_ORDER_SUCCESS = "coin/CHANGE_ASK_BID_ORDER_SUCCESS";
+
 const SEARCH_COIN = "coin/SEARCH_COIN";
 const SEARCH_COIN_SUCCESS = "coin/SEARCH_COIN_SUCCESS";
 
@@ -115,6 +118,13 @@ const changeSelectedMarket = (marketName) => ({
   payload: marketName,
 });
 const changeSelectedMarketSaga = createChangeOptionSaga(CHANGE_COIN_MARKET);
+
+// 매수 매도 옵션 변경하기
+const changeAskBidOrder = (askBidOption) => ({
+  type: CHANGE_ASK_BID_ORDER,
+  payload: askBidOption,
+});
+const changeAskBidOrderSaga = createChangeOptionSaga(CHANGE_ASK_BID_ORDER);
 
 // 코인 검색 내용 변경하기 Saga
 const searchCoin = (searchName) => ({
@@ -183,8 +193,11 @@ function* coinSaga() {
   yield takeEvery(GET_INIT_ORDERBOOKS, getInitOrderbookSaga);
   yield takeEvery(GET_ONE_COIN_CANDLES, getOneCoinCandlesSaga);
   yield takeEvery(GET_ONE_COIN_TRADELISTS, getOneCoinTradeListsSaga);
+
   yield takeEvery(CHANGE_COIN_MARKET, changeSelectedMarketSaga);
+  yield takeEvery(CHANGE_ASK_BID_ORDER, changeAskBidOrderSaga);
   yield takeEvery(SEARCH_COIN, searchCoinSaga);
+
   yield takeEvery(START_INIT, startInittSaga);
   yield takeEvery(START_CHANGE_MARKET_AND_DATA, startChangeMarketAndDataSaga);
 }
@@ -199,6 +212,7 @@ const initialState = {
   selectedMarket: "KRW-BTC",
   selectedTimeType: "minutes",
   selectedTimeCount: 5,
+  selectedAskBidOrder: "bid",
   searchCoin: "",
   candle: {
     error: false,
@@ -286,6 +300,12 @@ const coinReducer = (state = initialState, action) => {
         action
       );
 
+    case CHANGE_ASK_BID_ORDER_SUCCESS:
+      return changeOptionActions(CHANGE_ASK_BID_ORDER, "selectedAskBidOrder")(
+        state,
+        action
+      );
+
     case SEARCH_COIN_SUCCESS:
       return changeOptionActions(SEARCH_COIN, "searchCoin")(state, action);
     default:
@@ -298,5 +318,6 @@ export {
   startChangeMarketAndData,
   coinReducer,
   coinSaga,
+  changeAskBidOrder,
   searchCoin,
 };
