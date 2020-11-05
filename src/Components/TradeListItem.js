@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { numWithComma } from "../Lib/utils";
 
 const St = {
   TradeListLi: styled.li`
@@ -92,7 +91,7 @@ const TradeListItem = ({
       <St.TradePrice
         fontColor={changePrice > 0 ? theme.priceUp : theme.priceDown}
       >
-        {numWithComma(tradePrice)}
+        {tradePrice.toLocaleString()}
       </St.TradePrice>
       <St.TradeAmount
         theme={theme}
@@ -101,7 +100,7 @@ const TradeListItem = ({
         {tradeAmount.toFixed(5)}
       </St.TradeAmount>
       <St.TradeKRW theme={theme}>
-        {numWithComma(Math.floor(tradePrice * tradeAmount))}
+        {Math.floor(tradePrice * tradeAmount).toLocaleString()}
       </St.TradeKRW>
     </St.TradeListLi>
   );
