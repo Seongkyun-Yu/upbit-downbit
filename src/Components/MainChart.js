@@ -29,6 +29,8 @@ import {
 } from "react-financial-charts";
 import withOHLCData from "../Container/withOHLCData";
 import styled from "styled-components";
+import withThemeData from "../Container/withThemeData";
+import withSelectedOption from "../Container/withSelectedOption";
 
 const barChartExtents = (data) => {
   return data.volume;
@@ -236,8 +238,6 @@ const MainChart = ({
   );
 };
 
-const memoMainChart = React.memo(MainChart);
-
 export default withOHLCData()(
   withSize({
     style: {
@@ -245,5 +245,9 @@ export default withOHLCData()(
       height: "100%",
       minHeight,
     },
-  })(withDeviceRatio()(memoMainChart))
+  })(
+    withDeviceRatio()(
+      withSelectedOption()(withThemeData()(React.memo(MainChart)))
+    )
+  )
 );
