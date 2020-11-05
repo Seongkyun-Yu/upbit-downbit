@@ -14,6 +14,12 @@ const withSelectedCoinPrice = () => (OriginalComponent) => (props) => {
   const lowestPrice52Week = selectedCoinData.lowestPrice52Week;
   const lowestDate52Week = selectedCoinData.lowestDate52Week;
 
+  // 24시간 고가 저가
+  const highestPrice24Hour =
+    state.Coin.candle.data[selectedMarket].highestPrice24Hour;
+  const lowestPrice24Hour =
+    state.Coin.candle.data[selectedMarket].lowestPrice24Hour;
+
   // 24시간 거래대금, 거래량
   const tradePrice24Hour = Math.floor(selectedCoinData.tradePrice24Hour);
   const volume24Hour = Math.floor(selectedCoinData.volume24Hour);
@@ -41,6 +47,8 @@ const withSelectedCoinPrice = () => (OriginalComponent) => (props) => {
       highestDate52Week={highestDate52Week}
       lowestPrice52Week={lowestPrice52Week}
       lowestDate52Week={lowestDate52Week}
+      highestPrice24Hour={highestPrice24Hour}
+      lowestPrice24Hour={lowestPrice24Hour}
       tradePrice24Hour={tradePrice24Hour}
       volume24Hour={volume24Hour}
       changeRate24Hour={changeRate24Hour}
