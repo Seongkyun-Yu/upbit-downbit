@@ -11,7 +11,9 @@ const withSelectedOption = () => (OriginalComponent) => (props) => {
       selectedTimeType={coinState.selectedTimeType}
       selectedTimeCount={coinState.selectedTimeCount}
       selectedAskBidOrder={coinState.selectedAskBidOrder}
-      searchCoin={coinState.searchCoin};
+      searchCoin={coinState.searchCoin}
     />
   );
 };
+
+export default withSelectedOption;

@@ -1,8 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import withOrderInfoData from "../Container/withOrderInfoData";
+import withSelectedOption from "../Container/withSelectedOption";
+import withTheme from "../Container/withTheme";
 import { changeAskBidOrder } from "../Reducer/coinReducer";
+import OrderInfoAskBid from "./OrderInfoAskBid";
 
 const St = {
   Container: styled.div`
@@ -28,10 +30,9 @@ const St = {
     height: 100%;
     background-color: white;
     border: none;
-    border-bottom: 3px solid
-      ${({ borderBottom }) => borderBottom || "tranceparent"};
+    border-bottom: 3px solid ${({ borderBottom }) => borderBottom || "white"};
     outline: 0;
-    font-weight: 800;
+    font-weight: 900;
     color: ${({ fontColor }) => fontColor || "black"};
   `,
 
@@ -126,84 +127,39 @@ const St = {
   `,
 };
 
-const OrderInfo = ({ theme }) => {
+const OrderInfo = ({ theme, selectedAskBidOrder }) => {
   const dispatch = useDispatch();
   return (
     <St.Container>
       <St.OrderTypeContainer>
         <St.OrderType
-          borderBottom={theme.strongRed}
+          borderBottom={selectedAskBidOrder === "bid" && theme.strongRed}
+          fontColor={selectedAskBidOrder === "bid" && theme.strongRed}
           onClick={() => dispatch(changeAskBidOrder("bid"))}
         >
           매수
         </St.OrderType>
-        <St.OrderType onClick={() => dispatch(changeAskBidOrder("ask"))}>
+        <St.OrderType
+          borderBottom={selectedAskBidOrder === "ask" && theme.strongBlue}
+          fontColor={selectedAskBidOrder === "ask" && theme.strongBlue}
+          onClick={() => dispatch(changeAskBidOrder("ask"))}
+        >
           매도
         </St.OrderType>
-        <St.OrderType onClick={() => dispatch(changeAskBidOrder("tradeList"))}>
+        <St.OrderType
+          borderBottom={selectedAskBidOrder === "tradeList" && "black"}
+          fontColor={selectedAskBidOrder === "tradeList" && "black"}
+          onClick={() => dispatch(changeAskBidOrder("tradeList"))}
+        >
           거래내역
         </St.OrderType>
       </St.OrderTypeContainer>
-      <St.OrderInfoContainer>
-        <St.OrderInfoDetailContainer>
-          <St.OrderInfoDetailTitle>주문가능</St.OrderInfoDetailTitle>
-          <St.PossibleAmount>
-            0<St.Unit>KRW</St.Unit>
-          </St.PossibleAmount>
-        </St.OrderInfoDetailContainer>
-        <St.OrderInfoDetailContainer>
-          <St.OrderInfoDetailTitle>매수가격</St.OrderInfoDetailTitle>
-          <St.OrderInfoInputContainer>
-            <St.OrderInfoInput />
-            <St.Button
-              bgColor={theme.lightGray}
-              borderColor={theme.lightGray2}
-              fontColor={"#666"}
-              fontSize={"1.1rem"}
-            >
-              +
-            </St.Button>
-            <St.Button
-              bgColor={theme.lightGray}
-              borderColor={theme.lightGray2}
-              fontColor={"#666"}
-              fontSize={"1.1rem"}
-            >
-              -
-            </St.Button>
-          </St.OrderInfoInputContainer>
-        </St.OrderInfoDetailContainer>
-        <St.OrderInfoDetailContainer>
-          <St.OrderInfoDetailTitle>주문수량</St.OrderInfoDetailTitle>
-          <St.OrderInfoInput />
-        </St.OrderInfoDetailContainer>
-        <St.OrderInfoDetailContainer>
-          <St.OrderInfoDetailTitle>주문총액</St.OrderInfoDetailTitle>
-          <St.OrderInfoInput />
-        </St.OrderInfoDetailContainer>
-        <St.OrderBtnContainer>
-          <St.Button
-            width={"30%"}
-            minWidth={"65px"}
-            marginRight={"5px"}
-            bgColor={theme.deepBlue}
-            fontSize={"0.9rem"}
-            fontColor={"white"}
-          >
-            회원가입
-          </St.Button>
-          <St.Button
-            width={"65%"}
-            bgColor={theme.priceDown}
-            fontSize={"0.9rem"}
-            fontColor={"white"}
-          >
-            로그인
-          </St.Button>
-        </St.OrderBtnContainer>
-      </St.OrderInfoContainer>
+      <OrderInfoAskBid
+        theme={theme}
+        selectedAskBidOrder={selectedAskBidOrder}
+      />
     </St.Container>
   );
 };
 
-export default withOrderInfoData()(React.memo(OrderInfo));
+export default withSelectedOption()(withTheme()(React.memo(OrderInfo)));
