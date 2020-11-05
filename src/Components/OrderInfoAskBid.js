@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import OrderInfoTradeList from "./OrderInfoTradeList";
 
 const St = {
   Container: styled.div`
@@ -126,44 +127,50 @@ const St = {
 const OrderInfoAskBid = ({ theme, selectedAskBidOrder }) => {
   return (
     <St.OrderInfoContainer>
-      <St.OrderInfoDetailContainer>
-        <St.OrderInfoDetailTitle>주문가능</St.OrderInfoDetailTitle>
-        <St.PossibleAmount>
-          0<St.Unit>KRW</St.Unit>
-        </St.PossibleAmount>
-      </St.OrderInfoDetailContainer>
-      <St.OrderInfoDetailContainer>
-        <St.OrderInfoDetailTitle>
-          {selectedAskBidOrder === "bid" ? "매수가격" : "매도가격"}
-        </St.OrderInfoDetailTitle>
-        <St.OrderInfoInputContainer>
-          <St.OrderInfoInput />
-          <St.Button
-            bgColor={theme.lightGray}
-            borderColor={theme.lightGray2}
-            fontColor={"#666"}
-            fontSize={"1.1rem"}
-          >
-            +
-          </St.Button>
-          <St.Button
-            bgColor={theme.lightGray}
-            borderColor={theme.lightGray2}
-            fontColor={"#666"}
-            fontSize={"1.1rem"}
-          >
-            -
-          </St.Button>
-        </St.OrderInfoInputContainer>
-      </St.OrderInfoDetailContainer>
-      <St.OrderInfoDetailContainer>
-        <St.OrderInfoDetailTitle>주문수량</St.OrderInfoDetailTitle>
-        <St.OrderInfoInput />
-      </St.OrderInfoDetailContainer>
-      <St.OrderInfoDetailContainer>
-        <St.OrderInfoDetailTitle>주문총액</St.OrderInfoDetailTitle>
-        <St.OrderInfoInput />
-      </St.OrderInfoDetailContainer>
+      {selectedAskBidOrder !== "tradeList" ? (
+        <>
+          <St.OrderInfoDetailContainer>
+            <St.OrderInfoDetailTitle>주문가능</St.OrderInfoDetailTitle>
+            <St.PossibleAmount>
+              0<St.Unit>KRW</St.Unit>
+            </St.PossibleAmount>
+          </St.OrderInfoDetailContainer>
+          <St.OrderInfoDetailContainer>
+            <St.OrderInfoDetailTitle>
+              {selectedAskBidOrder === "bid" ? "매수가격" : "매도가격"}
+            </St.OrderInfoDetailTitle>
+            <St.OrderInfoInputContainer>
+              <St.OrderInfoInput />
+              <St.Button
+                bgColor={theme.lightGray}
+                borderColor={theme.lightGray2}
+                fontColor={"#666"}
+                fontSize={"1.1rem"}
+              >
+                +
+              </St.Button>
+              <St.Button
+                bgColor={theme.lightGray}
+                borderColor={theme.lightGray2}
+                fontColor={"#666"}
+                fontSize={"1.1rem"}
+              >
+                -
+              </St.Button>
+            </St.OrderInfoInputContainer>
+          </St.OrderInfoDetailContainer>
+          <St.OrderInfoDetailContainer>
+            <St.OrderInfoDetailTitle>주문수량</St.OrderInfoDetailTitle>
+            <St.OrderInfoInput />
+          </St.OrderInfoDetailContainer>
+          <St.OrderInfoDetailContainer>
+            <St.OrderInfoDetailTitle>주문총액</St.OrderInfoDetailTitle>
+            <St.OrderInfoInput />
+          </St.OrderInfoDetailContainer>
+        </>
+      ) : (
+        <OrderInfoTradeList theme={theme} />
+      )}
       <St.OrderBtnContainer>
         <St.Button
           width={"30%"}

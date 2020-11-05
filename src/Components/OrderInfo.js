@@ -5,6 +5,7 @@ import withSelectedOption from "../Container/withSelectedOption";
 import withTheme from "../Container/withTheme";
 import { changeAskBidOrder } from "../Reducer/coinReducer";
 import OrderInfoAskBid from "./OrderInfoAskBid";
+import OrderInfoTradeList from "./OrderInfoTradeList";
 
 const St = {
   Container: styled.div`
@@ -158,6 +159,14 @@ const OrderInfo = ({ theme, selectedAskBidOrder }) => {
         theme={theme}
         selectedAskBidOrder={selectedAskBidOrder}
       />
+      {/* {selectedAskBidOrder !== "tradeList" ? (
+        <OrderInfoAskBid
+          theme={theme}
+          selectedAskBidOrder={selectedAskBidOrder}
+        />
+      ) : (
+        <OrderInfoTradeList theme={theme} />
+      )} */}
     </St.Container>
   );
 };
