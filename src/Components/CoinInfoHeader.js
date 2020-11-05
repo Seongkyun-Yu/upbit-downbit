@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import withCoinInfoData from "../Container/withCoinInfoData";
 import withSelectedCoinName from "../Container/withSelectedCoinName";
 import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
 import withThemeData from "../Container/withThemeData";
