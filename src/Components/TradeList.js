@@ -4,6 +4,8 @@ import TradeListItem from "./TradeListItem";
 import Decimal from "decimal.js";
 import moment from "moment-timezone";
 import withTradeListData from "../Container/withTradeListData";
+import withSelectedOption from "../Container/withSelectedOption";
+import withThemeData from "../Container/withThemeData";
 
 const St = {
   Container: styled.article`
@@ -96,4 +98,6 @@ const TradeList = ({ theme, selectedTradeListData }) => {
   );
 };
 
-export default withTradeListData()(React.memo(TradeList));
+export default withTradeListData()(
+  withSelectedOption()(withThemeData()(React.memo(TradeList)))
+);
