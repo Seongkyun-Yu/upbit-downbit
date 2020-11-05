@@ -81,9 +81,10 @@ const St = {
     text-align: right;
   `,
   Button: styled.button`
-    width: ${({ width }) => width || "38px"};
+    width: ${({ width }) => width || "50px"};
     min-width: ${({ minWidth }) => minWidth};
     height: ${({ height }) => height || "38px"};
+    margin-right: ${({ marginRight }) => marginRight};
     background-color: ${({ bgColor }) => bgColor || "tranceparent"};
     border: none;
     border-top: 1px solid ${({ borderColor }) => borderColor || "tranceparent"};
@@ -93,7 +94,8 @@ const St = {
       ${({ borderColor }) => borderColor || "tranceparent"};
     outline: none;
     color: ${({ fontColor }) => fontColor || "black"};
-    margin-right: ${({ marginRight }) => marginRight};
+    font-size: ${({ fontSize }) => fontSize};
+    font-weight: 900;
   `,
 
   PossibleAmount: styled.span`
@@ -141,10 +143,20 @@ const OrderInfo = ({ theme }) => {
           <St.OrderInfoDetailTitle>매수가격</St.OrderInfoDetailTitle>
           <St.OrderInfoInputContainer>
             <St.OrderInfoInput />
-            <St.Button bgColor={theme.lightGray} borderColor={theme.lightGray2}>
+            <St.Button
+              bgColor={theme.lightGray}
+              borderColor={theme.lightGray2}
+              fontColor={"#666"}
+              fontSize={"1.1rem"}
+            >
               +
             </St.Button>
-            <St.Button bgColor={theme.lightGray} borderColor={theme.lightGray2}>
+            <St.Button
+              bgColor={theme.lightGray}
+              borderColor={theme.lightGray2}
+              fontColor={"#666"}
+              fontSize={"1.1rem"}
+            >
               -
             </St.Button>
           </St.OrderInfoInputContainer>
@@ -163,6 +175,7 @@ const OrderInfo = ({ theme }) => {
             minWidth={"65px"}
             marginRight={"5px"}
             bgColor={theme.deepBlue}
+            fontSize={"0.9rem"}
             fontColor={"white"}
           >
             회원가입
@@ -170,6 +183,7 @@ const OrderInfo = ({ theme }) => {
           <St.Button
             width={"65%"}
             bgColor={theme.priceDown}
+            fontSize={"0.9rem"}
             fontColor={"white"}
           >
             로그인
