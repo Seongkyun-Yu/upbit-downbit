@@ -38,26 +38,6 @@ const timestampToDatetime = (timeType, timeCount, timestamp) => {
   }
 };
 
-// 문자열 숫자에 천단위 콤마 찍기
-const numWithComma = (num) => {
-  const numStr = num + "";
-  const numStrArr = numStr.split(".");
-  const number = numStrArr[0];
-
-  if (number.length <= 3) return num;
-
-  const arr = [...numStrArr[0]];
-  let counter = 1;
-  while (true) {
-    if (3 * counter >= numStr.length) break;
-    arr.splice(-3 * counter - counter + 1, 0, ",");
-    counter += 1;
-  }
-  if (arr[0] === ",") arr.shift();
-  const dotAfter = numStrArr[1] ? "." + numStrArr[1] : "";
-  return arr.join("") + dotAfter;
-};
-
 const candleDataUtils = {
   init: (candles, state) => {
     const selectedTimeType = state.Coin.selectedTimeType;
@@ -356,7 +336,6 @@ const choHangul = (str) => {
 
 export {
   timestampToDatetime,
-  numWithComma,
   candleDataUtils,
   orderbookUtils,
   tradeListUtils,

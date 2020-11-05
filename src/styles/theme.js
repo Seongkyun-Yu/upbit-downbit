@@ -12,6 +12,7 @@ const theme = {
   lightPink1: "rgba(216,14,53,.03);",
   lightPink2: "rgba(216,14,53,.09);",
   strongRed: "#d80e35",
+  strongBlue: "#115DCB",
   priceUp: "rgb(210, 79, 69)",
   priceDown: "rgb(18, 97, 196)",
   priceUpTrans: "rgba(210, 79, 69, 0.5)",
