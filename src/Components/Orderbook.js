@@ -3,6 +3,8 @@ import styled from "styled-components";
 import withOrderbookData from "../Container/withOrderbookData";
 import OrderbookItem from "./OrderbookItem";
 import isEqual from "react-fast-compare";
+import withThemeData from "../Container/withThemeData";
+import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
 
 const St = {
   Container: styled.div`
@@ -84,4 +86,6 @@ const Orderbook = ({
 
 // const OrderbookMemo = React.memo(Orderbook, isEqual);
 
-export default withOrderbookData()(React.memo(Orderbook, isEqual));
+export default withOrderbookData()(
+  withSelectedCoinPrice()(withThemeData()(React.memo(Orderbook, isEqual)))
+);
