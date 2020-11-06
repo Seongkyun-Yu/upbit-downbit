@@ -56,6 +56,17 @@ const CHANGE_ASK_BID_ORDER_SUCCESS = "coin/CHANGE_ASK_BID_ORDER_SUCCESS";
 const CHANGE_ORDER_PRICE = "coin/CHANGE_ORDER_PRICE";
 const CHANGE_ORDER_PRICE_SUCCESS = "coin/CHANGE_ORDER_PRICE_SUCCESS";
 
+const CHANGE_ORDER_AMOUNT = "coin/CHANGE_ORDER_AMOUNT";
+const CHANGE_ORDER_AMOUNT_SUCCESS = "coin/CHANGE_ORDER_AMOUNT_SUCCESS";
+
+const CHANGE_ORDER_TOTAL_PRICE = "coin/CHANGE_ORDER_TOTAL_PRICE";
+const CHANGE_ORDER_TOTAL_PRICE_SUCCESS =
+  "coin/CHANGE_ORDER_TOTAL_PRICE_SUCCESS";
+
+const CHANGE_PRICE_AND_TOTAL_PRICE = "coin/CHANGE_PRICE_AND_TOTAL_PRICE";
+const CHANGE_AMOUNT_AND_TOTAL_PRICE = "coin/CHANGE_AMOUNT_AND_TOTAL_PRICE";
+const CHANGE_TOTAL_PRICE_AND_AMOUNT = "coin/CHANGE_TOTAL_PRICE_AND_AMOUNT";
+
 const SEARCH_COIN = "coin/SEARCH_COIN";
 const SEARCH_COIN_SUCCESS = "coin/SEARCH_COIN_SUCCESS";
 
@@ -136,6 +147,22 @@ const changeOrderPrice = (price) => ({
 });
 const changeOrderPriceSaga = createChangeOptionSaga(CHANGE_ORDER_PRICE);
 
+// 주문 수량 변경하기
+const changeOrderAmount = (amount) => ({
+  type: CHANGE_ORDER_AMOUNT,
+  payload: amount,
+});
+const changeOrderAmountSaga = createChangeOptionSaga(CHANGE_ORDER_AMOUNT);
+
+// 주문 총액 변경하기
+const changeOrderTotalPrice = (totalPrice) => ({
+  type: CHANGE_ORDER_TOTAL_PRICE,
+  payload: totalPrice,
+});
+const changeOrderTotalPriceSaga = createChangeOptionSaga(
+  CHANGE_ORDER_TOTAL_PRICE
+);
+
 // 코인 검색 내용 변경하기 Saga
 const searchCoin = (searchName) => ({
   type: SEARCH_COIN,
@@ -197,6 +224,25 @@ function* startChangeMarketAndDataSaga(action) {
   }
 }
 
+// 가격 변경 후 주문 총액 바꾸기
+const changePriceAndTotalPrice = (price) => ({
+  type: CHANGE_PRICE_AND_TOTAL_PRICE,
+  payload: price,
+});
+function* changePriceAndTotalPriceSaga(action) {
+  const state = yield select();
+  const orderAmount = state.Coin.orderAmount;
+
+  yield changeOrderPriceSaga({ payload: action.payload });
+  yield changeOrderTotalPriceSaga({ payload: action.payload * orderAmount });
+}
+
+// 주문수량 변경 후 주문 총액 바꾸기
+const changeAmountAndTotalPrice = (amount) => ({
+  type: CHANGE_AMOUNT_AND_TOTAL_PRICE,
+  payload: amount,
+});
+
 function* coinSaga() {
   yield takeEvery(GET_MARKET_NAMES, getMarketNameSaga);
   yield takeEvery(GET_INIT_CANDLES, getInitCandleSaga);
@@ -207,6 +253,8 @@ function* coinSaga() {
   yield takeEvery(CHANGE_COIN_MARKET, changeSelectedMarketSaga);
   yield takeEvery(CHANGE_ASK_BID_ORDER, changeAskBidOrderSaga);
   yield takeEvery(CHANGE_ORDER_PRICE, changeOrderPriceSaga);
+  yield takeEvery(CHANGE_ORDER_AMOUNT, changeOrderAmountSaga);
+  yield takeEvery(CHANGE_ORDER_TOTAL_PRICE, changeOrderTotalPriceSaga);
   yield takeEvery(SEARCH_COIN, searchCoinSaga);
 
   yield takeEvery(START_INIT, startInittSaga);
@@ -219,6 +267,8 @@ const initialState = {
   selectedTimeCount: 5,
   selectedAskBidOrder: "bid",
   orderPrice: 0,
+  orderAmount: 0,
+  orderTotalPrice: 0,
   searchCoin: "",
   marketNames: {
     error: false,
@@ -320,6 +370,16 @@ const coinReducer = (state = initialState, action) => {
 
     case CHANGE_ORDER_PRICE_SUCCESS:
       return changeOptionActions(CHANGE_ORDER_PRICE, "orderPrice")(
+        state,
+        action
+      );
+    case CHANGE_ORDER_AMOUNT_SUCCESS:
+      return changeOptionActions(CHANGE_ORDER_AMOUNT, "orderAmount")(
+        state,
+        action
+      );
+    case CHANGE_ORDER_TOTAL_PRICE_SUCCESS:
+      return changeOptionActions(CHANGE_ORDER_TOTAL_PRICE, "orderTotalPrice")(
         state,
         action
       );
