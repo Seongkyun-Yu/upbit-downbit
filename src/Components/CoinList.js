@@ -79,7 +79,8 @@ const St = {
   CoinSortList: styled.li`
     width: ${({ width }) => width || "20%"};
     text-align: ${({ textAlign }) => textAlign || "right"};
-    margin-right: ${({ marginRight }) => marginRight || 0}; ;
+    margin-right: ${({ marginRight }) => marginRight || 0};
+    font-size: 0.78rem;
   `,
 
   CoinUl: styled.ul`
