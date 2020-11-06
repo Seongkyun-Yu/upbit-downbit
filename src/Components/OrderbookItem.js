@@ -1,11 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import isEqual from "react-fast-compare";
 import { useDispatch } from "react-redux";
-import {
-  changeOrderPrice,
-  changePriceAndTotalPrice,
-} from "../Reducer/coinReducer";
+import { changePriceAndTotalPrice } from "../Reducer/coinReducer";
 
 const St = {
   OrderLi: styled.li`
@@ -106,7 +103,6 @@ const OrderbookItem = ({
       <St.Btn
         onClick={(_) => {
           document.activeElement.blur();
-          // dispatch(changeOrderPrice(price));
           dispatch(changePriceAndTotalPrice(price));
         }}
       >
@@ -136,7 +132,12 @@ const OrderbookItem = ({
     </St.OrderLi>
   ) : (
     <St.OrderLi>
-      <St.Btn onClick={(_) => dispatch(changeOrderPrice(price))}>
+      <St.Btn
+        onClick={(_) => {
+          document.activeElement.blur();
+          dispatch(changePriceAndTotalPrice(price));
+        }}
+      >
         <St.OrderPriceContainer
           theme={theme}
           fontColor={

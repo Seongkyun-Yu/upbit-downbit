@@ -141,24 +141,12 @@ const changeAskBidOrder = (askBidOption) => ({
 const changeAskBidOrderSaga = createChangeOptionSaga(CHANGE_ASK_BID_ORDER);
 
 // 주문 가격 변경하기
-const changeOrderPrice = (price) => ({
-  type: CHANGE_ORDER_PRICE,
-  payload: price,
-});
 const changeOrderPriceSaga = createChangeOptionSaga(CHANGE_ORDER_PRICE);
 
 // 주문 수량 변경하기
-const changeOrderAmount = (amount) => ({
-  type: CHANGE_ORDER_AMOUNT,
-  payload: amount,
-});
 const changeOrderAmountSaga = createChangeOptionSaga(CHANGE_ORDER_AMOUNT);
 
 // 주문 총액 변경하기
-const changeOrderTotalPrice = (totalPrice) => ({
-  type: CHANGE_ORDER_TOTAL_PRICE,
-  payload: totalPrice,
-});
 const changeOrderTotalPriceSaga = createChangeOptionSaga(
   CHANGE_ORDER_TOTAL_PRICE
 );
@@ -234,7 +222,9 @@ function* changePriceAndTotalPriceSaga(action) {
   const orderAmount = state.Coin.orderAmount;
 
   yield changeOrderPriceSaga({ payload: action.payload });
-  yield changeOrderTotalPriceSaga({ payload: action.payload * orderAmount });
+  yield changeOrderTotalPriceSaga({
+    payload: Math.ceil(action.payload * orderAmount),
+  });
 }
 
 // 주문수량 변경 후 주문 총액 바꾸기
@@ -247,7 +237,9 @@ function* changeAmountAndTotalPriceSaga(action) {
   const orderPrice = state.Coin.orderPrice;
 
   yield changeOrderAmountSaga({ payload: action.payload });
-  yield changeOrderTotalPriceSaga({ payload: action.payload * orderPrice });
+  yield changeOrderTotalPriceSaga({
+    payload: Math.ceil(action.payload * orderPrice),
+  });
 }
 
 // 주문총액 변경 후 주문수량 바꾸기
@@ -422,7 +414,6 @@ export {
   coinReducer,
   coinSaga,
   changeAskBidOrder,
-  changeOrderPrice,
   changePriceAndTotalPrice,
   changeAmountAndTotalPrice,
   changeTotalPriceAndAmount,
