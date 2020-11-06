@@ -18,11 +18,12 @@ const St = {
 
   OrderAmount: styled.div`
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     position: relative;
     width: 50%;
     border: 1px solid ${({ borderColor }) => borderColor};
+    padding-left: 5px;
     padding-right: 10px;
     margin-top: -1px;
     margin-left: -1px;
@@ -32,7 +33,7 @@ const St = {
   OrderAmountSize: styled.div`
     position: absolute;
     width: ${({ witdhSize }) => witdhSize};
-    right: 0;
+    left: 0;
     height: 70%;
     background-color: ${({ bgColor }) => bgColor};
   `,
@@ -85,13 +86,6 @@ const OrderbookItem = ({
 
   return type === "ask" ? (
     <St.OrderLi theme={theme}>
-      <St.OrderAmount borderColor={theme.lightGray}>
-        {size}
-        <St.OrderAmountSize
-          witdhSize={`${Math.floor((size / maxOrderSize) * 100 - 10)}%`}
-          bgColor={theme.skyBlue2}
-        />
-      </St.OrderAmount>
       <St.OrderPriceContainer
         theme={theme}
         fontColor={
@@ -107,16 +101,16 @@ const OrderbookItem = ({
         <St.OrderPrice>{price.toLocaleString()}</St.OrderPrice>
         <St.OrderPrcieRatio>{`${changeRate24Hour}%`}</St.OrderPrcieRatio>
       </St.OrderPriceContainer>
-    </St.OrderLi>
-  ) : (
-    <St.OrderLi>
-      <St.OrderAmount amountAlign={"left"} borderColor={theme.lightGray}>
+      <St.OrderAmount borderColor={theme.lightGray}>
         {size}
         <St.OrderAmountSize
           witdhSize={`${Math.floor((size / maxOrderSize) * 100 - 10)}%`}
-          bgColor={theme.lightPink2}
+          bgColor={theme.skyBlue2}
         />
       </St.OrderAmount>
+    </St.OrderLi>
+  ) : (
+    <St.OrderLi>
       <St.OrderPriceContainer
         theme={theme}
         fontColor={
@@ -132,6 +126,13 @@ const OrderbookItem = ({
         <St.OrderPrice>{price.toLocaleString()}</St.OrderPrice>
         <St.OrderPrcieRatio>{`${changeRate24Hour}%`}</St.OrderPrcieRatio>
       </St.OrderPriceContainer>
+      <St.OrderAmount amountAlign={"left"} borderColor={theme.lightGray}>
+        {size}
+        <St.OrderAmountSize
+          witdhSize={`${Math.floor((size / maxOrderSize) * 100 - 10)}%`}
+          bgColor={theme.lightPink2}
+        />
+      </St.OrderAmount>
     </St.OrderLi>
   );
 };
