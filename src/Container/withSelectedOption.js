@@ -12,6 +12,7 @@ const withSelectedOption = () => (OriginalComponent) => (props) => {
       selectedTimeCount={coinState.selectedTimeCount}
       selectedAskBidOrder={coinState.selectedAskBidOrder}
       searchCoinInput={coinState.searchCoin}
+      orderPrice={coinState.orderPrice}
     />
   );
 };

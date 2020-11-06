@@ -1,5 +1,7 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { changeOrderPrice } from "../Reducer/coinReducer";
 import OrderInfoTradeList from "./OrderInfoTradeList";
 
 const St = {
@@ -77,8 +79,11 @@ const St = {
     box-sizing: border-box;
     margin: 0;
     padding: 5px;
+    padding-right: 10px;
     border: 1px solid ${({ theme }) => theme.lightGray2};
     text-align: right;
+    font-size: 1rem;
+    font-weight: ${({ fontWeight }) => fontWeight};
   `,
   Button: styled.button`
     width: ${({ width }) => width || "50px"};
@@ -124,7 +129,14 @@ const St = {
   `,
 };
 
-const OrderInfoAskBid = ({ theme, selectedAskBidOrder, coinSymbol }) => {
+const OrderInfoAskBid = ({
+  theme,
+  selectedAskBidOrder,
+  coinSymbol,
+  orderPrice,
+}) => {
+  const dispatch = useDispatch();
+
   return (
     <St.OrderInfoContainer>
       {selectedAskBidOrder !== "tradeList" ? (
@@ -143,7 +155,17 @@ const OrderInfoAskBid = ({ theme, selectedAskBidOrder, coinSymbol }) => {
               {selectedAskBidOrder === "bid" ? "매수가격" : "매도가격"}
             </St.OrderInfoDetailTitle>
             <St.OrderInfoInputContainer>
-              <St.OrderInfoInput />
+              <St.OrderInfoInput
+                onChange={(e) =>
+                  dispatch(
+                    changeOrderPrice(
+                      parseInt(e.target.value.replace(/[^0-9-.]/g, ""))
+                    )
+                  )
+                }
+                value={orderPrice ? orderPrice.toLocaleString() : 0}
+                fontWeight={800}
+              />
               <St.Button
                 bgColor={theme.lightGray}
                 borderColor={theme.lightGray2}

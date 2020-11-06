@@ -128,7 +128,7 @@ const St = {
   `,
 };
 
-const OrderInfo = ({ theme, selectedAskBidOrder, coinSymbol }) => {
+const OrderInfo = ({ theme, selectedAskBidOrder, coinSymbol, orderPrice }) => {
   const dispatch = useDispatch();
   return (
     <St.Container>
@@ -159,6 +159,7 @@ const OrderInfo = ({ theme, selectedAskBidOrder, coinSymbol }) => {
         theme={theme}
         selectedAskBidOrder={selectedAskBidOrder}
         coinSymbol={coinSymbol}
+        orderPrice={orderPrice}
       />
     </St.Container>
   );
