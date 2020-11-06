@@ -19,6 +19,7 @@ const St = {
     width: 100%;
     height: 100%;
     max-height: 750px;
+    /* overflow-y: scroll; */
     scrollbar-color: ${({ theme }) => theme.middleGray};
     scrollbar-width: thin;
     scrollbar-base-color: transparent;
@@ -28,7 +29,7 @@ const St = {
       border-radius: 5rem;
     }
     &::-webkit-scrollbar-thumb {
-      background-color: ${(props) => props.scrollColor};
+      background-color: ${({ theme }) => theme.middleGray};
       border-radius: 5rem;
     }
   `,
@@ -83,8 +84,6 @@ const Orderbook = ({
     </St.Container>
   );
 };
-
-// const OrderbookMemo = React.memo(Orderbook, isEqual);
 
 export default withOrderbookData()(
   withSelectedCoinPrice()(withThemeData()(React.memo(Orderbook, isEqual)))

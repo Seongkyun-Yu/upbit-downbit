@@ -53,6 +53,9 @@ const CHANGE_COIN_MARKET_SUCCESS = "coin/CHANGE_COIN_MARKET_SUCCESS";
 const CHANGE_ASK_BID_ORDER = "coin/CHANGE_ASK_BID_ORDER";
 const CHANGE_ASK_BID_ORDER_SUCCESS = "coin/CHANGE_ASK_BID_ORDER_SUCCESS";
 
+const CHANGE_ORDER_PRICE = "coin/CHANGE_ORDER_PRICE";
+const CHANGE_ORDER_PRICE_SUCCESS = "coin/CHANGE_ORDER_PRICE_SUCCESS";
+
 const SEARCH_COIN = "coin/SEARCH_COIN";
 const SEARCH_COIN_SUCCESS = "coin/SEARCH_COIN_SUCCESS";
 
@@ -126,6 +129,13 @@ const changeAskBidOrder = (askBidOption) => ({
 });
 const changeAskBidOrderSaga = createChangeOptionSaga(CHANGE_ASK_BID_ORDER);
 
+// 주문 가격 변경하기
+const changeOrderPrice = (price) => ({
+  type: CHANGE_ORDER_PRICE,
+  payload: price,
+});
+const changeOrderPriceSaga = createChangeOptionSaga(CHANGE_ORDER_PRICE);
+
 // 코인 검색 내용 변경하기 Saga
 const searchCoin = (searchName) => ({
   type: SEARCH_COIN,
@@ -196,6 +206,7 @@ function* coinSaga() {
 
   yield takeEvery(CHANGE_COIN_MARKET, changeSelectedMarketSaga);
   yield takeEvery(CHANGE_ASK_BID_ORDER, changeAskBidOrderSaga);
+  yield takeEvery(CHANGE_ORDER_PRICE, changeOrderPriceSaga);
   yield takeEvery(SEARCH_COIN, searchCoinSaga);
 
   yield takeEvery(START_INIT, startInittSaga);
@@ -203,17 +214,18 @@ function* coinSaga() {
 }
 
 const initialState = {
+  selectedMarket: "KRW-BTC",
+  selectedTimeType: "minutes",
+  selectedTimeCount: 5,
+  selectedAskBidOrder: "bid",
+  orderPrice: 0,
+  searchCoin: "",
   marketNames: {
     error: false,
     data: {
       "KRW-BTC": "비트코인",
     },
   },
-  selectedMarket: "KRW-BTC",
-  selectedTimeType: "minutes",
-  selectedTimeCount: 5,
-  selectedAskBidOrder: "bid",
-  searchCoin: "",
   candle: {
     error: false,
     data: {
@@ -306,6 +318,12 @@ const coinReducer = (state = initialState, action) => {
         action
       );
 
+    case CHANGE_ORDER_PRICE_SUCCESS:
+      return changeOptionActions(CHANGE_ORDER_PRICE, "orderPrice")(
+        state,
+        action
+      );
+
     case SEARCH_COIN_SUCCESS:
       return changeOptionActions(SEARCH_COIN, "searchCoin")(state, action);
     default:
@@ -319,5 +337,6 @@ export {
   coinReducer,
   coinSaga,
   changeAskBidOrder,
+  changeOrderPrice,
   searchCoin,
 };
