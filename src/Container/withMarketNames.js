@@ -7,6 +7,7 @@ const withMarketNames = () => (OriginalComponent) => (props) => {
   const state = useSelector((state) => state);
   const marketNames = state.Coin.marketNames.data; // 코인 마켓 이름들(객체)
   let marketNamesArr = Object.keys(marketNames); // 코인 마켓 이름 배열화
+
   const coinListDatas = state.Coin.candle.data; // 코인들 데이터
   const coinSearchInputData = state.Coin.searchCoin; // 검색한 코인 이름
 
