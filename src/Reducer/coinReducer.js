@@ -242,6 +242,28 @@ const changeAmountAndTotalPrice = (amount) => ({
   type: CHANGE_AMOUNT_AND_TOTAL_PRICE,
   payload: amount,
 });
+function* changeAmountAndTotalPriceSaga(action) {
+  const state = yield select();
+  const orderPrice = state.Coin.orderPrice;
+
+  yield changeOrderAmountSaga({ payload: action.payload });
+  yield changeOrderTotalPriceSaga({ payload: action.payload * orderPrice });
+}
+
+// 주문총액 변경 후 주문수량 바꾸기
+const changeTotalPriceAndAmount = (totalPrice) => ({
+  type: CHANGE_TOTAL_PRICE_AND_AMOUNT,
+  payload: totalPrice,
+});
+function* changeTotalPriceAndAmountSaga(action) {
+  const state = yield select();
+  const orderPrice = state.Coin.orderPrice;
+
+  yield changeOrderTotalPriceSaga({ payload: action.payload });
+  yield changeOrderAmountSaga({
+    payload: orderPrice ? (action.payload / orderPrice).toFixed(8) : 0,
+  });
+}
 
 function* coinSaga() {
   yield takeEvery(GET_MARKET_NAMES, getMarketNameSaga);
@@ -259,6 +281,9 @@ function* coinSaga() {
 
   yield takeEvery(START_INIT, startInittSaga);
   yield takeEvery(START_CHANGE_MARKET_AND_DATA, startChangeMarketAndDataSaga);
+  yield takeEvery(CHANGE_PRICE_AND_TOTAL_PRICE, changePriceAndTotalPriceSaga);
+  yield takeEvery(CHANGE_AMOUNT_AND_TOTAL_PRICE, changeAmountAndTotalPriceSaga);
+  yield takeEvery(CHANGE_TOTAL_PRICE_AND_AMOUNT, changeTotalPriceAndAmountSaga);
 }
 
 const initialState = {
@@ -398,5 +423,8 @@ export {
   coinSaga,
   changeAskBidOrder,
   changeOrderPrice,
+  changePriceAndTotalPrice,
+  changeAmountAndTotalPrice,
+  changeTotalPriceAndAmount,
   searchCoin,
 };

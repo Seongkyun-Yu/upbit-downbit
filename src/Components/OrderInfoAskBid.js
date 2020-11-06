@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { changeOrderPrice } from "../Reducer/coinReducer";
+import {
+  changeAmountAndTotalPrice,
+  changePriceAndTotalPrice,
+  changeTotalPriceAndAmount,
+} from "../Reducer/coinReducer";
 import OrderInfoTradeList from "./OrderInfoTradeList";
 
 const St = {
@@ -79,10 +83,10 @@ const St = {
     box-sizing: border-box;
     margin: 0;
     padding: 5px;
-    padding-right: 10px;
+    padding-right: 15px;
     border: 1px solid ${({ theme }) => theme.lightGray2};
     text-align: right;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: ${({ fontWeight }) => fontWeight};
   `,
   Button: styled.button`
@@ -134,8 +138,37 @@ const OrderInfoAskBid = ({
   selectedAskBidOrder,
   coinSymbol,
   orderPrice,
+  orderAmount,
+  orderTotalPrice,
 }) => {
   const dispatch = useDispatch();
+  const changePrice = useCallback(
+    (e) =>
+      dispatch(
+        changePriceAndTotalPrice(
+          parseInt(e.target.value.replace(/[^0-9-.]/g, ""))
+        )
+      ),
+    [dispatch]
+  );
+  const changeAmount = useCallback(
+    (e) =>
+      dispatch(
+        changeAmountAndTotalPrice(
+          parseInt(e.target.value.replace(/[^0-9-.]/g, ""))
+        )
+      ),
+    [dispatch]
+  );
+  const changeTotalPrice = useCallback(
+    (e) =>
+      dispatch(
+        changeTotalPriceAndAmount(
+          parseInt(e.target.value.replace(/[^0-9-.]/g, ""))
+        )
+      ),
+    [dispatch]
+  );
 
   return (
     <St.OrderInfoContainer>
@@ -156,15 +189,10 @@ const OrderInfoAskBid = ({
             </St.OrderInfoDetailTitle>
             <St.OrderInfoInputContainer>
               <St.OrderInfoInput
-                onChange={(e) =>
-                  dispatch(
-                    changeOrderPrice(
-                      parseInt(e.target.value.replace(/[^0-9-.]/g, ""))
-                    )
-                  )
-                }
-                value={orderPrice ? orderPrice.toLocaleString() : 0}
+                onChange={changePrice}
+                value={orderPrice ? orderPrice.toLocaleString() : ""}
                 fontWeight={800}
+                placeholder={0}
               />
               <St.Button
                 bgColor={theme.lightGray}
@@ -186,11 +214,19 @@ const OrderInfoAskBid = ({
           </St.OrderInfoDetailContainer>
           <St.OrderInfoDetailContainer>
             <St.OrderInfoDetailTitle>주문수량</St.OrderInfoDetailTitle>
-            <St.OrderInfoInput />
+            <St.OrderInfoInput
+              onChange={changeAmount}
+              value={orderAmount ? orderAmount.toLocaleString() : ""}
+              placeholder={0}
+            />
           </St.OrderInfoDetailContainer>
           <St.OrderInfoDetailContainer>
             <St.OrderInfoDetailTitle>주문총액</St.OrderInfoDetailTitle>
-            <St.OrderInfoInput />
+            <St.OrderInfoInput
+              onChange={changeTotalPrice}
+              value={orderTotalPrice ? orderTotalPrice.toLocaleString() : ""}
+              placeholder={0}
+            />
           </St.OrderInfoDetailContainer>
         </>
       ) : (

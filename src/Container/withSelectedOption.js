@@ -13,6 +13,8 @@ const withSelectedOption = () => (OriginalComponent) => (props) => {
       selectedAskBidOrder={coinState.selectedAskBidOrder}
       searchCoinInput={coinState.searchCoin}
       orderPrice={coinState.orderPrice}
+      orderAmount={coinState.orderAmount}
+      orderTotalPrice={coinState.orderTotalPrice}
     />
   );
 };
