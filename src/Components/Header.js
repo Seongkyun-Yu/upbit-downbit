@@ -1,13 +1,40 @@
 import React from "react";
-import "./style/Header.scss";
+import styled from "styled-components";
+
+const St = {
+  HeaderContainer: styled.header`
+    width: 100%;
+    height: 60px;
+    background-color: rgb(9, 54, 135);
+  `,
+
+  SiteHeading: styled.h1`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1320px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+  `,
+
+  MainLink: styled.a`
+    display: blcok;
+    background-image: url("https://cdn.upbit.com/images/logo_upbit_sub.feef3c3.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    color: transparent;
+    height: 100%;
+  `,
+};
 
 const Header = () => {
   return (
-    <header>
-      <h1>
-        <a href="/">업비트</a>
-      </h1>
-    </header>
+    <St.HeaderContainer>
+      <St.SiteHeading>
+        <St.MainLink href="/">업비트</St.MainLink>
+      </St.SiteHeading>
+    </St.HeaderContainer>
   );
 };
 
