@@ -152,12 +152,11 @@ const OrderInfoAskBid = ({
     [dispatch]
   );
   const changeAmount = useCallback(
-    (e) =>
+    (e) => {
       dispatch(
-        changeAmountAndTotalPrice(
-          parseInt(e.target.value.replace(/[^0-9-.]/g, ""))
-        )
-      ),
+        changeAmountAndTotalPrice(e.target.value.replace(/[^0-9-.]/g, ""))
+      );
+    },
     [dispatch]
   );
   const changeTotalPrice = useCallback(
