@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import withSelectedOption from "../Container/withSelectedOption";
 import withThemeData from "../Container/withThemeData";
+import withSelectedCoinName from "../Container/withSelectedCoinName";
 import { changeAskBidOrder } from "../Reducer/coinReducer";
 import OrderInfoAskBid from "./OrderInfoAskBid";
-import OrderInfoTradeList from "./OrderInfoTradeList";
 
 const St = {
   Container: styled.div`
@@ -128,7 +128,7 @@ const St = {
   `,
 };
 
-const OrderInfo = ({ theme, selectedAskBidOrder }) => {
+const OrderInfo = ({ theme, selectedAskBidOrder, coinSymbol }) => {
   const dispatch = useDispatch();
   return (
     <St.Container>
@@ -158,17 +158,12 @@ const OrderInfo = ({ theme, selectedAskBidOrder }) => {
       <OrderInfoAskBid
         theme={theme}
         selectedAskBidOrder={selectedAskBidOrder}
+        coinSymbol={coinSymbol}
       />
-      {/* {selectedAskBidOrder !== "tradeList" ? (
-        <OrderInfoAskBid
-          theme={theme}
-          selectedAskBidOrder={selectedAskBidOrder}
-        />
-      ) : (
-        <OrderInfoTradeList theme={theme} />
-      )} */}
     </St.Container>
   );
 };
 
-export default withSelectedOption()(withThemeData()(React.memo(OrderInfo)));
+export default withSelectedCoinName()(
+  withSelectedOption()(withThemeData()(React.memo(OrderInfo)))
+);

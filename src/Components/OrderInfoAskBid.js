@@ -124,7 +124,7 @@ const St = {
   `,
 };
 
-const OrderInfoAskBid = ({ theme, selectedAskBidOrder }) => {
+const OrderInfoAskBid = ({ theme, selectedAskBidOrder, coinSymbol }) => {
   return (
     <St.OrderInfoContainer>
       {selectedAskBidOrder !== "tradeList" ? (
@@ -132,7 +132,10 @@ const OrderInfoAskBid = ({ theme, selectedAskBidOrder }) => {
           <St.OrderInfoDetailContainer>
             <St.OrderInfoDetailTitle>주문가능</St.OrderInfoDetailTitle>
             <St.PossibleAmount>
-              0<St.Unit>KRW</St.Unit>
+              0
+              <St.Unit>
+                {selectedAskBidOrder === "bid" ? "KRW" : coinSymbol}
+              </St.Unit>
             </St.PossibleAmount>
           </St.OrderInfoDetailContainer>
           <St.OrderInfoDetailContainer>
