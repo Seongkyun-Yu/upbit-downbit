@@ -20,18 +20,18 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
     const bidSize = orderbook.bid_size.toFixed(3);
     const askSize = orderbook.ask_size.toFixed(3);
 
-    if (i < 8) {
-      // 8개씩 자름
-      bidOrderbookData.push({
-        bidPrice: orderbook.bid_price,
-        bidSize: orderbook.bid_size.toFixed(3),
-      });
-      askOrderbookData.push({
-        askPrice: orderbook.ask_price,
-        askSize: orderbook.ask_size.toFixed(3),
-      });
-      maxOrderSize = Math.max(maxOrderSize, bidSize, askSize);
-    }
+    // if (i < 8) {
+    // 8개씩 자름
+    bidOrderbookData.push({
+      bidPrice: orderbook.bid_price,
+      bidSize: orderbook.bid_size.toFixed(3),
+    });
+    askOrderbookData.push({
+      askPrice: orderbook.ask_price,
+      askSize: orderbook.ask_size.toFixed(3),
+    });
+    maxOrderSize = Math.max(maxOrderSize, bidSize, askSize);
+    // }
   });
 
   const orderbookData = [...askOrderbookData, ...bidOrderbookData];

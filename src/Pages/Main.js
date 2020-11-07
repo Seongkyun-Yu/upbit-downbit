@@ -46,7 +46,6 @@ const Main = ({ match }) => {
       <Header />
       <MainContentContainer>
         <ChartAndTradeContainer theme={theme} isRootURL={isRootURL}>
-          {/* <CoinList subList={true} /> */}
           <CoinInfoHeader />
           <div
             className="mainChartContainer"

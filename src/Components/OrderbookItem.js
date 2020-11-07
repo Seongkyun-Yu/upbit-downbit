@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import isEqual from "react-fast-compare";
 import { useDispatch } from "react-redux";
@@ -87,16 +87,15 @@ const OrderbookItem = ({
   const dispatch = useDispatch();
 
   const scrollRef = useRef();
-  // useEffect(() => {
-  //   if (index === 7 && type === "ask") {
-  //     const parentNode = scrollRef.current.parentNode;
-  //     const parentAbsoluteTop = window.pageYOffset + parentNode.offsetTop;
-  //     const absoluteTop = window.pageYOffset + scrollRef.current.offsetTop;
-  //     const relativeTop = absoluteTop - parentAbsoluteTop;
-  //     scrollRef.current.parentNode.scrollTop = relativeTop;
-  //     document.activeElement.blur();
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (index === 7 && type === "ask") {
+      const parentNode = scrollRef.current.parentNode;
+      const parentAbsoluteTop = window.pageYOffset + parentNode.offsetTop;
+      const absoluteTop = window.pageYOffset + scrollRef.current.offsetTop;
+      const relativeTop = absoluteTop - parentAbsoluteTop;
+      scrollRef.current.parentNode.scrollTop = relativeTop;
+    }
+  }, []);
 
   return type === "ask" ? (
     <St.OrderLi ref={scrollRef} theme={theme}>
