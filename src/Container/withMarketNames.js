@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import * as Hangul from "hangul-js";
 import { choHangul } from "../Lib/utils";

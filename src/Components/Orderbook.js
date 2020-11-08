@@ -37,7 +37,7 @@ const St = {
 
 const Orderbook = ({
   theme,
-  totalData,
+  // totalData,
   askOrderbookData,
   bidOrderbookData,
   maxOrderSize,
@@ -71,6 +71,7 @@ const Orderbook = ({
               price={orderbook.bidPrice}
               size={orderbook.bidSize}
               maxOrderSize={maxOrderSize}
+              // key={`bidOrder-${orderbook.bidPrice}`}
               key={`bidOrder-${i}`}
               type={"bid"}
               changeRate24Hour={(
@@ -86,6 +87,16 @@ const Orderbook = ({
   );
 };
 
-export default withOrderbookData()(
-  withSelectedCoinPrice()(withThemeData()(React.memo(Orderbook, isEqual)))
+export default React.memo(
+  withOrderbookData()(
+    React.memo(
+      withSelectedCoinPrice()(
+        React.memo(withThemeData()(React.memo(Orderbook)))
+      )
+    )
+  )
 );
+
+// export default React.memo(
+//   withOrderbookData()(React.memo(withThemeData()(React.memo(Orderbook))))
+// );

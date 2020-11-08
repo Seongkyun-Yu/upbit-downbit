@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useSelector } from "react-redux";
+import { ThemeContext } from "styled-components";
 
 const withOrderbookData = () => (OriginalComponent) => (props) => {
+  // const theme = useContext(ThemeContext); // 테마 정보
+
   const state = useSelector((state) => state);
   const selectedMarket = state.Coin.selectedMarket;
+
+  // const selectedCoinData = state.Coin.candle.data[selectedMarket];
+  // const selecteCoinCadnles = selectedCoinData.candles;
+  // const lastCandleIndex = selecteCoinCadnles.length - 1;
+
+  // const beforeDayPrice = selecteCoinCadnles.length
+  //   ? selecteCoinCadnles[lastCandleIndex].close -
+  //     selectedCoinData.changePrice24Hour
+  //   : 0;
 
   const orderbook = state.Coin.orderbook.data[selectedMarket];
   const totalData = {
@@ -20,7 +32,6 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
     const bidSize = orderbook.bid_size.toFixed(3);
     const askSize = orderbook.ask_size.toFixed(3);
 
-    // if (i < 8) {
     // 8개씩 자름
     bidOrderbookData.push({
       bidPrice: orderbook.bid_price,
@@ -31,7 +42,6 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
       askSize: orderbook.ask_size.toFixed(3),
     });
     maxOrderSize = Math.max(maxOrderSize, bidSize, askSize);
-    // }
   });
 
   const orderbookData = [...askOrderbookData, ...bidOrderbookData];
@@ -47,6 +57,8 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
       bidOrderbookData={bidOrderbookData}
       askOrderbookData={askOrderbookData}
       maxOrderSize={maxOrderSize}
+      // beforeDayPrice={beforeDayPrice}
+      // theme={theme}
     />
   ) : (
     <div>Orderbook Loading</div>

@@ -178,6 +178,16 @@ const CoinList = ({
   );
 };
 
-export default withCoinListData()(
-  withMarketNames()(withSelectedOption()(withThemeData()(React.memo(CoinList))))
+export default React.memo(
+  withCoinListData()(
+    React.memo(
+      withMarketNames()(
+        React.memo(
+          withSelectedOption()(
+            React.memo(withThemeData()(React.memo(CoinList)))
+          )
+        )
+      )
+    )
+  )
 );

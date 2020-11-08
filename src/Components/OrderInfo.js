@@ -6,6 +6,7 @@ import withThemeData from "../Container/withThemeData";
 import withSelectedCoinName from "../Container/withSelectedCoinName";
 import { changeAskBidOrder } from "../Reducer/coinReducer";
 import OrderInfoAskBid from "./OrderInfoAskBid";
+import withOrderInfo from "../Container/withOrderInfo";
 
 const St = {
   Container: styled.div`
@@ -174,6 +175,16 @@ const OrderInfo = ({
   );
 };
 
-export default withSelectedCoinName()(
-  withSelectedOption()(withThemeData()(React.memo(OrderInfo)))
+// const OrderInfoMemo = React.memo(OrderInfo);
+
+export default React.memo(
+  withSelectedCoinName()(
+    React.memo(withSelectedOption()(React.memo(withThemeData()(OrderInfo))))
+  )
 );
+
+// export default React.memo(withOrderInfo()(OrderInfo));
+
+// export default React.memo(OrderInfo);
+
+// export default React.memo(withOrderInfo()(React.memo(OrderInfo)));
