@@ -7,6 +7,7 @@ import Orderbook from "../Components/Orderbook";
 import CoinInfoHeader from "../Components/CoinInfoHeader";
 import OrderInfo from "../Components/OrderInfo";
 import TradeList from "../Components/TradeList";
+import { useSelector } from "react-redux";
 
 const MainContentContainer = styled.main`
   display: flex;
@@ -39,6 +40,13 @@ const TradeContainer = styled.div`
 const Main = ({ match }) => {
   const theme = useContext(ThemeContext);
 
+  const state = useSelector((state) => state);
+  const coinState = state.Coin;
+  const selectedMarket = state.Coin.selectedMarket;
+
+  const splitedName = selectedMarket.split("-");
+  const coinSymbol = splitedName[1];
+
   const isRootURL = match.path === "/";
 
   return (
@@ -46,7 +54,6 @@ const Main = ({ match }) => {
       <Header />
       <MainContentContainer>
         <ChartAndTradeContainer theme={theme} isRootURL={isRootURL}>
-          {/* <CoinList subList={true} /> */}
           <CoinInfoHeader />
           <div
             className="mainChartContainer"
@@ -68,7 +75,22 @@ const Main = ({ match }) => {
                 marginLeft: "10px",
               }}
             >
-              <OrderInfo />
+              {/* <OrderInfo
+                theme={theme}
+                coinSymbol={coinSymbol}
+                orderPrice={coinState.orderPrice}
+                orderAmount={coinState.orderAmount}
+                orderTotalPrice={coinState.orderTotalPrice}
+                selectedAskBidOrder={coinState.selectedAskBidOrder}
+              /> */}
+              <OrderInfo
+              // theme={theme}
+              // coinSymbol={coinSymbol}
+              // orderPrice={coinState.orderPrice}
+              // orderAmount={coinState.orderAmount}
+              // orderTotalPrice={coinState.orderTotalPrice}
+              // selectedAskBidOrder={coinState.selectedAskBidOrder}
+              />
               <TradeList />
             </div>
           </TradeContainer>
@@ -79,4 +101,4 @@ const Main = ({ match }) => {
   );
 };
 
-export default Main;
+export default React.memo(Main);

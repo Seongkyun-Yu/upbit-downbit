@@ -9,7 +9,7 @@ import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
 const St = {
   Container: styled.div`
     width: 45%;
-    max-height: 750px;
+    max-height: 722px;
     height: 100%;
     box-sizing: border-box;
     background-color: white;
@@ -18,8 +18,8 @@ const St = {
   OrderUl: styled.ul`
     width: 100%;
     height: 100%;
-    max-height: 750px;
-    /* overflow-y: scroll; */
+    max-height: 722px;
+    overflow-y: scroll;
     scrollbar-color: ${({ theme }) => theme.middleGray};
     scrollbar-width: thin;
     scrollbar-base-color: transparent;
@@ -37,7 +37,7 @@ const St = {
 
 const Orderbook = ({
   theme,
-  totalData,
+  // totalData,
   askOrderbookData,
   bidOrderbookData,
   maxOrderSize,
@@ -53,7 +53,8 @@ const Orderbook = ({
               price={orderbook.askPrice}
               size={orderbook.askSize}
               maxOrderSize={maxOrderSize}
-              key={`askOrder-${orderbook.askPrice}`}
+              // key={`askOrder-${orderbook.askPrice}`}
+              key={`askOrder-${i}`}
               type={"ask"}
               changeRate24Hour={(
                 ((orderbook.askPrice - beforeDayPrice) / beforeDayPrice) *
@@ -70,7 +71,8 @@ const Orderbook = ({
               price={orderbook.bidPrice}
               size={orderbook.bidSize}
               maxOrderSize={maxOrderSize}
-              key={`askOrder-${orderbook.bidPrice}`}
+              // key={`bidOrder-${orderbook.bidPrice}`}
+              key={`bidOrder-${i}`}
               type={"bid"}
               changeRate24Hour={(
                 ((orderbook.bidPrice - beforeDayPrice) / beforeDayPrice) *
@@ -85,6 +87,16 @@ const Orderbook = ({
   );
 };
 
-export default withOrderbookData()(
-  withSelectedCoinPrice()(withThemeData()(React.memo(Orderbook, isEqual)))
+export default React.memo(
+  withOrderbookData()(
+    React.memo(
+      withSelectedCoinPrice()(
+        React.memo(withThemeData()(React.memo(Orderbook)))
+      )
+    )
+  )
 );
+
+// export default React.memo(
+//   withOrderbookData()(React.memo(withThemeData()(React.memo(Orderbook))))
+// );

@@ -11,6 +11,7 @@ const St = {
   Container: styled.article`
     width: 100%;
     height: 100%;
+    /* height: 310px; */
     background-color: white;
     margin-top: 10px;
   `,
@@ -29,6 +30,7 @@ const St = {
       background-color: ${(props) => props.scrollColor};
       border-radius: 5rem;
     }
+    height: 310px;
     max-height: 310px;
   `,
 
@@ -83,7 +85,8 @@ const TradeList = ({ theme, selectedTradeListData }) => {
               <TradeListItem
                 theme={theme}
                 index={i}
-                key={`tradeList-${tradeList.sequential_id}`}
+                // key={`tradeList-${tradeList.sequential_id}`}
+                key={`tradeList-${i}`}
                 date={moment(tradeList.timestamp).format("MM.DD")}
                 time={moment(tradeList.timestamp).format("HH:mm")}
                 tradePrice={tradeList.trade_price}
@@ -98,6 +101,8 @@ const TradeList = ({ theme, selectedTradeListData }) => {
   );
 };
 
-export default withTradeListData()(
-  withSelectedOption()(withThemeData()(React.memo(TradeList)))
+export default React.memo(
+  withTradeListData()(
+    React.memo(withSelectedOption()(React.memo(withThemeData()(TradeList))))
+  )
 );
