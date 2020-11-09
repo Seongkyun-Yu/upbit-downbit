@@ -13,8 +13,11 @@ import { BrowserRouter } from "react-router-dom";
 
 import { ThemeProvider } from "styled-components";
 import theme from "./styles/theme";
-import "./reset.css";
+// import "./reset.css";
 import styled from "styled-components";
+
+import { Normalize } from "styled-normalize";
+import { Reset } from "styled-reset";
 
 const DefaultContainer = styled.div`
   background-color: rgb(231, 234, 239);
@@ -32,6 +35,8 @@ ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Provider store={store}>
       <BrowserRouter>
+        <Normalize />
+        <Reset />
         <DefaultContainer>
           <App />
         </DefaultContainer>

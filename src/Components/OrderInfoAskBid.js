@@ -234,7 +234,7 @@ const OrderInfoAskBid = ({
       <St.OrderBtnContainer>
         <St.Button
           width={"30%"}
-          minWidth={"65px"}
+          minWidth={"70px"}
           marginRight={"5px"}
           bgColor={theme.deepBlue}
           fontSize={"0.9rem"}

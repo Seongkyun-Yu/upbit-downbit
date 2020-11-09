@@ -41,7 +41,7 @@ const candleChartExtents = (data) => {
 };
 
 const yExtentsCalculator = ({ plotData }) => {
-  console.log(plotData);
+  // console.log(plotData);
   let min = 0;
   let max = 0;
 

@@ -6,6 +6,7 @@ import moment from "moment-timezone";
 import withTradeListData from "../Container/withTradeListData";
 import withSelectedOption from "../Container/withSelectedOption";
 import withThemeData from "../Container/withThemeData";
+import isEqual from "react-fast-compare";
 
 const St = {
   Container: styled.article`
@@ -101,10 +102,14 @@ const TradeList = ({ theme, selectedTradeListData }) => {
   );
 };
 
-export default React.memo(
-  withTradeListData()(
-    React.memo(
-      withSelectedOption()(React.memo(withThemeData()(React.memo(TradeList))))
-    )
-  )
+// export default React.memo(
+//   withTradeListData()(
+//     React.memo(
+//       withSelectedOption()(React.memo(withThemeData()(React.memo(TradeList))))
+//     )
+//   )
+// );
+
+export default withTradeListData()(
+  withSelectedOption()(withThemeData()(React.memo(TradeList)))
 );

@@ -75,6 +75,7 @@ const Main = ({ match }) => {
                 display: "flex",
                 flexDirection: "column",
                 width: "55%",
+                minWidth: "180px",
                 marginLeft: "10px",
               }}
             >
@@ -104,4 +105,4 @@ const Main = ({ match }) => {
   );
 };
 
-export default React.memo(Main);
+export default Main;

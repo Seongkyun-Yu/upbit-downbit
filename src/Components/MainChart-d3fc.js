@@ -16,7 +16,7 @@ const MainChart = () => {
   if (selectedCandles.length > 2) {
     let updated = true;
 
-    console.log("여기야", selectedCandles);
+    // console.log("여기야", selectedCandles);
     const xExtent = fc.extentDate().accessors([(d) => d.date]);
     const yExtent = fc.extentLinear().accessors([(d) => d.high, (d) => d.low]);
 

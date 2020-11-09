@@ -24,8 +24,8 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
   let maxOrderSize = 0;
 
   const orderbook = state.Coin.orderbook.data[selectedMarket];
-  if (!orderbook) {
-  } else {
+  // console.log(orderbook);
+  if (orderbook) {
     totalData = {
       totalBidSize: orderbook.total_bid_size,
       totalAskSize: orderbook.total_ask_size,
@@ -40,7 +40,6 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
       const bidSize = orderbook.bid_size.toFixed(3);
       const askSize = orderbook.ask_size.toFixed(3);
 
-      // 8개씩 자름
       bidOrderbookData.push({
         bidPrice: orderbook.bid_price,
         bidSize: orderbook.bid_size.toFixed(3),
@@ -57,7 +56,7 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
     askOrderbookData.sort((book1, book2) => +book2.askPrice - +book1.askPrice);
   }
 
-  return orderbook && orderbook.orderbook_units.length ? (
+  return orderbook ? (
     <OriginalComponent
       {...props}
       totalData={totalData || []}
