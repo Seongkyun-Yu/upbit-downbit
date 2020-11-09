@@ -8,7 +8,7 @@ import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
 
 const St = {
   Container: styled.div`
-    width: 45%;
+    width: 46%;
     max-height: 722px;
     height: 100%;
     box-sizing: border-box;

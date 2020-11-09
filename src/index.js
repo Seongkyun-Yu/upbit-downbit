@@ -13,12 +13,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import { ThemeProvider } from "styled-components";
 import theme from "./styles/theme";
-import "./reset.css";
-import styled from "styled-components";
-
-const DefaultContainer = styled.div`
-  background-color: rgb(231, 234, 239);
-`;
+import GlobalStyle from "./styles/GlobalStyle";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -32,9 +27,8 @@ ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Provider store={store}>
       <BrowserRouter>
-        <DefaultContainer>
-          <App />
-        </DefaultContainer>
+        <GlobalStyle />
+        <App />
       </BrowserRouter>
     </Provider>
   </ThemeProvider>,

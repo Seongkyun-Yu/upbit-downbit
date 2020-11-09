@@ -29,7 +29,7 @@ const St = {
   `,
 
   OrderType: styled.button`
-    width: 33.33%;
+    width: 33.3333%;
     height: 100%;
     background-color: white;
     border: none;

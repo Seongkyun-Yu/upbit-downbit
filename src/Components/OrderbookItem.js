@@ -20,12 +20,15 @@ const St = {
 
   Btn: styled.button`
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
     background-color: transparent;
     border: none;
     outline: none;
     padding: 0;
+    margin: 0;
   `,
 
   OrderAmount: styled.div`
@@ -34,13 +37,14 @@ const St = {
     align-items: center;
     position: relative;
     width: 50%;
-    height: 100%;
+    height: 45px;
     border: 1px solid ${({ borderColor }) => borderColor};
     padding-left: 5px;
     padding-right: 10px;
     margin-top: -1px;
     margin-left: -1px;
     text-align: right;
+    box-sizing: border-box;
   `,
 
   OrderAmountSize: styled.div`
@@ -56,7 +60,7 @@ const St = {
     justify-content: center;
     align-items: center;
     width: 50%;
-    height: 100%;
+    height: 45px;
     border: 1px solid ${({ borderColor }) => borderColor};
     margin-top: -1px;
     margin-left: -1px;
@@ -69,7 +73,9 @@ const St = {
     }
   `,
 
-  OrderPrice: styled.strong``,
+  OrderPrice: styled.strong`
+    font-weight: 800;
+  `,
 
   OrderPrcieRatio: styled.span`
     padding-left: 13px;
