@@ -17,6 +17,10 @@ const St = {
     margin: 0 auto;
     padding: 0 20px;
     box-sizing: border-box;
+
+    @media ${({ theme }) => theme.tablet} {
+      max-width: 950px;
+    }
   `,
 
   MainLink: styled.a`
