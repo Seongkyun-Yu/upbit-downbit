@@ -53,7 +53,7 @@ const St = {
   CoinName: styled.strong`
     display: block;
     font-size: 12px;
-    font-weight: 1800;
+    font-weight: 800;
   `,
 
   CoinNameEn: styled.span`
@@ -69,6 +69,7 @@ const St = {
     text-align: right;
     line-height: 2.5rem;
     font-size: 12px;
+    font-weight: 800;
     color: ${({ fontColor }) => fontColor};
   `,
 

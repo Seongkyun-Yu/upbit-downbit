@@ -40,7 +40,7 @@ const St = {
 
   CoinName: styled.strong`
     font-size: 1.7rem;
-    font-weight: 1500;
+    font-weight: 800;
     color: #2b2b2b;
 
     @media ${({ theme }) => theme.mobileS} {
@@ -64,6 +64,7 @@ const St = {
   Price: styled.strong`
     color: ${({ priceColor }) => priceColor};
     font-size: 2rem;
+    font-weight: 800;
 
     @media ${({ theme }) => theme.mobileS} {
       font-size: 1.5rem;
@@ -85,10 +86,12 @@ const St = {
     font-size: 1rem;
     color: ${({ priceColor }) => priceColor};
     margin: 0 10px 0 5px;
+    font-weight: 800;
   `,
 
   ChangePrice: styled.strong`
     font-size: 1rem;
+    font-weight: 800;
     color: ${({ priceColor }) => priceColor};
   `,
 

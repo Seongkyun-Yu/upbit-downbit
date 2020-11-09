@@ -73,7 +73,9 @@ const St = {
     }
   `,
 
-  OrderPrice: styled.strong``,
+  OrderPrice: styled.strong`
+    font-weight: 800;
+  `,
 
   OrderPrcieRatio: styled.span`
     padding-left: 13px;

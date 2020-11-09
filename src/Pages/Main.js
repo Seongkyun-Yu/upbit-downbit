@@ -1,14 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
+import styled from "styled-components";
+
 import CoinList from "../Components/CoinList";
 import Header from "../Components/Header";
 import MainChart from "../Components/MainChart";
-import styled, { ThemeContext } from "styled-components";
 import Orderbook from "../Components/Orderbook";
 import CoinInfoHeader from "../Components/CoinInfoHeader";
 import OrderInfo from "../Components/OrderInfo";
 import TradeList from "../Components/TradeList";
-import { useSelector } from "react-redux";
-import OrderbookContainer from "../Container/OrderbookContainer";
 
 const MainContentContainer = styled.main`
   display: flex;
@@ -49,7 +48,6 @@ const Main = ({ match }) => {
   // const coinSymbol = splitedName[1];
 
   const isRootURL = match.path === "/";
-  // console.log("메인리로딩");
 
   return (
     <div className="container" style={{ height: "100%" }}>
