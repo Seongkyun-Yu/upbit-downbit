@@ -98,6 +98,7 @@ const St = {
   TradeInfoContainer: styled.dl`
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     width: 45%;
     height: 100%;
     margin: 0 10px 0 0;
@@ -108,7 +109,7 @@ const St = {
   `,
 
   InfoContainer: styled.div`
-    height: 50%;
+    height: 100%;
     margin-left: 15px;
     @media ${({ theme, tabletNone }) => (tabletNone ? theme.tablet : true)} {
       display: none;
