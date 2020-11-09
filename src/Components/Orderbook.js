@@ -43,6 +43,7 @@ const Orderbook = ({
   maxOrderSize,
   beforeDayPrice,
 }) => {
+  // console.log("오더북랜더");
   return (
     <St.Container>
       <St.OrderUl>
@@ -87,16 +88,18 @@ const Orderbook = ({
   );
 };
 
-export default React.memo(
-  withOrderbookData()(
-    React.memo(
-      withSelectedCoinPrice()(
-        React.memo(withThemeData()(React.memo(Orderbook)))
-      )
-    )
-  )
+// export default React.memo(
+//   withOrderbookData()(
+//     React.memo(
+//       withSelectedCoinPrice()(
+//         React.memo(withThemeData()(React.memo(Orderbook, isEqual)))
+//       )
+//     )
+//   )
+// );
+
+export default withOrderbookData()(
+  withSelectedCoinPrice()(withThemeData()(React.memo(Orderbook, isEqual)))
 );
 
-// export default React.memo(
-//   withOrderbookData()(React.memo(withThemeData()(React.memo(Orderbook))))
-// );
+// export default React.memo(Orderbook);

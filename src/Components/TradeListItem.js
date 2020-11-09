@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import isEqual from "react-fast-compare";
 
 const St = {
   TradeListLi: styled.li`
@@ -106,4 +107,4 @@ const TradeListItem = ({
   );
 };
 
-export default React.memo(TradeListItem);
+export default React.memo(TradeListItem, isEqual);

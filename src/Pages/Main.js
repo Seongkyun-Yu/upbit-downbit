@@ -8,6 +8,7 @@ import CoinInfoHeader from "../Components/CoinInfoHeader";
 import OrderInfo from "../Components/OrderInfo";
 import TradeList from "../Components/TradeList";
 import { useSelector } from "react-redux";
+import OrderbookContainer from "../Container/OrderbookContainer";
 
 const MainContentContainer = styled.main`
   display: flex;
@@ -38,22 +39,23 @@ const TradeContainer = styled.div`
 `;
 
 const Main = ({ match }) => {
-  const theme = useContext(ThemeContext);
+  // const theme = useContext(ThemeContext);
 
-  const state = useSelector((state) => state);
-  const coinState = state.Coin;
-  const selectedMarket = state.Coin.selectedMarket;
+  // const state = useSelector((state) => state);
+  // const coinState = state.Coin;
+  // const selectedMarket = state.Coin.selectedMarket;
 
-  const splitedName = selectedMarket.split("-");
-  const coinSymbol = splitedName[1];
+  // const splitedName = selectedMarket.split("-");
+  // const coinSymbol = splitedName[1];
 
   const isRootURL = match.path === "/";
+  // console.log("메인리로딩");
 
   return (
     <div className="container" style={{ height: "100%" }}>
       <Header />
       <MainContentContainer>
-        <ChartAndTradeContainer theme={theme} isRootURL={isRootURL}>
+        <ChartAndTradeContainer isRootURL={isRootURL}>
           <CoinInfoHeader />
           <div
             className="mainChartContainer"
@@ -67,6 +69,7 @@ const Main = ({ match }) => {
 
           <TradeContainer>
             <Orderbook />
+            {/* <OrderbookContainer /> */}
             <div
               style={{
                 display: "flex",
