@@ -26,4 +26,4 @@ const withOrderInfo = () => (OriginalComponent) => () => {
   );
 };
 
-export default useCallback(withOrderInfo);
+export default withOrderInfo;

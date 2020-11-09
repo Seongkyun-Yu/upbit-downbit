@@ -21,6 +21,7 @@ const St = {
   Btn: styled.button`
     display: flex;
     width: 100%;
+    height: 100%;
     background-color: transparent;
     border: none;
     outline: none;
