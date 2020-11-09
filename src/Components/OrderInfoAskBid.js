@@ -168,7 +168,7 @@ const OrderInfoAskBid = ({
       ),
     [dispatch]
   );
-
+  console.log("askbid order 리랜더");
   return (
     <St.OrderInfoContainer>
       {selectedAskBidOrder !== "tradeList" ? (

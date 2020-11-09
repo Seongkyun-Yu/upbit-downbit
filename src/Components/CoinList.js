@@ -9,6 +9,7 @@ import withThemeData from "../Container/withThemeData";
 import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
 import withSelectedOption from "../Container/withSelectedOption";
 import withMarketNames from "../Container/withMarketNames";
+import isEqual from "react-fast-compare";
 
 const St = {
   CoinListContainer: styled.div`
@@ -178,13 +179,17 @@ const CoinList = ({
   );
 };
 
+// export default withCoinListData()(
+//   withMarketNames()(withSelectedOption()(withThemeData()(React.memo(CoinList))))
+// );
+
 export default React.memo(
   withCoinListData()(
     React.memo(
       withMarketNames()(
         React.memo(
           withSelectedOption()(
-            React.memo(withThemeData()(React.memo(CoinList)))
+            React.memo(withThemeData()(React.memo(CoinList, isEqual)))
           )
         )
       )

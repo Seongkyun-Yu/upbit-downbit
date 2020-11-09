@@ -40,6 +40,66 @@ const candleChartExtents = (data) => {
   return [data.high, data.low];
 };
 
+const yExtentsCalculator = ({ plotData }) => {
+  console.log(plotData);
+  let min = 0;
+  let max = 0;
+
+  // datas.forEach(({ low, high }) => {
+  //   if (min === undefined) {
+  //     min = low;
+  //   }
+  //   if (max === undefined) {
+  //     max = high;
+  //   }
+
+  //   if (low !== undefined) {
+  //     if (min > low) {
+  //       min = low;
+  //     }
+  //   }
+
+  //   if (high !== undefined) {
+  //     if (max < high) {
+  //       max = high;
+  //     }
+  //   }
+  // });
+
+  for (const { low, high } of plotData) {
+    if (min === undefined) {
+      min = low;
+    }
+    if (max === undefined) {
+      max = high;
+    }
+
+    if (low !== undefined) {
+      if (min > low) {
+        min = low;
+      }
+    }
+
+    if (high !== undefined) {
+      if (max < high) {
+        max = high;
+      }
+    }
+  }
+
+  if (min === undefined) {
+    min = 0;
+  }
+
+  if (max === undefined) {
+    max = 0;
+  }
+
+  const padding = (max - min) * 0.1;
+
+  return [min - padding, max + padding * 2];
+};
+
 const yEdgeIndicator = (data) => {
   return data.close;
 };
@@ -136,7 +196,7 @@ const MainChart = ({
         xAccessor={xAccessor}
         xExtents={xExtents}
         disableInteraction={false}
-        zoomAnchor={lastVisibleItemBasedZoomAnchor}
+        zoomAnchor={mouseBasedZoomAnchor}
         onLoadBefore={() => console.log("럴수럴수")}
       >
         <Chart
@@ -147,7 +207,12 @@ const MainChart = ({
         >
           <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
         </Chart>
-        <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
+        <Chart
+          id={3}
+          height={chartHeight}
+          yExtents={candleChartExtents}
+          // yExtentsCalculator={yExtentsCalculator}
+        >
           <XAxis showGridLines showTickLabel={false} />
           <YAxis showGridLines tickFormat={pricesDisplayFormat} />
           <CandlestickSeries
@@ -238,16 +303,26 @@ const MainChart = ({
   );
 };
 
-export default withOHLCData()(
-  withSize({
-    style: {
-      width: "100%",
-      height: "100%",
-      minHeight,
-    },
-  })(
-    withDeviceRatio()(
-      withSelectedOption()(withThemeData()(React.memo(MainChart)))
+export default React.memo(
+  withOHLCData()(
+    React.memo(
+      withSize({
+        style: {
+          width: "100%",
+          height: "100%",
+          minHeight,
+        },
+      })(
+        React.memo(
+          withDeviceRatio()(
+            React.memo(
+              withSelectedOption()(
+                React.memo(withThemeData()(React.memo(MainChart)))
+              )
+            )
+          )
+        )
+      )
     )
   )
 );

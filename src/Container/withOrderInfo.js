@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { ThemeContext } from "styled-components";
 import { useSelector } from "react-redux";
 
@@ -10,6 +10,8 @@ const withOrderInfo = () => (OriginalComponent) => () => {
 
   const splitedName = selectedMarket.split("-");
   const coinSymbol = splitedName[1];
+
+  // OriginalComponent = React.memo(OriginalComponent);
 
   return (
     <OriginalComponent
@@ -24,4 +26,4 @@ const withOrderInfo = () => (OriginalComponent) => () => {
   );
 };
 
-export default withOrderInfo;
+export default useCallback(withOrderInfo);

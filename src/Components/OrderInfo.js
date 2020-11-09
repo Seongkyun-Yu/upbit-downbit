@@ -1,12 +1,13 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
+import React, { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import styled, { ThemeContext } from "styled-components";
 import withSelectedOption from "../Container/withSelectedOption";
 import withThemeData from "../Container/withThemeData";
 import withSelectedCoinName from "../Container/withSelectedCoinName";
 import { changeAskBidOrder } from "../Reducer/coinReducer";
 import OrderInfoAskBid from "./OrderInfoAskBid";
 import withOrderInfo from "../Container/withOrderInfo";
+import isEqual from "react-fast-compare";
 
 const St = {
   Container: styled.div`
@@ -138,6 +139,22 @@ const OrderInfo = ({
   orderTotalPrice,
 }) => {
   const dispatch = useDispatch();
+  // const theme = useContext(ThemeContext);
+
+  // const state = useSelector((state) => state);
+  // const coinState = state.Coin;
+  // const selectedMarket = state.Coin.selectedMarket;
+
+  // const selectedAskBidOrder = state.Coin.selectedAskBidOrder;
+  // const orderPrice = state.Coin.orderPrice;
+  // const orderAmount = state.Coin.orderAmount;
+  // const orderTotalPrice = state.Coin.orderTotalPrice;
+
+  // const splitedName = selectedMarket.split("-");
+  // const coinSymbol = splitedName[1];
+
+  // // const isRootURL = match.path === "/";
+  // console.log("오더인포리로딩");
   return (
     <St.Container>
       <St.OrderTypeContainer>
@@ -177,14 +194,18 @@ const OrderInfo = ({
 
 // const OrderInfoMemo = React.memo(OrderInfo);
 
-export default React.memo(
-  withSelectedCoinName()(
-    React.memo(withSelectedOption()(React.memo(withThemeData()(OrderInfo))))
-  )
-);
+// export default React.memo(
+//   withSelectedCoinName()(
+//     withSelectedOption()(withThemeData()(React.memo(OrderInfo)))
+//   )
+// );
 
-// export default React.memo(withOrderInfo()(OrderInfo));
+// export default withOrderInfo()(React.memo(OrderInfo));
 
 // export default React.memo(OrderInfo);
 
-// export default React.memo(withOrderInfo()(React.memo(OrderInfo)));
+// export default withOrderInfo()(React.memo(OrderInfo));
+
+export default withSelectedCoinName()(
+  withSelectedOption()(withThemeData()(React.memo(OrderInfo, isEqual)))
+);
