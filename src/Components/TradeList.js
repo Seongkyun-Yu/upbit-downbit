@@ -6,7 +6,7 @@ import moment from "moment-timezone";
 import withTradeListData from "../Container/withTradeListData";
 import withSelectedOption from "../Container/withSelectedOption";
 import withThemeData from "../Container/withThemeData";
-import isEqual from "react-fast-compare";
+import Loading from "../styles/Loading";
 
 const St = {
   Container: styled.article`
@@ -31,8 +31,7 @@ const St = {
       background-color: ${(props) => props.scrollColor};
       border-radius: 5rem;
     }
-    height: 310px;
-    max-height: 310px;
+    height: 320px;
   `,
 
   TradeListTitle: styled.ul`
@@ -79,7 +78,7 @@ const TradeList = ({ theme, selectedTradeListData }) => {
         </St.TitleListItem>
       </St.TradeListTitle>
       <St.TradeListUL scrollColor={theme.middleGray}>
-        {selectedTradeListData &&
+        {selectedTradeListData ? (
           selectedTradeListData.map((tradeList, i) => {
             const tradeAmount = new Decimal(tradeList.trade_volume) + "";
             return (
@@ -96,20 +95,19 @@ const TradeList = ({ theme, selectedTradeListData }) => {
                 askBid={tradeList.ask_bid}
               />
             );
-          })}
+          })
+        ) : (
+          <Loading />
+        )}
       </St.TradeListUL>
     </St.Container>
   );
 };
 
-// export default React.memo(
-//   withTradeListData()(
-//     React.memo(
-//       withSelectedOption()(React.memo(withThemeData()(React.memo(TradeList))))
-//     )
-//   )
-// );
-
-export default withTradeListData()(
-  withSelectedOption()(withThemeData()(React.memo(TradeList)))
+export default React.memo(
+  withTradeListData()(
+    React.memo(
+      withSelectedOption()(React.memo(withThemeData()(React.memo(TradeList))))
+    )
+  )
 );

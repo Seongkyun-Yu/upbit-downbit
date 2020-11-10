@@ -56,7 +56,22 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
     askOrderbookData.sort((book1, book2) => +book2.askPrice - +book1.askPrice);
   }
 
-  return orderbook ? (
+  // return orderbook ? (
+  //   <OriginalComponent
+  //     {...props}
+  //     totalData={totalData || []}
+  //     orderbookData={orderbookData || []}
+  //     bidOrderbookData={bidOrderbookData || []}
+  //     askOrderbookData={askOrderbookData || []}
+  //     maxOrderSize={maxOrderSize || 0}
+  //     // beforeDayPrice={beforeDayPrice}
+  //     // theme={theme}
+  //   />
+  // ) : (
+  //   <div>Orderbook Loading</div>
+  // );
+
+  return (
     <OriginalComponent
       {...props}
       totalData={totalData || []}
@@ -64,11 +79,7 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
       bidOrderbookData={bidOrderbookData || []}
       askOrderbookData={askOrderbookData || []}
       maxOrderSize={maxOrderSize || 0}
-      // beforeDayPrice={beforeDayPrice}
-      // theme={theme}
     />
-  ) : (
-    <div>Orderbook Loading</div>
   );
 };
 

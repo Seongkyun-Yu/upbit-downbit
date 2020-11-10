@@ -8,8 +8,10 @@ const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
   }
+  
   body {
     background-color: rgb(231, 234, 239);
+    /* height: 100%; */
   }
 `;
 

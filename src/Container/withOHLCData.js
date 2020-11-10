@@ -7,11 +7,12 @@ const withOHLCData = () => (OriginalComponent) => () => {
     (state) => state.Coin.candle.data[selectedMarket].candles
   ); // 선택된 코인/마켓 캔들 정보
 
-  return selectedCandles.length ? (
-    <OriginalComponent data={selectedCandles} />
-  ) : (
-    <div className="center">Chart Loading</div>
-  );
+  // return selectedCandles.length ? (
+  //   <OriginalComponent data={selectedCandles} />
+  // ) : (
+  //   <div className="center">Chart Loading</div>
+  // );
+  return <OriginalComponent data={selectedCandles} />;
 };
 
 export default withOHLCData;

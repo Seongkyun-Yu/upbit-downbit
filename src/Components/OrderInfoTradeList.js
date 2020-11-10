@@ -9,7 +9,6 @@ const St = {
     width: 100%;
     height: 212px;
     background-color: white;
-    box-sizing: border-box;
     font-size: 0.8rem;
     color: #666;
   `,

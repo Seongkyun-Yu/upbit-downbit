@@ -7,7 +7,9 @@ import isEqual from "react-fast-compare";
 
 const St = {
   CoinLi: styled.li`
+    width: 100%;
     height: 45px;
+
     border-bottom: 1px solid ${({ borderBottomColor }) => borderBottomColor};
     &:last-child {
       border-bottom: none;
@@ -54,6 +56,9 @@ const St = {
     display: block;
     font-size: 12px;
     font-weight: 800;
+    @media ${({ theme }) => theme.tablet} {
+      font-weight: 500;
+    }
   `,
 
   CoinNameEn: styled.span`
@@ -71,6 +76,10 @@ const St = {
     font-size: 12px;
     font-weight: 800;
     color: ${({ fontColor }) => fontColor};
+
+    @media ${({ theme }) => theme.tablet} {
+      font-weight: 500;
+    }
   `,
 
   ChangRateContainer: styled.div`
@@ -81,18 +90,21 @@ const St = {
     min-width: 55px;
     height: 100%;
     text-align: right;
+    /* font-weight: 800; */
   `,
 
   ChangeRate: styled.span`
     display: block;
     font-size: 12px;
     color: ${({ fontColor }) => fontColor};
+    /* font-weight: 800; */
   `,
 
   ChangePrice: styled.span`
     display: block;
     font-size: 12px;
     color: ${({ fontColor }) => fontColor};
+    /* font-weight: 800; */
   `,
 
   TradePrice: styled.span`
@@ -103,6 +115,7 @@ const St = {
     width: 25%;
     height: 100%;
     text-align: right;
+    /* font-weight: 800; */
   `,
 };
 
@@ -126,6 +139,8 @@ const CoinListItem = ({
     history.push("/trade");
   }, [dispatch, marketName, history]);
 
+  // console.log("랜더링");
+
   return (
     <St.CoinLi
       borderBottomColor={theme.lightGray}
@@ -134,10 +149,12 @@ const CoinListItem = ({
       <St.CoinBtn onClick={changeMarket}>
         <St.CoinLogo coinNameEn={enCoinName.split("/")[0]} />
         <St.CoinNameContainer>
-          <St.CoinName>{coinName}</St.CoinName>
+          <St.CoinName theme={theme}>{coinName}</St.CoinName>
           <St.CoinNameEn>{enCoinName}</St.CoinNameEn>
         </St.CoinNameContainer>
-        <St.Price fontColor={fontColor}>{price.toLocaleString()}</St.Price>
+        <St.Price theme={theme} fontColor={fontColor}>
+          {price.toLocaleString()}
+        </St.Price>
         <St.ChangRateContainer>
           <St.ChangeRate fontColor={fontColor}>
             {changeRate24Hour}
@@ -154,6 +171,6 @@ const CoinListItem = ({
   );
 };
 
-export default React.memo(CoinListItem, isEqual);
+export default React.memo(CoinListItem);
 
 // export default CoinListItem;

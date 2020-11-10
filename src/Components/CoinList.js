@@ -6,31 +6,35 @@ import { useHistory } from "react-router-dom";
 import { searchCoin } from "../Reducer/coinReducer";
 import { useDispatch } from "react-redux";
 import withThemeData from "../Container/withThemeData";
-import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
 import withSelectedOption from "../Container/withSelectedOption";
 import withMarketNames from "../Container/withMarketNames";
+import Loading from "../styles/Loading";
 import isEqual from "react-fast-compare";
+import withLatestCoinData from "../Container/withLatestCoinData";
+// import ReactLoading from "react-loading";
 
 const St = {
   CoinListContainer: styled.div`
     display: none;
     width: 100%;
     background-color: white;
+    margin: 0 auto;
+    overflow: hidden;
 
-    @media ${({ theme, subList }) => subList || theme.desktop} {
+    @media ${({ theme }) => theme.desktop} {
       display: block;
       max-width: 400px;
-      height: 1250px;
+      height: 1305px;
       margin-left: 10px;
     }
 
-    @media ${({ theme, subList }) => (subList ? theme.tablet : true)} {
+    /* @media ${({ theme, subList }) => (subList ? theme.tablet : true)} {
       display: block;
       height: 140px;
       max-width: 500px;
       background-color: tomato;
       margin-top: 0;
-    }
+    } */
 
     @media ${({ theme, isRootURL }) => (!isRootURL ? theme.mobileM : true)} {
       display: none;
@@ -38,6 +42,7 @@ const St = {
 
     @media ${({ theme, isRootURL }) => (isRootURL ? theme.tablet : true)} {
       display: block;
+      margin-top: 0;
     }
   `,
 
@@ -85,7 +90,12 @@ const St = {
   `,
 
   CoinUl: styled.ul`
-    height: 100%;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+    /* display: table; */
+    height: 1305px;
+    min-height: 800px;
     background-color: white;
     overflow-y: scroll;
     scrollbar-color: ${({ theme }) => theme.middleGray};
@@ -107,7 +117,8 @@ const CoinList = ({
   theme,
   marketNames,
   sortedMarketNames,
-  coinListDatas,
+  // coinListDatas,
+  latestCoinData,
   selectedMarket,
   subList,
   searchCoinInput,
@@ -115,6 +126,7 @@ const CoinList = ({
   const history = useHistory();
   const dispatch = useDispatch();
   const isRootURL = history.location.pathname === "/";
+  // console.log("랜더링");
 
   return (
     <St.CoinListContainer subList={subList} isRootURL={isRootURL}>
@@ -134,54 +146,66 @@ const CoinList = ({
           거래대금
         </St.CoinSortList>
       </St.CoinSortContainer>
-
       <St.CoinUl>
-        {sortedMarketNames.map((marketName) => {
-          const splitedName = marketName.split("-");
-          const enCoinName = splitedName[1] + "/" + splitedName[0];
-          const changePrice24Hour = coinListDatas[marketName].changePrice24Hour;
-          const fontColor =
-            +changePrice24Hour > 0
-              ? theme.priceUp
-              : +changePrice24Hour < 0
-              ? theme.priceDown
-              : "black";
-          return (
-            <CoinListItem
-              theme={theme}
-              marketName={marketName}
-              selectedMarket={selectedMarket}
-              coinName={marketNames[marketName].korean}
-              enCoinName={enCoinName}
-              fontColor={fontColor}
-              price={
-                coinListDatas[marketName].candles[
-                  coinListDatas[marketName].candles.length - 1
-                ].close
-              }
-              changeRate24Hour={
-                (
-                  Math.round(
-                    coinListDatas[marketName].changeRate24Hour * 10000
-                  ) / 100
-                ).toFixed(2) + "%"
-              }
-              changePrice24Hour={coinListDatas[marketName].changePrice24Hour}
-              tradePrice24Hour={Math.floor(
-                coinListDatas[marketName].tradePrice24Hour / 1000000
-              )}
-              key={`coinList-${marketName}`}
-            />
-          );
-        })}
+        {Object.keys(latestCoinData).length > 2 ? (
+          sortedMarketNames.map((marketName) => {
+            const splitedName = marketName.split("-");
+            const enCoinName = splitedName[1] + "/" + splitedName[0];
+            // const changePrice24Hour =
+            //   coinListDatas[marketName].changePrice24Hour;
+            const changePrice24Hour =
+              latestCoinData[marketName].changePrice24Hour;
+            const changeRate24Hour =
+              latestCoinData[marketName].changeRate24Hour;
+            const tradePrice24Hour =
+              latestCoinData[marketName].tradePrice24Hour;
+            const price = latestCoinData[marketName].price;
+
+            const fontColor =
+              +changePrice24Hour > 0
+                ? theme.priceUp
+                : +changePrice24Hour < 0
+                ? theme.priceDown
+                : "black";
+            return (
+              <CoinListItem
+                theme={theme}
+                marketName={marketName}
+                selectedMarket={selectedMarket}
+                coinName={marketNames[marketName].korean}
+                enCoinName={enCoinName}
+                fontColor={fontColor}
+                // price={
+                //   coinListDatas[marketName].candles[
+                //     coinListDatas[marketName].candles.length - 1
+                //   ].close
+                // }
+                // changeRate24Hour={
+                //   (
+                //     Math.round(
+                //       coinListDatas[marketName].changeRate24Hour * 10000
+                //     ) / 100
+                //   ).toFixed(2) + "%"
+                // }
+                // changePrice24Hour={coinListDatas[marketName].changePrice24Hour}
+                // tradePrice24Hour={Math.floor(
+                //   coinListDatas[marketName].tradePrice24Hour / 1000000
+                // )}
+                price={price}
+                changeRate24Hour={changeRate24Hour + "%"}
+                changePrice24Hour={changePrice24Hour}
+                tradePrice24Hour={tradePrice24Hour}
+                key={`coinList-${marketName}`}
+              />
+            );
+          })
+        ) : (
+          <Loading center={false} />
+        )}
       </St.CoinUl>
     </St.CoinListContainer>
   );
 };
-
-export default withCoinListData()(
-  withMarketNames()(withSelectedOption()(withThemeData()(React.memo(CoinList))))
-);
 
 // export default React.memo(
 //   withCoinListData()(
@@ -196,3 +220,7 @@ export default withCoinListData()(
 //     )
 //   )
 // );
+
+export default withLatestCoinData()(
+  withMarketNames()(withSelectedOption()(withThemeData()(React.memo(CoinList))))
+);

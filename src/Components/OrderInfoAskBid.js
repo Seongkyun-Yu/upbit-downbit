@@ -13,7 +13,6 @@ const St = {
     width: 100%;
     height: 50%;
     background-color: white;
-    box-sizing: border-box;
   `,
 
   OrderTypeContainer: styled.div`
@@ -43,7 +42,10 @@ const St = {
     width: 100%;
     padding: 15px;
     padding-top: 0;
-    box-sizing: border-box;
+
+    @media ${({ theme }) => theme.mobileS} {
+      padding: 5px;
+    }
   `,
 
   OrderInfoDetailContainer: styled.div`
@@ -80,7 +82,6 @@ const St = {
   OrderInfoInput: styled.input`
     width: ${({ width }) => width || "100%"};
     height: 100%;
-    box-sizing: border-box;
     margin: 0;
     padding: 5px;
     padding-right: 15px;
@@ -88,7 +89,11 @@ const St = {
     text-align: right;
     font-size: 0.95rem;
     font-weight: ${({ fontWeight }) => fontWeight};
+    @media ${({ theme }) => theme.mobileS} {
+      font-size: 0.6rem;
+    }
   `,
+
   Button: styled.button`
     width: ${({ width }) => width || "50px"};
     min-width: ${({ minWidth }) => minWidth};
@@ -113,6 +118,9 @@ const St = {
     text-align: right;
     font-size: 1.2rem;
     font-weight: 600;
+    @media ${({ theme }) => theme.mobileS} {
+      font-size: 1rem;
+    }
   `,
 
   Unit: styled.span`
@@ -170,7 +178,7 @@ const OrderInfoAskBid = ({
   );
   // console.log("askbid order 리랜더");
   return (
-    <St.OrderInfoContainer>
+    <St.OrderInfoContainer theme={theme}>
       {selectedAskBidOrder !== "tradeList" ? (
         <>
           <St.OrderInfoDetailContainer>

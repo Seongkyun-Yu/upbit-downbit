@@ -1,4 +1,5 @@
 import React from "react";
+import isEqual from "react-fast-compare";
 import styled from "styled-components";
 import withSelectedCoinName from "../Container/withSelectedCoinName";
 import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
@@ -11,7 +12,6 @@ const St = {
     align-items: center;
     width: 100%;
     background-color: white;
-    box-sizing: border-box;
     padding: 10px;
     border-bottom: 1px solid ${({ theme }) => theme.lightGray2};
   `,
@@ -29,7 +29,7 @@ const St = {
     background-image: ${({ coinSymbol }) =>
       coinSymbol !== "ADX"
         ? `url(https://static.upbit.com/logos/${coinSymbol}.png)`
-        : "../styles/img/ADX.png"};
+        : "url(../styles/img/ADX.png)"};
     background-size: cover;
     margin-left: 5px;
   `,
@@ -216,6 +216,12 @@ const CoinInfoHeader = ({
   );
 };
 
-export default withSelectedCoinName()(
-  withSelectedCoinPrice()(withThemeData()(React.memo(CoinInfoHeader)))
+export default React.memo(
+  withSelectedCoinName()(
+    React.memo(
+      withSelectedCoinPrice()(
+        React.memo(withThemeData()(React.memo(CoinInfoHeader, isEqual)))
+      )
+    )
+  )
 );

@@ -31,6 +31,8 @@ import withOHLCData from "../Container/withOHLCData";
 import styled from "styled-components";
 import withThemeData from "../Container/withThemeData";
 import withSelectedOption from "../Container/withSelectedOption";
+import Loading from "../styles/Loading";
+import isEqual from "react-fast-compare";
 
 const barChartExtents = (data) => {
   return data.volume;
@@ -38,66 +40,6 @@ const barChartExtents = (data) => {
 
 const candleChartExtents = (data) => {
   return [data.high, data.low];
-};
-
-const yExtentsCalculator = ({ plotData }) => {
-  // console.log(plotData);
-  let min = 0;
-  let max = 0;
-
-  // datas.forEach(({ low, high }) => {
-  //   if (min === undefined) {
-  //     min = low;
-  //   }
-  //   if (max === undefined) {
-  //     max = high;
-  //   }
-
-  //   if (low !== undefined) {
-  //     if (min > low) {
-  //       min = low;
-  //     }
-  //   }
-
-  //   if (high !== undefined) {
-  //     if (max < high) {
-  //       max = high;
-  //     }
-  //   }
-  // });
-
-  for (const { low, high } of plotData) {
-    if (min === undefined) {
-      min = low;
-    }
-    if (max === undefined) {
-      max = high;
-    }
-
-    if (low !== undefined) {
-      if (min > low) {
-        min = low;
-      }
-    }
-
-    if (high !== undefined) {
-      if (max < high) {
-        max = high;
-      }
-    }
-  }
-
-  if (min === undefined) {
-    min = 0;
-  }
-
-  if (max === undefined) {
-    max = 0;
-  }
-
-  const padding = (max - min) * 0.1;
-
-  return [min - padding, max + padding * 2];
 };
 
 const yEdgeIndicator = (data) => {
@@ -110,6 +52,7 @@ const volumeSeries = (data) => {
 
 const ChartContainer = styled.div`
   width: 100%;
+  height: 500px;
   background-color: white;
 `;
 
@@ -186,121 +129,125 @@ const MainChart = ({
 
   return (
     <ChartContainer>
-      <ChartCanvas
-        height={height}
-        ratio={ratio}
-        width={width}
-        margin={margin}
-        data={data}
-        displayXAccessor={displayXAccessor}
-        seriesName="Data"
-        xScale={xScale}
-        xAccessor={xAccessor}
-        xExtents={xExtents}
-        disableInteraction={false}
-        zoomAnchor={mouseBasedZoomAnchor}
-        onLoadBefore={() => console.log("럴수럴수")}
-      >
-        <Chart
-          id={2}
-          height={barChartHeight}
-          origin={barChartOrigin}
-          yExtents={barChartExtents}
+      {data.length > 100 ? (
+        <ChartCanvas
+          height={height}
+          ratio={ratio}
+          width={width}
+          margin={margin}
+          data={data}
+          displayXAccessor={displayXAccessor}
+          seriesName="Data"
+          xScale={xScale}
+          xAccessor={xAccessor}
+          xExtents={xExtents}
+          disableInteraction={false}
+          zoomAnchor={mouseBasedZoomAnchor}
+          onLoadBefore={() => console.log("럴수럴수")}
         >
-          <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
-        </Chart>
-        <Chart
-          id={3}
-          height={chartHeight}
-          yExtents={candleChartExtents}
-          // yExtentsCalculator={yExtentsCalculator}
-        >
-          <XAxis showGridLines showTickLabel={false} />
-          <YAxis showGridLines tickFormat={pricesDisplayFormat} />
-          <CandlestickSeries
-            fill={openCloseColor}
-            wickStroke={openCloseColor}
-          />
-          <LineSeries
-            yAccessor={ema26.accessor()}
-            strokeStyle={ema26.stroke()}
-          />
-          <CurrentCoordinate
-            yAccessor={ema26.accessor()}
-            fillStyle={ema26.stroke()}
-          />
-          <LineSeries
-            yAccessor={ema12.accessor()}
-            strokeStyle={ema12.stroke()}
-          />
-          <CurrentCoordinate
-            yAccessor={ema12.accessor()}
-            fillStyle={ema12.stroke()}
-          />
-          <MouseCoordinateY
-            rectWidth={margin.right}
-            displayFormat={pricesDisplayFormat}
-          />
-          <EdgeIndicator
-            itemType="last"
-            rectWidth={margin.right}
-            fill={openCloseColor}
-            lineStroke={openCloseColor}
-            displayFormat={pricesDisplayFormat}
-            yAccessor={yEdgeIndicator}
-          />
-          <MovingAverageTooltip
-            origin={[8, 24]}
-            options={[
-              {
-                yAccessor: ema26.accessor(),
-                type: "EMA",
-                stroke: ema26.stroke(),
-                windowSize: ema26.options().windowSize,
-              },
-              {
-                yAccessor: ema12.accessor(),
-                type: "EMA",
-                stroke: ema12.stroke(),
-                windowSize: ema12.options().windowSize,
-              },
-            ]}
-          />
+          <Chart
+            id={2}
+            height={barChartHeight}
+            origin={barChartOrigin}
+            yExtents={barChartExtents}
+          >
+            <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
+          </Chart>
+          <Chart
+            id={3}
+            height={chartHeight}
+            yExtents={candleChartExtents}
+            // yExtentsCalculator={yExtentsCalculator}
+          >
+            <XAxis showGridLines showTickLabel={false} />
+            <YAxis showGridLines tickFormat={pricesDisplayFormat} />
+            <CandlestickSeries
+              fill={openCloseColor}
+              wickStroke={openCloseColor}
+            />
+            <LineSeries
+              yAccessor={ema26.accessor()}
+              strokeStyle={ema26.stroke()}
+            />
+            <CurrentCoordinate
+              yAccessor={ema26.accessor()}
+              fillStyle={ema26.stroke()}
+            />
+            <LineSeries
+              yAccessor={ema12.accessor()}
+              strokeStyle={ema12.stroke()}
+            />
+            <CurrentCoordinate
+              yAccessor={ema12.accessor()}
+              fillStyle={ema12.stroke()}
+            />
+            <MouseCoordinateY
+              rectWidth={margin.right}
+              displayFormat={pricesDisplayFormat}
+            />
+            <EdgeIndicator
+              itemType="last"
+              rectWidth={margin.right}
+              fill={openCloseColor}
+              lineStroke={openCloseColor}
+              displayFormat={pricesDisplayFormat}
+              yAccessor={yEdgeIndicator}
+            />
+            <MovingAverageTooltip
+              origin={[8, 24]}
+              options={[
+                {
+                  yAccessor: ema26.accessor(),
+                  type: "EMA",
+                  stroke: ema26.stroke(),
+                  windowSize: ema26.options().windowSize,
+                },
+                {
+                  yAccessor: ema12.accessor(),
+                  type: "EMA",
+                  stroke: ema12.stroke(),
+                  windowSize: ema12.options().windowSize,
+                },
+              ]}
+            />
 
-          <ZoomButtons />
-          <OHLCTooltip origin={[8, 16]} />
-        </Chart>
-        <Chart
-          id={4}
-          height={elderRayHeight}
-          yExtents={[0, elder.accessor()]}
-          origin={elderRayOrigin}
-          padding={{ top: 8, bottom: 8 }}
-        >
-          <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
-          <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
+            <ZoomButtons />
+            <OHLCTooltip origin={[8, 16]} />
+          </Chart>
+          <Chart
+            id={4}
+            height={elderRayHeight}
+            yExtents={[0, elder.accessor()]}
+            origin={elderRayOrigin}
+            padding={{ top: 8, bottom: 8 }}
+          >
+            <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
+            <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
 
-          <MouseCoordinateX displayFormat={timeDisplayFormat} />
-          <MouseCoordinateY
-            rectWidth={margin.right}
-            displayFormat={pricesDisplayFormat}
-          />
+            <MouseCoordinateX displayFormat={timeDisplayFormat} />
+            <MouseCoordinateY
+              rectWidth={margin.right}
+              displayFormat={pricesDisplayFormat}
+            />
 
-          <ElderRaySeries yAccessor={elder.accessor()} />
+            <ElderRaySeries yAccessor={elder.accessor()} />
 
-          <SingleValueTooltip
-            yAccessor={elder.accessor()}
-            yLabel="Elder Ray"
-            yDisplayFormat={(d) =>
-              `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(
-                d.bearPower
-              )}`
-            }
-            origin={[8, 16]}
-          />
-        </Chart>
-        <CrossHairCursor snapX={false} />
-      </ChartCanvas>
+            <SingleValueTooltip
+              yAccessor={elder.accessor()}
+              yLabel="Elder Ray"
+              yDisplayFormat={(d) =>
+                `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(
+                  d.bearPower
+                )}`
+              }
+              origin={[8, 16]}
+            />
+          </Chart>
+          <CrossHairCursor snapX={false} />
+        </ChartCanvas>
+      ) : (
+        <Loading />
+      )}
     </ChartContainer>
   );
 };
@@ -319,7 +266,7 @@ export default React.memo(
           withDeviceRatio()(
             React.memo(
               withSelectedOption()(
-                React.memo(withThemeData()(React.memo(MainChart)))
+                React.memo(withThemeData()(React.memo(MainChart, isEqual)))
               )
             )
           )
