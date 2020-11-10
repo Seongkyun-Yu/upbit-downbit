@@ -79,8 +79,6 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
       bidOrderbookData={bidOrderbookData || []}
       askOrderbookData={askOrderbookData || []}
       maxOrderSize={maxOrderSize || 0}
-      // beforeDayPrice={beforeDayPrice}
-      // theme={theme}
     />
   );
 };

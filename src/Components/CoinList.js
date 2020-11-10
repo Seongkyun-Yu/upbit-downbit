@@ -8,27 +8,32 @@ import { useDispatch } from "react-redux";
 import withThemeData from "../Container/withThemeData";
 import withSelectedOption from "../Container/withSelectedOption";
 import withMarketNames from "../Container/withMarketNames";
+import Loading from "../styles/Loading";
+import isEqual from "react-fast-compare";
+// import ReactLoading from "react-loading";
 
 const St = {
   CoinListContainer: styled.div`
     display: none;
     width: 100%;
     background-color: white;
+    margin: 0 auto;
+    overflow: hidden;
 
-    @media ${({ theme, subList }) => subList || theme.desktop} {
+    @media ${({ theme }) => theme.desktop} {
       display: block;
       max-width: 400px;
-      height: 1250px;
+      height: 1305px;
       margin-left: 10px;
     }
 
-    @media ${({ theme, subList }) => (subList ? theme.tablet : true)} {
+    /* @media ${({ theme, subList }) => (subList ? theme.tablet : true)} {
       display: block;
       height: 140px;
       max-width: 500px;
       background-color: tomato;
       margin-top: 0;
-    }
+    } */
 
     @media ${({ theme, isRootURL }) => (!isRootURL ? theme.mobileM : true)} {
       display: none;
@@ -84,7 +89,12 @@ const St = {
   `,
 
   CoinUl: styled.ul`
-    height: 100%;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+    /* display: table; */
+    height: 1305px;
+    min-height: 800px;
     background-color: white;
     overflow-y: scroll;
     scrollbar-color: ${({ theme }) => theme.middleGray};
@@ -114,6 +124,7 @@ const CoinList = ({
   const history = useHistory();
   const dispatch = useDispatch();
   const isRootURL = history.location.pathname === "/";
+  console.log("랜더링");
 
   return (
     <St.CoinListContainer subList={subList} isRootURL={isRootURL}>
@@ -133,9 +144,9 @@ const CoinList = ({
           거래대금
         </St.CoinSortList>
       </St.CoinSortContainer>
-      {Object.keys(coinListDatas).length > 2 && (
-        <St.CoinUl>
-          {sortedMarketNames.map((marketName) => {
+      <St.CoinUl>
+        {Object.keys(coinListDatas).length > 2 ? (
+          sortedMarketNames.map((marketName) => {
             const splitedName = marketName.split("-");
             const enCoinName = splitedName[1] + "/" + splitedName[0];
             const changePrice24Hour =
@@ -173,27 +184,26 @@ const CoinList = ({
                 key={`coinList-${marketName}`}
               />
             );
-          })}
-        </St.CoinUl>
-      )}
+          })
+        ) : (
+          <Loading center={false} />
+        )}
+      </St.CoinUl>
     </St.CoinListContainer>
   );
 };
 
-export default withCoinListData()(
-  withMarketNames()(withSelectedOption()(withThemeData()(React.memo(CoinList))))
+export default React.memo(
+  withCoinListData()(
+    React.memo(
+      withMarketNames()(
+        React.memo(
+          withSelectedOption()(
+            React.memo(withThemeData()(React.memo(CoinList)))
+          )
+        )
+      )
+    )
+  ),
+  isEqual
 );
-
-// export default React.memo(
-//   withCoinListData()(
-//     React.memo(
-//       withMarketNames()(
-//         React.memo(
-//           withSelectedOption()(
-//             React.memo(withThemeData()(React.memo(CoinList)))
-//           )
-//         )
-//       )
-//     )
-//   )
-// );

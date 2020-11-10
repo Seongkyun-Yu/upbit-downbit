@@ -7,7 +7,9 @@ import isEqual from "react-fast-compare";
 
 const St = {
   CoinLi: styled.li`
+    width: 100%;
     height: 45px;
+
     border-bottom: 1px solid ${({ borderBottomColor }) => borderBottomColor};
     &:last-child {
       border-bottom: none;
