@@ -95,6 +95,12 @@ const Orderbook = ({
   );
 };
 
-export default withOrderbookData()(
-  withSelectedCoinPrice()(withThemeData()(React.memo(Orderbook, isEqual)))
+export default React.memo(
+  withOrderbookData()(
+    React.memo(
+      withSelectedCoinPrice()(
+        React.memo(withThemeData()(React.memo(Orderbook, isEqual)))
+      )
+    )
+  )
 );

@@ -32,6 +32,7 @@ import styled from "styled-components";
 import withThemeData from "../Container/withThemeData";
 import withSelectedOption from "../Container/withSelectedOption";
 import Loading from "../styles/Loading";
+import isEqual from "react-fast-compare";
 
 const barChartExtents = (data) => {
   return data.volume;
@@ -251,16 +252,26 @@ const MainChart = ({
   );
 };
 
-export default withOHLCData()(
-  withSize({
-    style: {
-      width: "100%",
-      height: "100%",
-      minHeight,
-    },
-  })(
-    withDeviceRatio()(
-      withSelectedOption()(withThemeData()(React.memo(MainChart)))
+export default React.memo(
+  withOHLCData()(
+    React.memo(
+      withSize({
+        style: {
+          width: "100%",
+          height: "100%",
+          minHeight,
+        },
+      })(
+        React.memo(
+          withDeviceRatio()(
+            React.memo(
+              withSelectedOption()(
+                React.memo(withThemeData()(React.memo(MainChart, isEqual)))
+              )
+            )
+          )
+        )
+      )
     )
   )
 );

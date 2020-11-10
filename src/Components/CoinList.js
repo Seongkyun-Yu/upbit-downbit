@@ -10,6 +10,7 @@ import withSelectedOption from "../Container/withSelectedOption";
 import withMarketNames from "../Container/withMarketNames";
 import Loading from "../styles/Loading";
 import isEqual from "react-fast-compare";
+import withLatestCoinData from "../Container/withLatestCoinData";
 // import ReactLoading from "react-loading";
 
 const St = {
@@ -116,7 +117,8 @@ const CoinList = ({
   theme,
   marketNames,
   sortedMarketNames,
-  coinListDatas,
+  // coinListDatas,
+  latestCoinData,
   selectedMarket,
   subList,
   searchCoinInput,
@@ -124,7 +126,7 @@ const CoinList = ({
   const history = useHistory();
   const dispatch = useDispatch();
   const isRootURL = history.location.pathname === "/";
-  console.log("랜더링");
+  // console.log("랜더링");
 
   return (
     <St.CoinListContainer subList={subList} isRootURL={isRootURL}>
@@ -145,12 +147,20 @@ const CoinList = ({
         </St.CoinSortList>
       </St.CoinSortContainer>
       <St.CoinUl>
-        {Object.keys(coinListDatas).length > 2 ? (
+        {Object.keys(latestCoinData).length > 2 ? (
           sortedMarketNames.map((marketName) => {
             const splitedName = marketName.split("-");
             const enCoinName = splitedName[1] + "/" + splitedName[0];
+            // const changePrice24Hour =
+            //   coinListDatas[marketName].changePrice24Hour;
             const changePrice24Hour =
-              coinListDatas[marketName].changePrice24Hour;
+              latestCoinData[marketName].changePrice24Hour;
+            const changeRate24Hour =
+              latestCoinData[marketName].changeRate24Hour;
+            const tradePrice24Hour =
+              latestCoinData[marketName].tradePrice24Hour;
+            const price = latestCoinData[marketName].price;
+
             const fontColor =
               +changePrice24Hour > 0
                 ? theme.priceUp
@@ -165,22 +175,26 @@ const CoinList = ({
                 coinName={marketNames[marketName].korean}
                 enCoinName={enCoinName}
                 fontColor={fontColor}
-                price={
-                  coinListDatas[marketName].candles[
-                    coinListDatas[marketName].candles.length - 1
-                  ].close
-                }
-                changeRate24Hour={
-                  (
-                    Math.round(
-                      coinListDatas[marketName].changeRate24Hour * 10000
-                    ) / 100
-                  ).toFixed(2) + "%"
-                }
-                changePrice24Hour={coinListDatas[marketName].changePrice24Hour}
-                tradePrice24Hour={Math.floor(
-                  coinListDatas[marketName].tradePrice24Hour / 1000000
-                )}
+                // price={
+                //   coinListDatas[marketName].candles[
+                //     coinListDatas[marketName].candles.length - 1
+                //   ].close
+                // }
+                // changeRate24Hour={
+                //   (
+                //     Math.round(
+                //       coinListDatas[marketName].changeRate24Hour * 10000
+                //     ) / 100
+                //   ).toFixed(2) + "%"
+                // }
+                // changePrice24Hour={coinListDatas[marketName].changePrice24Hour}
+                // tradePrice24Hour={Math.floor(
+                //   coinListDatas[marketName].tradePrice24Hour / 1000000
+                // )}
+                price={price}
+                changeRate24Hour={changeRate24Hour + "%"}
+                changePrice24Hour={changePrice24Hour}
+                tradePrice24Hour={tradePrice24Hour}
                 key={`coinList-${marketName}`}
               />
             );
@@ -193,17 +207,30 @@ const CoinList = ({
   );
 };
 
+// export default React.memo(
+//   withCoinListData()(
+//     React.memo(
+//       withMarketNames()(
+//         React.memo(
+//           withSelectedOption()(
+//             React.memo(withThemeData()(React.memo(CoinList)))
+//           )
+//         )
+//       )
+//     )
+//   )
+// );
+
 export default React.memo(
-  withCoinListData()(
+  withLatestCoinData()(
     React.memo(
       withMarketNames()(
         React.memo(
           withSelectedOption()(
-            React.memo(withThemeData()(React.memo(CoinList)))
+            React.memo(withThemeData()(React.memo(CoinList, isEqual)))
           )
         )
       )
     )
-  ),
-  isEqual
+  )
 );

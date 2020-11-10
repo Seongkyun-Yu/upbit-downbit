@@ -139,6 +139,8 @@ const CoinListItem = ({
     history.push("/trade");
   }, [dispatch, marketName, history]);
 
+  // console.log("랜더링");
+
   return (
     <St.CoinLi
       borderBottomColor={theme.lightGray}

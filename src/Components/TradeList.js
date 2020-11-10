@@ -104,6 +104,10 @@ const TradeList = ({ theme, selectedTradeListData }) => {
   );
 };
 
-export default withTradeListData()(
-  withSelectedOption()(withThemeData()(React.memo(TradeList)))
+export default React.memo(
+  withTradeListData()(
+    React.memo(
+      withSelectedOption()(React.memo(withThemeData()(React.memo(TradeList))))
+    )
+  )
 );
