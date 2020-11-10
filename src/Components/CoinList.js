@@ -6,10 +6,8 @@ import { useHistory } from "react-router-dom";
 import { searchCoin } from "../Reducer/coinReducer";
 import { useDispatch } from "react-redux";
 import withThemeData from "../Container/withThemeData";
-import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
 import withSelectedOption from "../Container/withSelectedOption";
 import withMarketNames from "../Container/withMarketNames";
-import isEqual from "react-fast-compare";
 
 const St = {
   CoinListContainer: styled.div`
@@ -135,47 +133,49 @@ const CoinList = ({
           거래대금
         </St.CoinSortList>
       </St.CoinSortContainer>
-
-      <St.CoinUl>
-        {sortedMarketNames.map((marketName) => {
-          const splitedName = marketName.split("-");
-          const enCoinName = splitedName[1] + "/" + splitedName[0];
-          const changePrice24Hour = coinListDatas[marketName].changePrice24Hour;
-          const fontColor =
-            +changePrice24Hour > 0
-              ? theme.priceUp
-              : +changePrice24Hour < 0
-              ? theme.priceDown
-              : "black";
-          return (
-            <CoinListItem
-              theme={theme}
-              marketName={marketName}
-              selectedMarket={selectedMarket}
-              coinName={marketNames[marketName].korean}
-              enCoinName={enCoinName}
-              fontColor={fontColor}
-              price={
-                coinListDatas[marketName].candles[
-                  coinListDatas[marketName].candles.length - 1
-                ].close
-              }
-              changeRate24Hour={
-                (
-                  Math.round(
-                    coinListDatas[marketName].changeRate24Hour * 10000
-                  ) / 100
-                ).toFixed(2) + "%"
-              }
-              changePrice24Hour={coinListDatas[marketName].changePrice24Hour}
-              tradePrice24Hour={Math.floor(
-                coinListDatas[marketName].tradePrice24Hour / 1000000
-              )}
-              key={`coinList-${marketName}`}
-            />
-          );
-        })}
-      </St.CoinUl>
+      {Object.keys(coinListDatas).length > 2 && (
+        <St.CoinUl>
+          {sortedMarketNames.map((marketName) => {
+            const splitedName = marketName.split("-");
+            const enCoinName = splitedName[1] + "/" + splitedName[0];
+            const changePrice24Hour =
+              coinListDatas[marketName].changePrice24Hour;
+            const fontColor =
+              +changePrice24Hour > 0
+                ? theme.priceUp
+                : +changePrice24Hour < 0
+                ? theme.priceDown
+                : "black";
+            return (
+              <CoinListItem
+                theme={theme}
+                marketName={marketName}
+                selectedMarket={selectedMarket}
+                coinName={marketNames[marketName].korean}
+                enCoinName={enCoinName}
+                fontColor={fontColor}
+                price={
+                  coinListDatas[marketName].candles[
+                    coinListDatas[marketName].candles.length - 1
+                  ].close
+                }
+                changeRate24Hour={
+                  (
+                    Math.round(
+                      coinListDatas[marketName].changeRate24Hour * 10000
+                    ) / 100
+                  ).toFixed(2) + "%"
+                }
+                changePrice24Hour={coinListDatas[marketName].changePrice24Hour}
+                tradePrice24Hour={Math.floor(
+                  coinListDatas[marketName].tradePrice24Hour / 1000000
+                )}
+                key={`coinList-${marketName}`}
+              />
+            );
+          })}
+        </St.CoinUl>
+      )}
     </St.CoinListContainer>
   );
 };

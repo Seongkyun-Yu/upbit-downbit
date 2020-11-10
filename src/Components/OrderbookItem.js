@@ -44,7 +44,6 @@ const St = {
     margin-top: -1px;
     margin-left: -1px;
     text-align: right;
-    box-sizing: border-box;
   `,
 
   OrderAmountSize: styled.div`
@@ -92,8 +91,8 @@ const OrderbookItem = ({
   index,
 }) => {
   const dispatch = useDispatch();
-
   const scrollRef = useRef();
+
   useEffect(() => {
     if (index === 7 && type === "ask") {
       const parentNode = scrollRef.current.parentNode;

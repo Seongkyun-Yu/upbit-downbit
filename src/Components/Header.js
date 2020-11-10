@@ -16,7 +16,6 @@ const St = {
     height: 100%;
     margin: 0 auto;
     padding: 0 20px;
-    box-sizing: border-box;
 
     @media ${({ theme }) => theme.tablet} {
       max-width: 950px;

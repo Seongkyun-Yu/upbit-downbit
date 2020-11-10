@@ -11,7 +11,6 @@ const St = {
     align-items: center;
     width: 100%;
     background-color: white;
-    box-sizing: border-box;
     padding: 10px;
     border-bottom: 1px solid ${({ theme }) => theme.lightGray2};
   `,

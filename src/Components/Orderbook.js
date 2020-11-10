@@ -11,7 +11,6 @@ const St = {
     width: 46%;
     max-height: 722px;
     height: 100%;
-    box-sizing: border-box;
     background-color: white;
   `,
 
