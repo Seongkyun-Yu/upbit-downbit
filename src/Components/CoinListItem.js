@@ -171,6 +171,6 @@ const CoinListItem = ({
   );
 };
 
-export default React.memo(CoinListItem, isEqual);
+export default React.memo(CoinListItem);
 
 // export default CoinListItem;
