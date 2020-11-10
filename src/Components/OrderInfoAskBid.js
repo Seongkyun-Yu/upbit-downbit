@@ -88,6 +88,9 @@ const St = {
     text-align: right;
     font-size: 0.95rem;
     font-weight: ${({ fontWeight }) => fontWeight};
+    @media ${({ theme }) => theme.mobileS} {
+      font-size: 0.6rem;
+    }
   `,
   Button: styled.button`
     width: ${({ width }) => width || "50px"};
@@ -113,6 +116,9 @@ const St = {
     text-align: right;
     font-size: 1.2rem;
     font-weight: 600;
+    @media ${({ theme }) => theme.mobileS} {
+      font-size: 1rem;
+    }
   `,
 
   Unit: styled.span`

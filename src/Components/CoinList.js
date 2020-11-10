@@ -38,6 +38,7 @@ const St = {
 
     @media ${({ theme, isRootURL }) => (isRootURL ? theme.tablet : true)} {
       display: block;
+      margin-top: 0;
     }
   `,
 

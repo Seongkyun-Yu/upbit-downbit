@@ -29,7 +29,7 @@ const St = {
     background-image: ${({ coinSymbol }) =>
       coinSymbol !== "ADX"
         ? `url(https://static.upbit.com/logos/${coinSymbol}.png)`
-        : "../styles/img/ADX.png"};
+        : "url(../styles/img/ADX.png)"};
     background-size: cover;
     margin-left: 5px;
   `,
