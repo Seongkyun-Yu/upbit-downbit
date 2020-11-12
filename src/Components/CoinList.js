@@ -126,7 +126,7 @@ const CoinList = ({
   const history = useHistory();
   const dispatch = useDispatch();
   const isRootURL = history.location.pathname === "/";
-  // console.log("랜더링");
+  console.log("랜더링");
 
   return (
     <St.CoinListContainer subList={subList} isRootURL={isRootURL}>
@@ -221,6 +221,10 @@ const CoinList = ({
 //   )
 // );
 
-export default withLatestCoinData()(
-  withMarketNames()(withSelectedOption()(withThemeData()(React.memo(CoinList))))
+export default React.memo(
+  withLatestCoinData()(
+    withMarketNames()(
+      withSelectedOption()(withThemeData()(React.memo(CoinList, isEqual)))
+    )
+  )
 );

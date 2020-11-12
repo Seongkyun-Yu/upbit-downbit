@@ -44,7 +44,7 @@ const Orderbook = ({
   maxOrderSize,
   beforeDayPrice,
 }) => {
-  // console.log("오더북랜더");
+  // console.log("오더북랜더", askOrderbookData, bidOrderbookData);
 
   return (
     <St.Container>

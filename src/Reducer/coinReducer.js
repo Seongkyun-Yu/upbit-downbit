@@ -5,6 +5,8 @@ import {
   requestActions,
   changeOptionActions,
   requestInitActions,
+  createConnectSocketThrottleThunk,
+  createConnectSocketSaga,
 } from "../Lib/asyncUtil";
 import { candleDataUtils, orderbookUtils, tradeListUtils } from "../Lib/utils";
 import { coinApi } from "../Api/api";
@@ -98,6 +100,18 @@ const connectCandleSocketThunk = createConnectSocketThunk(
   candleDataUtils.update
 );
 
+// const connectCandleSocketThunk = createConnectSocketThrottleThunk(
+//   CONNECT_CANDLE_SOCKET,
+//   "ticker",
+//   candleDataUtils.update
+// );
+
+const connectCandleSocketSaga = createConnectSocketSaga(
+  CONNECT_CANDLE_SOCKET,
+  "ticker",
+  candleDataUtils.updates
+);
+
 // 호가창 조기 값 가져오기
 const getInitOrderbookSaga = createRequestSaga(
   GET_INIT_ORDERBOOKS,
@@ -179,9 +193,12 @@ function* startInittSaga() {
       timeCount: selectedTimeCount,
     },
   }); // 200개 코인 데이터 받기
-  yield put(connectCandleSocketThunk({ payload: marketNames })); // 캔들 소켓 연결
+
+  // yield connectCandleSocketSaga({ payload: marketNames }); // 캔들 소켓 연결 사가버전
   yield put(connectOrderbookSocketThunk({ payload: marketNames })); // 오더북 소켓 연결
   yield put(connectTradeListSocketThunk({ payload: marketNames })); // 체결내역 소켓 연결
+  // yield put(connectCandleSocketThunk({ payload: marketNames })); // 캔들 소켓 연결
+  yield connectCandleSocketSaga({ payload: marketNames }); // 캔들 소켓 연결 사가버전
 }
 
 // 선택된 코인/마켓 변경 및 해당 마켓 데이터 받기
@@ -198,6 +215,7 @@ function* startChangeMarketAndDataSaga(action) {
     state.Coin.candle.data[changingMarketName].candles;
 
   yield put(changeSelectedMarket(changingMarketName)); // 선택된 마켓 변경
+  yield getInitOrderbookSaga({ payload: changingMarketName }); // 호가창 초기값 받기
   yield getOneCoinTradeListsSaga({ payload: changingMarketName }); // 체결내역 초기값 받기
 
   // 상태에 저장된 데이터가 200개 미만일때만 api콜 요청함

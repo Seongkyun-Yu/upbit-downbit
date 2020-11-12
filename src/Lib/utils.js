@@ -119,7 +119,7 @@ const candleDataUtils = {
       d3.timeParse("YYYY-MM-DD")(lastCandle.date) !==
       d3.timeParse("YYYY-MM-DD")(datetime);
 
-    const newData = { ...candleStateDatas };
+    const newData = { ...candleStateDatas }; // 원본 데이터 보장
     if (needUpdate) {
       const volume = needUpdate.volume + candle.trade_volume;
       const tradePrice = needUpdate.tradePrice + candle.trade_price;
@@ -189,6 +189,128 @@ const candleDataUtils = {
       newData[coinMarket]["lowestPrice52Week"] = candle.lowest_52_week_price;
       newData[coinMarket]["lowestDate52Week"] = candle.lowest_52_week_date;
     }
+
+    return newData;
+  },
+  updates: (candles, state) => {
+    const candleStateDatas = state.Coin.candle.data;
+    const selectedTimeType = state.Coin.selectedTimeType;
+    const selectedTimeCount = state.Coin.selectedTimeCount;
+
+    const newData = { ...candleStateDatas }; // 원본 데이터 보장
+
+    candles.forEach((candle) => {
+      const coinMarket = candle.code;
+
+      const targetCandles = candleStateDatas[coinMarket].candles;
+      const lastCandle = targetCandles.slice(-1)[0];
+
+      const date = dateFormat(
+        timestampToDatetime(
+          selectedTimeType,
+          selectedTimeCount,
+          candle.timestamp
+        )
+      );
+      const datetime = timestampToDatetime(
+        selectedTimeType,
+        selectedTimeCount,
+        candle.timestamp
+      );
+      const open = lastCandle.open;
+      const high =
+        candle.trade_price > lastCandle.high
+          ? candle.trade_price
+          : lastCandle.high;
+      const low =
+        candle.trade_price < lastCandle.low
+          ? candle.trade_price
+          : lastCandle.low;
+      const close = candle.trade_price;
+
+      const highestPrice24Hour =
+        candleStateDatas[coinMarket].highestPrice24Hour;
+      const lowestPrice24Hour = candleStateDatas[coinMarket].lowestPrice24Hour;
+
+      const needUpdate = targetCandles.find(
+        (candle) => candle.datetime === datetime
+      );
+      const dateChanged =
+        d3.timeParse("YYYY-MM-DD")(lastCandle.date) !==
+        d3.timeParse("YYYY-MM-DD")(datetime);
+
+      if (needUpdate) {
+        const volume = needUpdate.volume + candle.trade_volume;
+        const tradePrice = needUpdate.tradePrice + candle.trade_price;
+        const updatedCandles = [...targetCandles];
+        updatedCandles.pop();
+        updatedCandles.push({
+          date,
+          datetime,
+          timestamp: candle.timestamp,
+          open,
+          high,
+          low,
+          close,
+          volume,
+          tradePrice,
+        });
+
+        newData[coinMarket]["candles"] = updatedCandles;
+        newData[coinMarket]["tradePrice24Hour"] = candle.acc_trade_price_24h;
+        newData[coinMarket]["volume24Hour"] = candle.acc_trade_volume_24h;
+        newData[coinMarket]["changeRate24Hour"] = candle.signed_change_rate;
+        newData[coinMarket]["changePrice24Hour"] = candle.signed_change_price;
+        newData[coinMarket]["highestPrice24Hour"] =
+          high > highestPrice24Hour ? high : highestPrice24Hour;
+        newData[coinMarket]["lowestPrice24Hour"] =
+          low < lowestPrice24Hour ? low : lowestPrice24Hour;
+        newData[coinMarket]["highestPrice52Week"] =
+          candle.highest_52_week_price;
+        newData[coinMarket]["highestDate52Week"] = candle.highest_52_week_date;
+        newData[coinMarket]["lowestPrice52Week"] = candle.lowest_52_week_price;
+        newData[coinMarket]["lowestDate52Week"] = candle.lowest_52_week_date;
+      } else {
+        const volume = candle.trade_volume;
+        const tradePrice = candle.trade_price;
+
+        newData[coinMarket]["candles"] = [
+          ...targetCandles,
+          {
+            date,
+            datetime,
+            timestamp: candle.timestamp,
+            dateKst: candle.trade_date_kst,
+            timeKst: candle.trade_time_kst,
+            open: close,
+            high: close,
+            low: close,
+            close,
+            volume,
+            tradePrice,
+          },
+        ];
+        newData[coinMarket]["tradePrice24Hour"] = candle.acc_trade_price_24h;
+        newData[coinMarket]["volume24Hour"] = candle.acc_trade_volume_24h;
+        newData[coinMarket]["changeRate24Hour"] = candle.signed_change_rate;
+        newData[coinMarket]["changePrice24Hour"] = candle.signed_change_price;
+        newData[coinMarket]["highestPrice24Hour"] = dateChanged // 날짜가 바뀌지 않았을때만 고점 갱신기록, 날짜 바뀌면 지금 고점 기록
+          ? high
+          : high > highestPrice24Hour
+          ? high
+          : highestPrice24Hour;
+        newData[coinMarket]["lowestPrice24Hour"] = dateChanged
+          ? low
+          : low < lowestPrice24Hour
+          ? low
+          : lowestPrice24Hour;
+        newData[coinMarket]["highestPrice52Week"] =
+          candle.highest_52_week_price;
+        newData[coinMarket]["highestDate52Week"] = candle.highest_52_week_date;
+        newData[coinMarket]["lowestPrice52Week"] = candle.lowest_52_week_price;
+        newData[coinMarket]["lowestDate52Week"] = candle.lowest_52_week_date;
+      }
+    });
 
     return newData;
   },
