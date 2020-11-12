@@ -18,8 +18,6 @@ const St = {
   OrderUl: styled.ul`
     width: 100%;
     height: 722px;
-    /* min-height: 
-    max-height: 722px; */
     overflow-y: scroll;
     scrollbar-color: ${({ theme }) => theme.middleGray};
     scrollbar-width: thin;
@@ -96,5 +94,5 @@ const Orderbook = ({
 };
 
 export default withOrderbookData()(
-  withSelectedCoinPrice()(withThemeData()(React.memo(Orderbook)))
+  withSelectedCoinPrice()(withThemeData()(React.memo(Orderbook, isEqual)))
 );
