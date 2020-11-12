@@ -216,12 +216,6 @@ const CoinInfoHeader = ({
   );
 };
 
-export default React.memo(
-  withSelectedCoinName()(
-    React.memo(
-      withSelectedCoinPrice()(
-        React.memo(withThemeData()(React.memo(CoinInfoHeader, isEqual)))
-      )
-    )
-  )
+export default withSelectedCoinName()(
+  withSelectedCoinPrice()(withThemeData()(React.memo(CoinInfoHeader, isEqual)))
 );

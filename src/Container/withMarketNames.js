@@ -1,15 +1,14 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import * as Hangul from "hangul-js";
 import { choHangul } from "../Lib/utils";
 
 const withMarketNames = () => (OriginalComponent) => (props) => {
-  const state = useSelector((state) => state);
-  const marketNames = state.Coin.marketNames.data; // 코인 마켓 이름들(객체)
+  const marketNames = useSelector((state) => state.Coin.marketNames.data); // 코인 마켓 이름들(객체)
   let marketNamesArr = Object.keys(marketNames); // 코인 마켓 이름 배열화
 
-  const coinListDatas = state.Coin.candle.data; // 코인들 데이터
-  const coinSearchInputData = state.Coin.searchCoin; // 검색한 코인 이름
+  const coinListDatas = useSelector((state) => state.Coin.candle.data); // 코인들 데이터
+  const coinSearchInputData = useSelector((state) => state.Coin.searchCoin); // 검색한 코인 이름
 
   // 데이터 받는 데 성공하면 필터링 및 정렬한다
   if (Object.keys(coinListDatas).length > 1) {

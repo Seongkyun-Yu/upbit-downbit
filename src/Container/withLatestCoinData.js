@@ -2,8 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const withLatestCoinData = () => (OriginalComponent) => (props) => {
-  const state = useSelector((state) => state);
-  const coinListDatas = state.Coin.candle.data; // 코인들 데이터
+  const coinListDatas = useSelector((state) => state.Coin.candle.data); // 코인들 데이터
 
   const latestCoinData = {};
 
@@ -28,13 +27,6 @@ const withLatestCoinData = () => (OriginalComponent) => (props) => {
     });
   }
 
-  // console.log("여길봐", latestCoinData);
-
-  // return Object.keys(coinListDatas).length > 1 ? (
-  //   <OriginalComponent {...props} coinListDatas={coinListDatas} />
-  // ) : (
-  //   <div>loading</div>
-  // );
   return <OriginalComponent {...props} latestCoinData={latestCoinData} />;
 };
 

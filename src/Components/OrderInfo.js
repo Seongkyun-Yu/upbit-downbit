@@ -84,12 +84,6 @@ const OrderInfo = ({
   );
 };
 
-export default React.memo(
-  withSelectedCoinName()(
-    React.memo(
-      withSelectedOption()(
-        React.memo(withThemeData()(React.memo(OrderInfo, isEqual)))
-      )
-    )
-  )
+export default withSelectedCoinName()(
+  withSelectedOption()(withThemeData()(React.memo(OrderInfo, isEqual)))
 );

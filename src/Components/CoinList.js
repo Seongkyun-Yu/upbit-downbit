@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useContext } from "react";
+import styled, { ThemeContext } from "styled-components";
 import CoinListItem from "./CoinListItem";
 import withCoinListData from "../Container/withCoinListData";
 import { useHistory } from "react-router-dom";
 import { searchCoin } from "../Reducer/coinReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import withThemeData from "../Container/withThemeData";
 import withSelectedOption from "../Container/withSelectedOption";
 import withMarketNames from "../Container/withMarketNames";
@@ -12,6 +12,9 @@ import Loading from "../styles/Loading";
 import isEqual from "react-fast-compare";
 import withLatestCoinData from "../Container/withLatestCoinData";
 // import ReactLoading from "react-loading";
+
+import * as Hangul from "hangul-js";
+import { choHangul } from "../Lib/utils";
 
 const St = {
   CoinListContainer: styled.div`
@@ -120,7 +123,6 @@ const CoinList = ({
   // coinListDatas,
   latestCoinData,
   selectedMarket,
-  subList,
   searchCoinInput,
 }) => {
   const history = useHistory();
@@ -129,7 +131,7 @@ const CoinList = ({
   console.log("랜더링");
 
   return (
-    <St.CoinListContainer subList={subList} isRootURL={isRootURL}>
+    <St.CoinListContainer isRootURL={isRootURL}>
       <St.CoinSearchContainer>
         <St.CoinSearchInput
           onChange={(e) => dispatch(searchCoin(e.target.value))}
@@ -175,22 +177,6 @@ const CoinList = ({
                 coinName={marketNames[marketName].korean}
                 enCoinName={enCoinName}
                 fontColor={fontColor}
-                // price={
-                //   coinListDatas[marketName].candles[
-                //     coinListDatas[marketName].candles.length - 1
-                //   ].close
-                // }
-                // changeRate24Hour={
-                //   (
-                //     Math.round(
-                //       coinListDatas[marketName].changeRate24Hour * 10000
-                //     ) / 100
-                //   ).toFixed(2) + "%"
-                // }
-                // changePrice24Hour={coinListDatas[marketName].changePrice24Hour}
-                // tradePrice24Hour={Math.floor(
-                //   coinListDatas[marketName].tradePrice24Hour / 1000000
-                // )}
                 price={price}
                 changeRate24Hour={changeRate24Hour + "%"}
                 changePrice24Hour={changePrice24Hour}
@@ -221,10 +207,12 @@ const CoinList = ({
 //   )
 // );
 
-export default React.memo(
-  withLatestCoinData()(
-    withMarketNames()(
-      withSelectedOption()(withThemeData()(React.memo(CoinList, isEqual)))
-    )
+export default withLatestCoinData()(
+  withMarketNames()(
+    withSelectedOption()(withThemeData()(React.memo(CoinList, isEqual)))
   )
 );
+
+// export default React.memo(CoinList);
+
+// export default withCoinListData()(React.memo(CoinList));
