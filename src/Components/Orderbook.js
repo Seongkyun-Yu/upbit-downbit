@@ -6,6 +6,8 @@ import isEqual from "react-fast-compare";
 import withThemeData from "../Container/withThemeData";
 import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
 import Loading from "../styles/Loading";
+import withSelectedOption from "../Container/withSelectedOption";
+import { useSelector } from "react-redux";
 
 const St = {
   Container: styled.div`
@@ -41,8 +43,14 @@ const Orderbook = ({
   bidOrderbookData,
   maxOrderSize,
   beforeDayPrice,
+  selectedMarket,
 }) => {
-  // console.log("오더북랜더", askOrderbookData, bidOrderbookData);
+  const lastTradePrice = useSelector(
+    (state) =>
+      state.Coin.tradeList.data[selectedMarket] &&
+      state.Coin.tradeList.data[selectedMarket][0].trade_price
+  );
+  // console.log(lastTradePrice);
 
   return (
     <St.Container>
@@ -63,6 +71,7 @@ const Orderbook = ({
                   100
                 ).toFixed(2)}
                 index={i}
+                outline={lastTradePrice === orderbook.askPrice}
               />
             );
           })
@@ -85,6 +94,7 @@ const Orderbook = ({
                   100
                 ).toFixed(2)}
                 index={i}
+                outline={lastTradePrice === orderbook.bidPrice}
               />
             );
           })}
@@ -94,5 +104,7 @@ const Orderbook = ({
 };
 
 export default withOrderbookData()(
-  withSelectedCoinPrice()(withThemeData()(React.memo(Orderbook, isEqual)))
+  withSelectedCoinPrice()(
+    withSelectedOption()(withThemeData()(React.memo(Orderbook, isEqual)))
+  )
 );

@@ -8,6 +8,7 @@ import Orderbook from "../Components/Orderbook";
 import CoinInfoHeader from "../Components/CoinInfoHeader";
 import OrderInfo from "../Components/OrderInfo";
 import TradeList from "../Components/TradeList";
+import ChartDataConsole from "../Components/ChartDataConsole";
 
 const St = {
   MainContentContainer: styled.main`
@@ -64,7 +65,7 @@ const Main = ({ match }) => {
       <St.MainContentContainer>
         <St.ChartAndTradeContainer isRootURL={isRootURL}>
           <CoinInfoHeader />
-
+          <ChartDataConsole />
           <div // 스타일드 컴포넌트로는 차트 라이브러리 사이즈가 동적으로 설정되지 않아서 할 수 없이 이렇게 선언함
             className="mainChartContainer"
             style={{
