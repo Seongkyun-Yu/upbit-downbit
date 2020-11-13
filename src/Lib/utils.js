@@ -412,7 +412,12 @@ const tradeListUtils = {
       )
     )
       return tradeListData;
-    tradeListData[market] && tradeListData[market].pop();
+
+    // 데이터가 200개까지만 유지되게 만듦
+    tradeListData[market] &&
+      tradeListData[market].length > 200 &&
+      tradeListData[market].pop();
+
     return tradeListData[market]
       ? {
           ...tradeListData,
