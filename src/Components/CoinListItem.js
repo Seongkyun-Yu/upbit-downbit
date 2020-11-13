@@ -76,6 +76,9 @@ const St = {
     font-size: 12px;
     font-weight: 800;
     color: ${({ fontColor }) => fontColor};
+    border: 1px solid
+      ${({ isTraded }) =>
+        isTraded ? (isTraded === "ASK" ? "blue" : "red") : "white"};
 
     @media ${({ theme }) => theme.tablet} {
       font-weight: 500;
@@ -130,6 +133,7 @@ const CoinListItem = ({
   changeRate24Hour,
   changePrice24Hour,
   tradePrice24Hour,
+  isTraded,
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -150,7 +154,7 @@ const CoinListItem = ({
           <St.CoinName theme={theme}>{coinName}</St.CoinName>
           <St.CoinNameEn>{enCoinName}</St.CoinNameEn>
         </St.CoinNameContainer>
-        <St.Price theme={theme} fontColor={fontColor}>
+        <St.Price theme={theme} fontColor={fontColor} isTraded={isTraded}>
           {price.toLocaleString()}
         </St.Price>
         <St.ChangRateContainer>

@@ -13,7 +13,7 @@ const St = {
       !isCenter &&
       css`
         align-items: stretch;
-        margin-top: 150px;
+        margin-top: 200px;
       `}
   `,
 };
@@ -22,10 +22,10 @@ const Loading = ({ center = true }) => {
   return (
     <St.Container isCenter={center}>
       <ReactLoading
-        type={"bubbles"}
+        type={"spokes"}
         color={"rgb(18, 97, 196)"}
-        height={"200px"}
-        width={"200px"}
+        height={"100px"}
+        width={"100px"}
       />
     </St.Container>
   );
