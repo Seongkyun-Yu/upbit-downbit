@@ -35,6 +35,7 @@ const St = {
     outline: 0;
     font-weight: 900;
     color: ${({ fontColor }) => fontColor || "black"};
+    cursor: pointer;
   `,
 };
 
