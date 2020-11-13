@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import isEqual from "react-fast-compare";
 import { useDispatch } from "react-redux";
 import { changePriceAndTotalPrice } from "../Reducer/coinReducer";
@@ -58,6 +58,7 @@ const St = {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     width: 50%;
     height: 45px;
     border: 1px solid ${({ borderColor }) => borderColor};
@@ -66,6 +67,28 @@ const St = {
     text-align: right;
     color: ${({ fontColor }) => fontColor};
     background-color: ${({ bgColor }) => bgColor};
+
+    ${({ outline }) =>
+      outline &&
+      css`
+        border: 2px solid black;
+        border-right: 3px solid black;
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          left: -5px;
+          width: 0px;
+          height: 0px;
+          border-right: 10px solid transparent;
+          border-bottom: 10px solid black;
+          transform: rotate(225deg);
+          -ms-transform: rotate(225deg);
+          -webkit-transform: rotate(225deg);
+          -moz-transform: rotate(225deg);
+          -o-transform: rotate(225deg);
+        }
+      `}
 
     @media ${({ theme }) => theme.mobileM} {
       flex-direction: column;
@@ -89,6 +112,7 @@ const OrderbookItem = ({
   type,
   changeRate24Hour,
   index,
+  outline,
 }) => {
   const dispatch = useDispatch();
   const scrollRef = useRef();
@@ -122,6 +146,8 @@ const OrderbookItem = ({
           }
           borderColor={theme.lightGray}
           bgColor={theme.skyBlue1}
+          // outline={lastTradePrice === price}
+          outline={outline}
         >
           <St.OrderPrice>{price.toLocaleString()}</St.OrderPrice>
           <St.OrderPrcieRatio>{`${changeRate24Hour}%`}</St.OrderPrcieRatio>
@@ -154,6 +180,8 @@ const OrderbookItem = ({
           }
           borderColor={theme.lightGray}
           bgColor={theme.lightPink1}
+          // outline={lastTradePrice === price}
+          outline={outline}
         >
           <St.OrderPrice>{price.toLocaleString()}</St.OrderPrice>
           <St.OrderPrcieRatio>{`${changeRate24Hour}%`}</St.OrderPrcieRatio>
