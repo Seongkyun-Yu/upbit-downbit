@@ -18,8 +18,6 @@ const St = {
   OrderUl: styled.ul`
     width: 100%;
     height: 722px;
-    /* min-height: 
-    max-height: 722px; */
     overflow-y: scroll;
     scrollbar-color: ${({ theme }) => theme.middleGray};
     scrollbar-width: thin;
@@ -44,7 +42,7 @@ const Orderbook = ({
   maxOrderSize,
   beforeDayPrice,
 }) => {
-  // console.log("오더북랜더");
+  // console.log("오더북랜더", askOrderbookData, bidOrderbookData);
 
   return (
     <St.Container>
@@ -95,12 +93,6 @@ const Orderbook = ({
   );
 };
 
-export default React.memo(
-  withOrderbookData()(
-    React.memo(
-      withSelectedCoinPrice()(
-        React.memo(withThemeData()(React.memo(Orderbook, isEqual)))
-      )
-    )
-  )
+export default withOrderbookData()(
+  withSelectedCoinPrice()(withThemeData()(React.memo(Orderbook, isEqual)))
 );

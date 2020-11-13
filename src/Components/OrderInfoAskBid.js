@@ -263,4 +263,4 @@ const OrderInfoAskBid = ({
   );
 };
 
-export default OrderInfoAskBid;
+export default React.memo(OrderInfoAskBid);

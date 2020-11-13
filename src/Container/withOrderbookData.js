@@ -1,21 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { ThemeContext } from "styled-components";
 
 const withOrderbookData = () => (OriginalComponent) => (props) => {
-  // const theme = useContext(ThemeContext); // 테마 정보
-
-  const state = useSelector((state) => state);
-  const selectedMarket = state.Coin.selectedMarket;
-
-  // const selectedCoinData = state.Coin.candle.data[selectedMarket];
-  // const selecteCoinCadnles = selectedCoinData.candles;
-  // const lastCandleIndex = selecteCoinCadnles.length - 1;
-
-  // const beforeDayPrice = selecteCoinCadnles.length
-  //   ? selecteCoinCadnles[lastCandleIndex].close -
-  //     selectedCoinData.changePrice24Hour
-  //   : 0;
+  const selectedMarket = useSelector((state) => state.Coin.selectedMarket);
+  const orderbook = useSelector(
+    (state) => state.Coin.orderbook.data[selectedMarket]
+  );
 
   let totalData;
   let bidOrderbookData;
@@ -23,8 +13,6 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
   let orderbookData;
   let maxOrderSize = 0;
 
-  const orderbook = state.Coin.orderbook.data[selectedMarket];
-  // console.log(orderbook);
   if (orderbook) {
     totalData = {
       totalBidSize: orderbook.total_bid_size,
@@ -55,21 +43,6 @@ const withOrderbookData = () => (OriginalComponent) => (props) => {
     // 매도 호가창은 가격 내림차순으로 정렬해줌 (매수는 원래 가격 내림차순임)
     askOrderbookData.sort((book1, book2) => +book2.askPrice - +book1.askPrice);
   }
-
-  // return orderbook ? (
-  //   <OriginalComponent
-  //     {...props}
-  //     totalData={totalData || []}
-  //     orderbookData={orderbookData || []}
-  //     bidOrderbookData={bidOrderbookData || []}
-  //     askOrderbookData={askOrderbookData || []}
-  //     maxOrderSize={maxOrderSize || 0}
-  //     // beforeDayPrice={beforeDayPrice}
-  //     // theme={theme}
-  //   />
-  // ) : (
-  //   <div>Orderbook Loading</div>
-  // );
 
   return (
     <OriginalComponent

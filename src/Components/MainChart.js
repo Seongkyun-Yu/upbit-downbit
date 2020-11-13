@@ -153,12 +153,7 @@ const MainChart = ({
           >
             <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
           </Chart>
-          <Chart
-            id={3}
-            height={chartHeight}
-            yExtents={candleChartExtents}
-            // yExtentsCalculator={yExtentsCalculator}
-          >
+          <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
             <XAxis showGridLines showTickLabel={false} />
             <YAxis showGridLines tickFormat={pricesDisplayFormat} />
             <CandlestickSeries

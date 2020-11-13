@@ -2,12 +2,15 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const withSelectedCoinName = () => (OriginalComponent) => (props) => {
-  const state = useSelector((state) => state);
-  const selectedMarket = state.Coin.selectedMarket;
+  const selectedMarket = useSelector((state) => state.Coin.selectedMarket);
+  const coinNameKor = useSelector(
+    (state) => state.Coin.marketNames.data[selectedMarket].korean
+  );
+  const coinNameEng = useSelector(
+    (state) => state.Coin.marketNames.data[selectedMarket].english
+  );
 
   const splitedName = selectedMarket.split("-");
-  const coinNameKor = state.Coin.marketNames.data[selectedMarket].korean;
-  const coinNameEng = state.Coin.marketNames.data[selectedMarket].english;
   const coinSymbol = splitedName[1];
   const coinNameAndMarketEng = splitedName[1] + "/" + splitedName[0];
 

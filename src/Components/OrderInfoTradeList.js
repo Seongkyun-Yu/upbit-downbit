@@ -18,4 +18,4 @@ const OrderInfoTradeList = ({ theme }) => {
   return <St.Container>로그인 후 사용 가능합니다.</St.Container>;
 };
 
-export default OrderInfoTradeList;
+export default React.memo(OrderInfoTradeList);

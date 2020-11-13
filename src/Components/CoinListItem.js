@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { startChangeMarketAndData } from "../Reducer/coinReducer";
 import isEqual from "react-fast-compare";
 
@@ -77,6 +77,33 @@ const St = {
     font-weight: 800;
     color: ${({ fontColor }) => fontColor};
 
+    border: 1px solid transparent;
+    ${({ isTraded }) =>
+      isTraded &&
+      (isTraded === "ASK"
+        ? css`
+            animation: disappearBlue 0.6s;
+          `
+        : css`
+            animation: disappearRed 0.6s;
+          `)};
+    @keyframes disappearBlue {
+      0% {
+        border-color: ${({ theme }) => theme.strongBlue};
+      }
+      100% {
+        border-color: ${({ theme }) => theme.strongBlue};
+      }
+    }
+    @keyframes disappearRed {
+      0% {
+        border-color: ${({ theme }) => theme.strongRed};
+      }
+      100% {
+        border-color: ${({ theme }) => theme.strongRed};
+      }
+    }
+
     @media ${({ theme }) => theme.tablet} {
       font-weight: 500;
     }
@@ -90,7 +117,6 @@ const St = {
     min-width: 55px;
     height: 100%;
     text-align: right;
-    /* font-weight: 800; */
   `,
 
   ChangeRate: styled.span`
@@ -134,12 +160,24 @@ const CoinListItem = ({
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const tradeListData = useSelector(
+    (state) => state.Coin.tradeList.data[marketName]
+  );
+
+  const nowTimestamp = +new Date();
+
+  const isTraded =
+    tradeListData &&
+    tradeListData.length > 2 &&
+    nowTimestamp - tradeListData[0].timestamp < 500 &&
+    tradeListData[0].trade_price !== tradeListData[1].trade_price
+      ? tradeListData[0].ask_bid
+      : false;
+
   const changeMarket = useCallback(() => {
     dispatch(startChangeMarketAndData(marketName));
     history.push("/trade");
   }, [dispatch, marketName, history]);
-
-  // console.log("랜더링");
 
   return (
     <St.CoinLi
@@ -152,7 +190,7 @@ const CoinListItem = ({
           <St.CoinName theme={theme}>{coinName}</St.CoinName>
           <St.CoinNameEn>{enCoinName}</St.CoinNameEn>
         </St.CoinNameContainer>
-        <St.Price theme={theme} fontColor={fontColor}>
+        <St.Price theme={theme} fontColor={fontColor} isTraded={isTraded}>
           {price.toLocaleString()}
         </St.Price>
         <St.ChangRateContainer>
@@ -171,6 +209,4 @@ const CoinListItem = ({
   );
 };
 
-export default React.memo(CoinListItem);
-
-// export default CoinListItem;
+export default React.memo(CoinListItem, isEqual);

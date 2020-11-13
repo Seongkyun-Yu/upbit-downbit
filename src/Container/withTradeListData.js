@@ -2,10 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const withTradeListData = () => (OriginalComponent) => (props) => {
-  const state = useSelector((state) => state);
-  const tradeListData = state.Coin.tradeList.data;
-  const selectedMarket = state.Coin.selectedMarket;
-  const selectedTradeListData = tradeListData[selectedMarket];
+  const selectedMarket = useSelector((state) => state.Coin.selectedMarket);
+  const selectedTradeListData = useSelector(
+    (state) => state.Coin.tradeList.data[selectedMarket]
+  );
 
   return (
     <OriginalComponent
