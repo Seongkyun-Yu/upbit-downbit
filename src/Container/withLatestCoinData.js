@@ -3,9 +3,6 @@ import { useSelector } from "react-redux";
 
 const withLatestCoinData = () => (OriginalComponent) => (props) => {
   const coinListDatas = useSelector((state) => state.Coin.candle.data); // 코인들 데이터
-  const tradeListData = useSelector((state) => state.Coin.tradeList.data); // 코인들 거래 리스트
-
-  const nowTimestamp = +new Date();
 
   const latestCoinData = {};
 
@@ -27,17 +24,6 @@ const withLatestCoinData = () => (OriginalComponent) => (props) => {
       latestCoinData[marketName].tradePrice24Hour = Math.floor(
         coinListDatas[marketName].tradePrice24Hour / 1000000
       );
-
-      // 거래될 때 깜빡이는 효과 설정용 변수
-      // 100ms 이내에 거래됐고, 이전 거래가와 다른 경우 ASK or BID를 넘기고 아니면 false를 넘김
-      latestCoinData[marketName].isTraded =
-        tradeListData[marketName] &&
-        tradeListData[marketName].length > 2 &&
-        nowTimestamp - tradeListData[marketName][0].timestamp < 200 &&
-        tradeListData[marketName][0].trade_price !==
-          tradeListData[marketName][1].trade_price
-          ? tradeListData[marketName][0].ask_bid
-          : false;
     });
   }
 

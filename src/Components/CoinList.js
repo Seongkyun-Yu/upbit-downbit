@@ -141,13 +141,13 @@ const CoinList = ({
             const tradePrice24Hour =
               latestCoinData[marketName].tradePrice24Hour;
             const price = latestCoinData[marketName].price;
-            const isTraded = latestCoinData[marketName].isTraded;
+            // const isTraded = latestCoinData[marketName].isTraded;
 
             const fontColor =
               +changePrice24Hour > 0
-                ? theme.priceUp
+                ? theme.strongRed
                 : +changePrice24Hour < 0
-                ? theme.priceDown
+                ? theme.strongBlue
                 : "black";
             return (
               <CoinListItem
@@ -161,7 +161,7 @@ const CoinList = ({
                 changeRate24Hour={changeRate24Hour + "%"}
                 changePrice24Hour={changePrice24Hour}
                 tradePrice24Hour={tradePrice24Hour}
-                isTraded={isTraded}
+                // isTraded={isTraded}
                 key={`coinList-${marketName}`}
               />
             );
