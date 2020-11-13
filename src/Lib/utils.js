@@ -29,6 +29,13 @@ const timestampToDatetime = (timeType, timeCount, timestamp) => {
     case "day":
     case "days":
       return moment(timestamp)
+        .hour(9)
+        .minute(0)
+        .second(0)
+        .format("YYYY-MM-DD HH:mm");
+    case "week":
+    case "weeks":
+      return moment(timestamp)
         .hour(0)
         .minute(0)
         .second(0)

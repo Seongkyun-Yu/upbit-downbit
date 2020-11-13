@@ -14,6 +14,7 @@ import { takeEvery, put, select } from "redux-saga/effects";
 
 const START_INIT = "coin/START_INIT";
 const START_CHANGE_MARKET_AND_DATA = "coin/START_CHANGE_MARKET_AND_DATA";
+const CHANGE_TIME_TYPE_AND_DATA = "coin/CHANGE_TIME_TYPE_AND_DATA";
 
 const GET_MARKET_NAMES = "coin/GET_MARKET_NAMES";
 const GET_MARKET_NAMES_SUCCESS = "coin/GET_MARKET_NAMES_SUCCESS";
@@ -51,6 +52,12 @@ const CONNECT_ORDERBOOK_SOCKET_ERROR = "coin/CONNECT_ORDERBOOK_SOCKET_ERROR";
 
 const CHANGE_COIN_MARKET = "coin/CHANGE_COIN_MARKET";
 const CHANGE_COIN_MARKET_SUCCESS = "coin/CHANGE_COIN_MARKET_SUCCESS";
+
+const CHANGE_TIME_TYPE = "coin/CHANGE_TIME_TYPE";
+const CHANGE_TIME_TYPE_SUCCESS = "coin/CHANGE_TIME_TYPE_SUCCESS";
+
+const CHANGE_TIME_COUNT = "coin/CHANGE_TIME_COUNT";
+const CHANGE_TIME_COUNT_SUCCESS = "coin/CHANGE_TIME_COUNT_SUCCESS";
 
 const CHANGE_ASK_BID_ORDER = "coin/CHANGE_ASK_BID_ORDER";
 const CHANGE_ASK_BID_ORDER_SUCCESS = "coin/CHANGE_ASK_BID_ORDER_SUCCESS";
@@ -147,6 +154,12 @@ const changeSelectedMarket = (marketName) => ({
 });
 const changeSelectedMarketSaga = createChangeOptionSaga(CHANGE_COIN_MARKET);
 
+// 선택한 타임 타입(5분봉 할때 '분') 변경하기 Saga
+const changeSelectedTimeTypeSaga = createChangeOptionSaga(CHANGE_TIME_TYPE);
+
+// 선택한 타임 카운트(5분봉 할때 '5') 변경하기 Saga
+const changeSelectedTimeCountSaga = createChangeOptionSaga(CHANGE_TIME_COUNT);
+
 // 매수 매도 옵션 변경하기
 const changeAskBidOrder = (askBidOption) => ({
   type: CHANGE_ASK_BID_ORDER,
@@ -230,6 +243,36 @@ function* startChangeMarketAndDataSaga(action) {
   }
 }
 
+// 차트 시간 데이터 변경하고 데이터 받기
+const changeTimeTypeAndData = (timeTypeAndCount) => ({
+  type: CHANGE_TIME_TYPE_AND_DATA,
+  payload: timeTypeAndCount,
+});
+
+function* changeTimeTypeAndDataSaga(action) {
+  const state = yield select();
+  const selectedMarket = state.Coin.selectedMarket;
+  const selectedTimeType = state.Coin.selectedTimeType;
+  const selectedTimeCount = state.Coin.selectedTimeCount;
+
+  const newTimeType = action.payload.timeType;
+  const newTimeCount = action.payload.timeCount;
+
+  if (selectedTimeType === newTimeType && selectedTimeCount === newTimeCount)
+    return;
+
+  yield changeSelectedTimeTypeSaga({ payload: newTimeType });
+  yield changeSelectedTimeCountSaga({ payload: newTimeCount });
+
+  yield getOneCoinCandlesSaga({
+    payload: {
+      coin: selectedMarket,
+      timeType: newTimeType,
+      timeCount: newTimeCount,
+    },
+  });
+}
+
 // 가격 변경 후 주문 총액 바꾸기
 const changePriceAndTotalPrice = (price) => ({
   type: CHANGE_PRICE_AND_TOTAL_PRICE,
@@ -291,6 +334,7 @@ function* coinSaga() {
 
   yield takeEvery(START_INIT, startInittSaga);
   yield takeEvery(START_CHANGE_MARKET_AND_DATA, startChangeMarketAndDataSaga);
+  yield takeEvery(CHANGE_TIME_TYPE_AND_DATA, changeTimeTypeAndDataSaga);
   yield takeEvery(CHANGE_PRICE_AND_TOTAL_PRICE, changePriceAndTotalPriceSaga);
   yield takeEvery(CHANGE_AMOUNT_AND_TOTAL_PRICE, changeAmountAndTotalPriceSaga);
   yield takeEvery(CHANGE_TOTAL_PRICE_AND_AMOUNT, changeTotalPriceAndAmountSaga);
@@ -397,6 +441,18 @@ const coinReducer = (state = initialState, action) => {
         action
       );
 
+    case CHANGE_TIME_TYPE_SUCCESS:
+      return changeOptionActions(CHANGE_TIME_TYPE, "selectedTimeType")(
+        state,
+        action
+      );
+
+    case CHANGE_TIME_COUNT_SUCCESS:
+      return changeOptionActions(CHANGE_TIME_COUNT, "selectedTimeCount")(
+        state,
+        action
+      );
+
     case CHANGE_ASK_BID_ORDER_SUCCESS:
       return changeOptionActions(CHANGE_ASK_BID_ORDER, "selectedAskBidOrder")(
         state,
@@ -429,6 +485,7 @@ const coinReducer = (state = initialState, action) => {
 export {
   startInit,
   startChangeMarketAndData,
+  changeTimeTypeAndData,
   coinReducer,
   coinSaga,
   changeAskBidOrder,
