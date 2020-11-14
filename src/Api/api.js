@@ -32,12 +32,11 @@ export const coinApi = {
         });
   },
   getAdditionalCoinCandles: ({ coin, timeType, timeCount, datetime }) => {
+    // console.log(datetime);
     if (timeType === "minutes")
       return axios
         .get(
-          `https://api.upbit.com/v1/candles/${timeType}/${timeCount}?market=${coin}&to=${
-            datetime.slice(0, datetime.length - 7) + "00Z"
-          }&count=200`
+          `https://api.upbit.com/v1/candles/${timeType}/${timeCount}?market=${coin}&to=${datetime}&count=200`
         )
         .then((res) => {
           return {
@@ -48,9 +47,7 @@ export const coinApi = {
     else
       return axios
         .get(
-          `https://api.upbit.com/v1/candles/${timeType}?market=${coin}&to=${
-            datetime.slice(0, datetime.length - 7) + "00Z"
-          }&count=200`
+          `https://api.upbit.com/v1/candles/${timeType}?market=${coin}&to=${datetime}&count=200`
         )
         .then((res) => {
           return {

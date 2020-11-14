@@ -15,7 +15,6 @@ import {
   MovingAverageTooltip,
   OHLCTooltip,
   SingleValueTooltip,
-  lastVisibleItemBasedZoomAnchor,
   mouseBasedZoomAnchor,
   XAxis,
   YAxis,
@@ -34,6 +33,8 @@ import withSelectedOption from "../Container/withSelectedOption";
 import Loading from "../styles/Loading";
 import isEqual from "react-fast-compare";
 import withLoadingData from "../Container/withLoadingData";
+import { useDispatch } from "react-redux";
+import { startAddMoreCandleData } from "../Reducer/coinReducer";
 
 const barChartExtents = (data) => {
   return data.volume;
@@ -75,6 +76,7 @@ const MainChart = ({
   // width = width / 2;
   // console.log("메인차트 리랜더");
   // console.log(initialData);
+  const dispatch = useDispatch();
 
   const dateTimeFormat =
     selectedTimeType === "days" || selectedTimeType === "weeks"
@@ -150,7 +152,10 @@ const MainChart = ({
           xExtents={xExtents}
           disableInteraction={false}
           zoomAnchor={mouseBasedZoomAnchor}
-          onLoadBefore={() => console.log("럴수럴수")}
+          onLoadBefore={() => {
+            // console.log("럴수럴수");
+            dispatch(startAddMoreCandleData());
+          }}
         >
           <Chart
             id={2}

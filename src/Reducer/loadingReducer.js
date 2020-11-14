@@ -10,6 +10,7 @@ const initialState = {
   "coin/GET_ONE_COIN_TRADELISTS": true,
   "coin/GET_INIT_CANDLES": true,
   "coin/GET_MARKET_NAMES": true,
+  "coin/GET_ADDITIONAL_COIN_CANDLES": false,
 };
 
 const loadingReducer = (state = initialState, action) => {

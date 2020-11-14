@@ -10,6 +10,7 @@ import {
 import { candleDataUtils, orderbookUtils, tradeListUtils } from "../Lib/utils";
 import { coinApi } from "../Api/api";
 import { takeEvery, put, select } from "redux-saga/effects";
+import moment from "moment-timezone";
 
 const START_INIT = "coin/START_INIT";
 const START_CHANGE_MARKET_AND_DATA = "coin/START_CHANGE_MARKET_AND_DATA";
@@ -259,6 +260,27 @@ function* startChangeMarketAndDataSaga(action) {
 const startAddMoreCandleData = () => ({ type: START_ADD_MORE_CANDLE_DATA });
 function* startAddMoreCandleDataSaga() {
   const state = yield select();
+
+  const selectedMarket = state.Coin.selectedMarket;
+  const selectedTimeType = state.Coin.selectedTimeType;
+  const selectedTimeCount = state.Coin.selectedTimeCount;
+
+  const isLoading = state.Loading[GET_ADDITIONAL_COIN_CANDLES];
+
+  if (isLoading) return;
+  const datetime =
+    moment(state.Coin.candle.data[selectedMarket].candles[0].date)
+      .utc()
+      .format("YYYY-MM-DDTHH:mm") + ":00Z";
+
+  yield getAdditionalCoinCandlesSaga({
+    payload: {
+      coin: selectedMarket,
+      timeType: selectedTimeType,
+      timeCount: selectedTimeCount,
+      datetime,
+    },
+  });
 }
 
 // 차트 시간 데이터 변경하고 데이터 받기
@@ -352,7 +374,9 @@ function* coinSaga() {
 
   yield takeEvery(START_INIT, startInittSaga);
   yield takeEvery(START_CHANGE_MARKET_AND_DATA, startChangeMarketAndDataSaga);
+  yield takeEvery(START_ADD_MORE_CANDLE_DATA, startAddMoreCandleDataSaga);
   yield takeEvery(CHANGE_TIME_TYPE_AND_DATA, changeTimeTypeAndDataSaga);
+
   yield takeEvery(CHANGE_PRICE_AND_TOTAL_PRICE, changePriceAndTotalPriceSaga);
   yield takeEvery(CHANGE_AMOUNT_AND_TOTAL_PRICE, changeAmountAndTotalPriceSaga);
   yield takeEvery(CHANGE_TOTAL_PRICE_AND_AMOUNT, changeTotalPriceAndAmountSaga);
@@ -511,6 +535,7 @@ const coinReducer = (state = initialState, action) => {
 export {
   startInit,
   startChangeMarketAndData,
+  startAddMoreCandleData,
   changeTimeTypeAndData,
   coinReducer,
   coinSaga,

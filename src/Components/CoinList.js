@@ -8,7 +8,6 @@ import withThemeData from "../Container/withThemeData";
 import withSelectedOption from "../Container/withSelectedOption";
 import withMarketNames from "../Container/withMarketNames";
 import Loading from "../styles/Loading";
-import isEqual from "react-fast-compare";
 import withLatestCoinData from "../Container/withLatestCoinData";
 import withLoadingData from "../Container/withLoadingData";
 
