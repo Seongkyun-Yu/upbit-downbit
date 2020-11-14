@@ -89,6 +89,7 @@ const candleDataUtils = {
 
     return data;
   },
+
   update: (candle, state) => {
     const candleStateDatas = state.Coin.candle.data;
     const selectedTimeType = state.Coin.selectedTimeType;
@@ -356,6 +357,46 @@ const candleDataUtils = {
       [market]: {
         ...candleStateData[market],
         candles: newCandles,
+      },
+    };
+
+    return newData;
+  },
+  add: (candles, state) => {
+    const candleStateData = state.Coin.candle.data;
+    const selectedTimeType = state.Coin.selectedTimeType;
+    const selectedTimeCount = state.Coin.selectedTimeCount;
+    const market = candles[0].market;
+
+    const newCandles = candles.map((candle) => {
+      return {
+        date: dateFormat(
+          timestampToDatetime(
+            selectedTimeType,
+            selectedTimeCount,
+            candle.timestamp
+          )
+        ),
+        datetime: timestampToDatetime(
+          selectedTimeType,
+          selectedTimeCount,
+          candle.timestamp
+        ),
+        timestamp: candle.timestamp,
+        open: candle.opening_price,
+        high: candle.high_price,
+        low: candle.low_price,
+        close: candle.trade_price,
+        volume: candle.candle_acc_trade_volume,
+        tradePrice: candle.candle_acc_trade_price,
+      };
+    });
+
+    const newData = {
+      ...candleStateData,
+      [market]: {
+        ...candleStateData[market],
+        candles: [...newCandles, ...candleStateData[market].candles],
       },
     };
 
