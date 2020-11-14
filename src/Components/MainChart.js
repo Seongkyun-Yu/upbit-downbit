@@ -33,6 +33,7 @@ import withThemeData from "../Container/withThemeData";
 import withSelectedOption from "../Container/withSelectedOption";
 import Loading from "../styles/Loading";
 import isEqual from "react-fast-compare";
+import withLoadingData from "../Container/withLoadingData";
 
 const barChartExtents = (data) => {
   return data.volume;
@@ -66,6 +67,7 @@ const MainChart = ({
   ratio,
   selectedTimeType,
   theme,
+  isCandleLoading,
 }) => {
   // console.log(height, width);
   // if (height > 500) height = 500;
@@ -129,7 +131,9 @@ const MainChart = ({
 
   return (
     <ChartContainer>
-      {data.length > 100 ? (
+      {isCandleLoading ? (
+        <Loading />
+      ) : (
         <ChartCanvas
           height={height}
           ratio={ratio}
@@ -240,32 +244,22 @@ const MainChart = ({
           </Chart>
           <CrossHairCursor snapX={false} />
         </ChartCanvas>
-      ) : (
-        <Loading />
       )}
     </ChartContainer>
   );
 };
 
-export default React.memo(
-  withOHLCData()(
-    React.memo(
-      withSize({
-        style: {
-          width: "100%",
-          height: "100%",
-          minHeight,
-        },
-      })(
-        React.memo(
-          withDeviceRatio()(
-            React.memo(
-              withSelectedOption()(
-                React.memo(withThemeData()(React.memo(MainChart, isEqual)))
-              )
-            )
-          )
-        )
+export default withOHLCData()(
+  withSize({
+    style: {
+      width: "100%",
+      height: "100%",
+      minHeight,
+    },
+  })(
+    withDeviceRatio()(
+      withSelectedOption()(
+        withLoadingData()(withThemeData()(React.memo(MainChart, isEqual)))
       )
     )
   )

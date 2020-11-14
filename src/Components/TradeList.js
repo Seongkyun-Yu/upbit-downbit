@@ -4,9 +4,9 @@ import TradeListItem from "./TradeListItem";
 import Decimal from "decimal.js";
 import moment from "moment-timezone";
 import withTradeListData from "../Container/withTradeListData";
-import withSelectedOption from "../Container/withSelectedOption";
 import withThemeData from "../Container/withThemeData";
 import Loading from "../styles/Loading";
+import withLoadingData from "../Container/withLoadingData";
 
 const St = {
   Container: styled.article`
@@ -64,7 +64,7 @@ const St = {
   `,
 };
 
-const TradeList = ({ theme, selectedTradeListData }) => {
+const TradeList = ({ theme, selectedTradeListData, isTradeListLoading }) => {
   return (
     <St.Container>
       <St.TradeListTitle bgColor={theme.lightGray1}>
@@ -78,7 +78,9 @@ const TradeList = ({ theme, selectedTradeListData }) => {
         </St.TitleListItem>
       </St.TradeListTitle>
       <St.TradeListUL scrollColor={theme.middleGray}>
-        {selectedTradeListData ? (
+        {isTradeListLoading ? (
+          <Loading />
+        ) : (
           selectedTradeListData.map((tradeList, i) => {
             const tradeAmount = new Decimal(tradeList.trade_volume) + "";
             return (
@@ -96,12 +98,12 @@ const TradeList = ({ theme, selectedTradeListData }) => {
               />
             );
           })
-        ) : (
-          <Loading />
         )}
       </St.TradeListUL>
     </St.Container>
   );
 };
 
-export default withTradeListData()(withThemeData()(React.memo(TradeList)));
+export default withTradeListData()(
+  withLoadingData()(withThemeData()(React.memo(TradeList)))
+);

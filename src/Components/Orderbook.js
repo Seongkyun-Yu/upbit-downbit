@@ -8,6 +8,7 @@ import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
 import Loading from "../styles/Loading";
 import withSelectedOption from "../Container/withSelectedOption";
 import { useSelector } from "react-redux";
+import withLoadingData from "../Container/withLoadingData";
 
 const St = {
   Container: styled.div`
@@ -44,6 +45,7 @@ const Orderbook = ({
   maxOrderSize,
   beforeDayPrice,
   selectedMarket,
+  isOrderbookLoading,
 }) => {
   const lastTradePrice = useSelector(
     (state) =>
@@ -55,7 +57,9 @@ const Orderbook = ({
   return (
     <St.Container>
       <St.OrderUl>
-        {askOrderbookData.length ? (
+        {isOrderbookLoading ? (
+          <Loading />
+        ) : (
           askOrderbookData.map((orderbook, i) => {
             return (
               <OrderbookItem
@@ -75,10 +79,8 @@ const Orderbook = ({
               />
             );
           })
-        ) : (
-          <Loading />
         )}
-        {bidOrderbookData.length &&
+        {isOrderbookLoading ||
           bidOrderbookData.map((orderbook, i) => {
             return (
               <OrderbookItem
@@ -105,6 +107,8 @@ const Orderbook = ({
 
 export default withOrderbookData()(
   withSelectedCoinPrice()(
-    withSelectedOption()(withThemeData()(React.memo(Orderbook, isEqual)))
+    withSelectedOption()(
+      withLoadingData()(withThemeData()(React.memo(Orderbook, isEqual)))
+    )
   )
 );

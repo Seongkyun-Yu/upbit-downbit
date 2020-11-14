@@ -4,7 +4,13 @@ const FINISH_LOADING = "loading/FINISH_LOADING";
 const startLoading = (payload) => ({ type: START_LOADING, payload });
 const finishLoading = (payload) => ({ type: FINISH_LOADING, payload });
 
-const initialState = {};
+const initialState = {
+  "coin/GET_ONE_COIN_CANDLES": true,
+  "coin/GET_INIT_ORDERBOOKS": true,
+  "coin/GET_ONE_COIN_TRADELISTS": true,
+  "coin/GET_INIT_CANDLES": true,
+  "coin/GET_MARKET_NAMES": true,
+};
 
 const loadingReducer = (state = initialState, action) => {
   switch (action.type) {

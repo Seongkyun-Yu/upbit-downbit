@@ -10,6 +10,7 @@ import withMarketNames from "../Container/withMarketNames";
 import Loading from "../styles/Loading";
 import isEqual from "react-fast-compare";
 import withLatestCoinData from "../Container/withLatestCoinData";
+import withLoadingData from "../Container/withLoadingData";
 
 const St = {
   CoinListContainer: styled.div`
@@ -106,6 +107,8 @@ const CoinList = ({
   latestCoinData,
   selectedMarket,
   searchCoinInput,
+  isMarketNamesLoading,
+  isInitCandleLoading,
 }) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -130,7 +133,9 @@ const CoinList = ({
         </St.CoinSortList>
       </St.CoinSortContainer>
       <St.CoinUl>
-        {Object.keys(latestCoinData).length > 2 ? (
+        {isMarketNamesLoading || isInitCandleLoading ? (
+          <Loading center={false} />
+        ) : (
           sortedMarketNames.map((marketName) => {
             const splitedName = marketName.split("-");
             const enCoinName = splitedName[1] + "/" + splitedName[0];
@@ -166,8 +171,6 @@ const CoinList = ({
               />
             );
           })
-        ) : (
-          <Loading center={false} />
         )}
       </St.CoinUl>
     </St.CoinListContainer>
@@ -175,5 +178,9 @@ const CoinList = ({
 };
 
 export default withLatestCoinData()(
-  withMarketNames()(withSelectedOption()(withThemeData()(React.memo(CoinList))))
+  withMarketNames()(
+    withSelectedOption()(
+      withLoadingData()(withThemeData()(React.memo(CoinList)))
+    )
+  )
 );
