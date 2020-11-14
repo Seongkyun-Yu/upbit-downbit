@@ -77,7 +77,9 @@ const MainChart = ({
   // console.log(initialData);
 
   const dateTimeFormat =
-    selectedTimeType === "day" ? "%y-%m-%d" : "%y-%m-%d %H:%M";
+    selectedTimeType === "days" || selectedTimeType === "weeks"
+      ? "%y-%m-%d"
+      : "%y-%m-%d %H:%M";
   const timeDisplayFormat = timeFormat(dateTimeFormat);
   const pricesDisplayFormat = format("");
 
