@@ -5,16 +5,17 @@ import {
   requestActions,
   changeOptionActions,
   requestInitActions,
-  createConnectSocketThrottleThunk,
   createConnectSocketSaga,
 } from "../Lib/asyncUtil";
 import { candleDataUtils, orderbookUtils, tradeListUtils } from "../Lib/utils";
 import { coinApi } from "../Api/api";
 import { takeEvery, put, select } from "redux-saga/effects";
+import moment from "moment-timezone";
 
 const START_INIT = "coin/START_INIT";
 const START_CHANGE_MARKET_AND_DATA = "coin/START_CHANGE_MARKET_AND_DATA";
 const CHANGE_TIME_TYPE_AND_DATA = "coin/CHANGE_TIME_TYPE_AND_DATA";
+const START_ADD_MORE_CANDLE_DATA = "coin/START_ADD_MORE_CANDLE_DATA";
 
 const GET_MARKET_NAMES = "coin/GET_MARKET_NAMES";
 const GET_MARKET_NAMES_SUCCESS = "coin/GET_MARKET_NAMES_SUCCESS";
@@ -27,6 +28,12 @@ const GET_INIT_CANDLES_ERROR = "coin/GET_INIT_CANDLES_ERROR";
 const GET_ONE_COIN_CANDLES = "coin/GET_ONE_COIN_CANDLES";
 const GET_ONE_COIN_CANDLES_SUCCESS = "coin/GET_ONE_COIN_CANDLES_SUCCESS";
 const GET_ONE_COIN_CANDLES_ERROR = "coin/GET_ONE_COIN_CANDLES_ERROR";
+
+const GET_ADDITIONAL_COIN_CANDLES = "coin/GET_ADDITIONAL_COIN_CANDLES";
+const GET_ADDITIONAL_COIN_CANDLES_SUCCESS =
+  "coin/GET_ADDITIONAL_COIN_CANDLES_SUCCESS";
+const GET_ADDITIONAL_COIN_CANDLES_ERROR =
+  "coin/GET_ADDITIONAL_COIN_CANDLES_ERROR";
 
 const CONNECT_CANDLE_SOCKET = "coin/CONNECT_CANDLE_SOCKET";
 const CONNECT_CANDLE_SOCKET_SUCCESS = "coin/CONNECT_CANDLE_SOCKET_SUCCESS";
@@ -98,6 +105,12 @@ const getOneCoinCandlesSaga = createRequestSaga(
   GET_ONE_COIN_CANDLES,
   coinApi.getOneCoinCandles,
   candleDataUtils.oneCoin
+);
+
+const getAdditionalCoinCandlesSaga = createRequestSaga(
+  GET_ADDITIONAL_COIN_CANDLES,
+  coinApi.getAdditionalCoinCandles,
+  candleDataUtils.add
 );
 
 // 캔들 웹소켓 연결 Thunk
@@ -243,6 +256,33 @@ function* startChangeMarketAndDataSaga(action) {
   }
 }
 
+// 추가 캔들 데이터 가져오기
+const startAddMoreCandleData = () => ({ type: START_ADD_MORE_CANDLE_DATA });
+function* startAddMoreCandleDataSaga() {
+  const state = yield select();
+
+  const selectedMarket = state.Coin.selectedMarket;
+  const selectedTimeType = state.Coin.selectedTimeType;
+  const selectedTimeCount = state.Coin.selectedTimeCount;
+
+  const isLoading = state.Loading[GET_ADDITIONAL_COIN_CANDLES];
+
+  if (isLoading) return;
+  const datetime =
+    moment(state.Coin.candle.data[selectedMarket].candles[0].date)
+      .utc()
+      .format("YYYY-MM-DDTHH:mm") + ":00Z";
+
+  yield getAdditionalCoinCandlesSaga({
+    payload: {
+      coin: selectedMarket,
+      timeType: selectedTimeType,
+      timeCount: selectedTimeCount,
+      datetime,
+    },
+  });
+}
+
 // 차트 시간 데이터 변경하고 데이터 받기
 const changeTimeTypeAndData = (timeTypeAndCount) => ({
   type: CHANGE_TIME_TYPE_AND_DATA,
@@ -334,7 +374,9 @@ function* coinSaga() {
 
   yield takeEvery(START_INIT, startInittSaga);
   yield takeEvery(START_CHANGE_MARKET_AND_DATA, startChangeMarketAndDataSaga);
+  yield takeEvery(START_ADD_MORE_CANDLE_DATA, startAddMoreCandleDataSaga);
   yield takeEvery(CHANGE_TIME_TYPE_AND_DATA, changeTimeTypeAndDataSaga);
+
   yield takeEvery(CHANGE_PRICE_AND_TOTAL_PRICE, changePriceAndTotalPriceSaga);
   yield takeEvery(CHANGE_AMOUNT_AND_TOTAL_PRICE, changeAmountAndTotalPriceSaga);
   yield takeEvery(CHANGE_TOTAL_PRICE_AND_AMOUNT, changeTotalPriceAndAmountSaga);
@@ -400,6 +442,14 @@ const coinReducer = (state = initialState, action) => {
     case GET_ONE_COIN_CANDLES_SUCCESS:
     case GET_ONE_COIN_CANDLES_ERROR:
       return requestActions(GET_ONE_COIN_CANDLES, "candle")(state, action);
+
+    // 추가 코인 데이터 로드
+    case GET_ADDITIONAL_COIN_CANDLES_SUCCESS:
+    case GET_ADDITIONAL_COIN_CANDLES_ERROR:
+      return requestActions(GET_ADDITIONAL_COIN_CANDLES, "candle")(
+        state,
+        action
+      );
 
     // 캔들 실시간 정보
     case CONNECT_CANDLE_SOCKET_SUCCESS:
@@ -485,6 +535,7 @@ const coinReducer = (state = initialState, action) => {
 export {
   startInit,
   startChangeMarketAndData,
+  startAddMoreCandleData,
   changeTimeTypeAndData,
   coinReducer,
   coinSaga,
