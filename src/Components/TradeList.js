@@ -78,7 +78,7 @@ const TradeList = ({ theme, selectedTradeListData, isTradeListLoading }) => {
         </St.TitleListItem>
       </St.TradeListTitle>
       <St.TradeListUL scrollColor={theme.middleGray}>
-        {isTradeListLoading ? (
+        {isTradeListLoading && !selectedTradeListData ? (
           <Loading />
         ) : (
           selectedTradeListData.map((tradeList, i) => {
