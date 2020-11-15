@@ -10,11 +10,17 @@ import withMarketNames from "../Container/withMarketNames";
 import Loading from "../styles/Loading";
 import withLatestCoinData from "../Container/withLatestCoinData";
 import withLoadingData from "../Container/withLoadingData";
+import withSize from "../Container/withSize";
 
 const St = {
   CoinListContainer: styled.div`
     display: none;
+    position: -webkit-sticky; /* 사파리 브라우저 지원 */
+    position: sticky;
+    top: 70px;
+
     width: 100%;
+    height: ${({ heightSize }) => `${heightSize}px`};
     background-color: white;
     /* margin: 0 auto; */
     overflow: hidden;
@@ -22,7 +28,7 @@ const St = {
     @media ${({ theme }) => theme.desktop} {
       display: block;
       max-width: 400px;
-      height: 1305px;
+      /* height: 1305px; */
       margin-left: 10px;
     }
 
@@ -80,7 +86,7 @@ const St = {
   `,
 
   CoinUl: styled.ul`
-    height: 1305px;
+    height: ${({ heightSize }) => `${heightSize}px`};
     min-height: 800px;
     background-color: white;
     overflow-y: scroll;
@@ -108,13 +114,16 @@ const CoinList = ({
   searchCoinInput,
   isMarketNamesLoading,
   isInitCandleLoading,
+  widthSize,
+  heightSize,
 }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const isRootURL = history.location.pathname === "/";
+  console.log(widthSize, heightSize);
 
   return (
-    <St.CoinListContainer isRootURL={isRootURL}>
+    <St.CoinListContainer isRootURL={isRootURL} heightSize={heightSize - 80}>
       <St.CoinSearchContainer>
         <St.CoinSearchInput
           onChange={(e) => dispatch(searchCoin(e.target.value))}
@@ -131,7 +140,7 @@ const CoinList = ({
           거래대금
         </St.CoinSortList>
       </St.CoinSortContainer>
-      <St.CoinUl>
+      <St.CoinUl heightSize={heightSize - 80}>
         {isMarketNamesLoading || isInitCandleLoading ? (
           <Loading center={false} />
         ) : (
@@ -178,8 +187,10 @@ const CoinList = ({
 
 export default withLatestCoinData()(
   withMarketNames()(
-    withSelectedOption()(
-      withLoadingData()(withThemeData()(React.memo(CoinList)))
+    withSize()(
+      withSelectedOption()(
+        withLoadingData()(withThemeData()(React.memo(CoinList)))
+      )
     )
   )
 );
