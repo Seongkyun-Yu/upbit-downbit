@@ -48,7 +48,7 @@ const Header = () => {
     <St.Header>
       <St.Container>
         <St.SiteHeading>
-          <St.MainLink href="/" logo={logo}>
+          <St.MainLink href="/" logo={logo} title={"메인으로 이동"}>
             업비트
           </St.MainLink>
         </St.SiteHeading>
