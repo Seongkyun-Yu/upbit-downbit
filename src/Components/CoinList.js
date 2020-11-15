@@ -12,22 +12,20 @@ import withLatestCoinData from "../Container/withLatestCoinData";
 import withLoadingData from "../Container/withLoadingData";
 
 const St = {
-  CoinListContainer: styled.div`
+  CoinListContainer: styled.article`
     display: none;
-    position: -webkit-sticky; /* 사파리 브라우저 지원 */
+    position: -webkit-sticky; /* 사파리  */
     position: sticky;
     top: 70px;
-
+    height: 100%;
     width: 100%;
-    height: ${({ heightSize }) => `${heightSize}px`};
     background-color: white;
-    /* margin: 0 auto; */
     overflow: hidden;
 
     @media ${({ theme }) => theme.desktop} {
       display: block;
       max-width: 400px;
-      /* height: 1305px; */
+      height: ${({ heightSize }) => `${heightSize}px`};
       margin-left: 10px;
     }
 
@@ -38,6 +36,9 @@ const St = {
     @media ${({ theme, isRootURL }) => (isRootURL ? theme.tablet : true)} {
       display: block;
       margin-top: 0;
+      margin-bottom: 0;
+      height: ${({ heightSize }) =>
+        `${heightSize + 80}px`}; // 모바일 풀 화면을 위해 다시 80px 더해줌
     }
   `,
 
@@ -85,7 +86,7 @@ const St = {
   `,
 
   CoinUl: styled.ul`
-    height: ${({ heightSize }) => `${heightSize}px`};
+    /* height: ${({ heightSize }) => `${heightSize}px`}; */
     min-height: 800px;
     background-color: white;
     overflow-y: scroll;
@@ -100,6 +101,13 @@ const St = {
     &::-webkit-scrollbar-thumb {
       background-color: ${({ theme }) => theme.middleGray};
       border-radius: 5rem;
+    }
+
+    @media ${({ theme }) => theme.desktop} {
+      display: block;
+      max-width: 400px;
+      height: ${({ heightSize }) => `${heightSize}px`};
+      margin-left: 10px;
     }
   `,
 };
@@ -119,6 +127,7 @@ const CoinList = ({
   const history = useHistory();
   const dispatch = useDispatch();
   const isRootURL = history.location.pathname === "/";
+  console.log(heightSize - 80);
 
   return (
     <St.CoinListContainer isRootURL={isRootURL} heightSize={heightSize - 80}>
@@ -138,7 +147,7 @@ const CoinList = ({
           거래대금
         </St.CoinSortList>
       </St.CoinSortContainer>
-      <St.CoinUl heightSize={heightSize - 80}>
+      <St.CoinUl heightSize={heightSize - 140}>
         {isMarketNamesLoading || isInitCandleLoading ? (
           <Loading center={false} />
         ) : (
