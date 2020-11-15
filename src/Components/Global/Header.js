@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import logo from "../../styles/img/whiteLogo.png";
 
 const St = {
-  HeaderContainer: styled.header`
+  Header: styled.header`
     position: sticky;
     top: 0;
     z-index: 100;
@@ -11,38 +12,48 @@ const St = {
     background-color: rgb(9, 54, 135);
   `,
 
-  SiteHeading: styled.h1`
+  Container: styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 1360px;
     height: 100%;
+    max-width: 1360px;
     margin: 0 auto;
-    padding: 0 20px;
 
     @media ${({ theme }) => theme.tablet} {
       max-width: 950px;
     }
   `,
 
+  SiteHeading: styled.h1`
+    padding: 0 20px;
+    width: 180px;
+    height: 100%;
+  `,
+
   MainLink: styled.a`
-    display: blcok;
-    background-image: url("https://cdn.upbit.com/images/logo_upbit_sub.feef3c3.svg");
+    display: block;
+    background-image: ${({ logo }) => `url(${logo})`};
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
     color: transparent;
+    width: 100%;
     height: 100%;
-    width: 80px;
   `,
 };
 
 const Header = () => {
   return (
-    <St.HeaderContainer>
-      <St.SiteHeading>
-        <St.MainLink href="/">업비트</St.MainLink>
-      </St.SiteHeading>
-    </St.HeaderContainer>
+    <St.Header>
+      <St.Container>
+        <St.SiteHeading>
+          <St.MainLink href="/" logo={logo}>
+            업비트
+          </St.MainLink>
+        </St.SiteHeading>
+      </St.Container>
+    </St.Header>
   );
 };
 

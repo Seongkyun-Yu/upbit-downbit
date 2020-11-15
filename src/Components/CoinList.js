@@ -10,7 +10,6 @@ import withMarketNames from "../Container/withMarketNames";
 import Loading from "../styles/Loading";
 import withLatestCoinData from "../Container/withLatestCoinData";
 import withLoadingData from "../Container/withLoadingData";
-import withSize from "../Container/withSize";
 
 const St = {
   CoinListContainer: styled.div`
@@ -120,7 +119,6 @@ const CoinList = ({
   const history = useHistory();
   const dispatch = useDispatch();
   const isRootURL = history.location.pathname === "/";
-  console.log(widthSize, heightSize);
 
   return (
     <St.CoinListContainer isRootURL={isRootURL} heightSize={heightSize - 80}>
@@ -187,10 +185,8 @@ const CoinList = ({
 
 export default withLatestCoinData()(
   withMarketNames()(
-    withSize()(
-      withSelectedOption()(
-        withLoadingData()(withThemeData()(React.memo(CoinList)))
-      )
+    withSelectedOption()(
+      withLoadingData()(withThemeData()(React.memo(CoinList)))
     )
   )
 );
