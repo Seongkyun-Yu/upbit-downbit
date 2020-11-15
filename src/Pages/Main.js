@@ -66,7 +66,7 @@ const Main = ({ match, widthSize, heightSize }) => {
 
   return (
     <>
-      <Header />
+      <Header isRootURL={isRootURL} />
       <St.MainContentContainer>
         <St.ChartAndTradeContainer isRootURL={isRootURL}>
           <CoinInfoHeader />
