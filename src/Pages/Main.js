@@ -1,14 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
+import Header from "../Components/Global/Header";
 import CoinList from "../Components/CoinList";
-import Header from "../Components/Header";
+
 import MainChart from "../Components/MainChart";
 import Orderbook from "../Components/Orderbook";
 import CoinInfoHeader from "../Components/CoinInfoHeader";
 import OrderInfo from "../Components/OrderInfo";
 import TradeList from "../Components/TradeList";
 import ChartDataConsole from "../Components/ChartDataConsole";
+import Footer from "../Components/Global/Footer";
+import withSize from "../Container/withSize";
 
 const St = {
   MainContentContainer: styled.main`
@@ -17,11 +20,13 @@ const St = {
     max-width: 1500px;
     margin: 0 auto;
     margin-top: 10px;
+    margin-bottom: 50px;
     width: 100%;
     height: 100%;
 
     @media ${({ theme }) => theme.tablet} {
       margin-top: 0;
+      margin-bottom: 0;
     }
   `,
 
@@ -56,7 +61,7 @@ const St = {
   `,
 };
 
-const Main = ({ match }) => {
+const Main = ({ match, widthSize, heightSize }) => {
   const isRootURL = match.path === "/";
 
   return (
@@ -85,10 +90,11 @@ const Main = ({ match }) => {
           </St.TradeInfoContainer>
         </St.ChartAndTradeContainer>
 
-        <CoinList />
+        <CoinList widthSize={widthSize} heightSize={heightSize} />
       </St.MainContentContainer>
+      <Footer />
     </>
   );
 };
 
-export default Main;
+export default withSize()(React.memo(Main));
