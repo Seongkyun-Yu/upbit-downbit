@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../../styles/img/blueLogo.png";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
@@ -37,11 +36,11 @@ const St = {
     display: block;
     background-image: ${({ logo }) => `url(${logo})`};
     background-repeat: no-repeat;
-    /* background-position: center; */
+    background-position: center;
     background-size: contain;
     color: transparent;
     width: 130px;
-    height: 30px;
+    height: 60px;
   `,
   Description: styled.p`
     font-weight: 600;
@@ -61,7 +60,7 @@ const St = {
     /* margin-left: 250px; */
   `,
   LinkTitle: styled.span`
-    height: 30px;
+    height: 25px;
     font-size: 0.9rem;
     font-weight: 600;
     color: gray;
@@ -88,7 +87,11 @@ const Footer = () => {
   return (
     <St.Footer>
       <St.Container>
-        <St.MainLink href="/" logo={logo} title={"메인으로 이동"} />
+        <St.MainLink
+          href="/"
+          title={"메인으로 이동"}
+          logo={process.env.PUBLIC_URL + "/blueLogo.png"}
+        />
         <St.Description>
           <St.DescSpan>Upbit Clone Project - Downbit</St.DescSpan>
           <St.DescSpan>Created by Seongkyun Yu</St.DescSpan>

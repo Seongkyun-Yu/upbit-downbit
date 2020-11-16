@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../../styles/img/whiteLogo.png";
 
 const St = {
   Header: styled.header`
@@ -11,7 +10,6 @@ const St = {
     height: 60px;
     background-color: rgb(9, 54, 135);
   `,
-
   Container: styled.div`
     display: flex;
     align-items: center;
@@ -28,13 +26,11 @@ const St = {
       max-width: 100%;
     }
   `,
-
   SiteHeading: styled.h1`
     padding: 0 20px;
-    width: 180px;
+    width: 150px;
     height: 100%;
   `,
-
   MainLink: styled.a`
     display: block;
     background-image: ${({ logo }) => `url(${logo})`};
@@ -52,7 +48,11 @@ const Header = ({ isRootURL }) => {
     <St.Header>
       <St.Container isRootURL={isRootURL}>
         <St.SiteHeading>
-          <St.MainLink href="/" logo={logo} title={"메인으로 이동"}>
+          <St.MainLink
+            href="/"
+            logo={process.env.PUBLIC_URL + "/whiteLogo.png"}
+            title={"메인으로 이동"}
+          >
             업비트
           </St.MainLink>
         </St.SiteHeading>
