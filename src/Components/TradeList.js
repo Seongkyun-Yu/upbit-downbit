@@ -1,22 +1,31 @@
 import React from "react";
 import styled from "styled-components";
-import TradeListItem from "./TradeListItem";
 import Decimal from "decimal.js";
 import moment from "moment-timezone";
+
+import TradeListItem from "./TradeListItem";
+import Loading from "../styles/Loading";
+
 import withTradeListData from "../Container/withTradeListData";
 import withThemeData from "../Container/withThemeData";
-import Loading from "../styles/Loading";
 import withLoadingData from "../Container/withLoadingData";
 
 const St = {
   Container: styled.article`
     width: 100%;
     height: 100%;
-    /* height: 310px; */
     background-color: white;
     margin-top: 10px;
   `,
-
+  HiddenH3: styled.h3`
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0, 0);
+    clip-path: polygon(0, 0);
+    overflow: hidden;
+    text-indent: -9999px;
+  `,
   TradeListUL: styled.ul`
     overflow-y: scroll;
     scrollbar-color: ${(props) => props.scrollColor};
@@ -33,7 +42,6 @@ const St = {
     }
     height: 320px;
   `,
-
   TradeListTitle: styled.ul`
     display: flex;
     justify-content: space-around;
@@ -46,7 +54,6 @@ const St = {
       font-size: 0.6rem;
     }
   `,
-
   TitleListItem: styled.li`
     width: 20%;
     text-align: ${({ textAlign }) => textAlign || "center"};
@@ -67,6 +74,7 @@ const St = {
 const TradeList = ({ theme, selectedTradeListData, isTradeListLoading }) => {
   return (
     <St.Container>
+      <St.HiddenH3>실시간 체결내역</St.HiddenH3>
       <St.TradeListTitle bgColor={theme.lightGray1}>
         <St.TitleListItem mobileSNone={true} textAlign={"center"}>
           체결시간

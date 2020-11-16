@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
-import isEqual from "react-fast-compare";
 import { useDispatch } from "react-redux";
 import { changePriceAndTotalPrice } from "../Reducer/coinReducer";
+import styled, { css } from "styled-components";
+
+import isEqual from "react-fast-compare";
 
 const St = {
   OrderLi: styled.li`
@@ -163,76 +164,6 @@ const OrderbookItem = ({
       </St.Btn>
     </St.OrderLi>
   );
-
-  // return type === "ask" ? (
-  //   <St.OrderLi ref={scrollRef} theme={theme}>
-  //     <St.Btn
-  //       onClick={(_) => {
-  //         document.activeElement.blur();
-  //         dispatch(changePriceAndTotalPrice(price));
-  //       }}
-  //     >
-  //       <St.OrderPriceContainer
-  //         theme={theme}
-  //         fontColor={
-  //           changeRate24Hour > 0
-  //             ? theme.priceUp
-  //             : +changeRate24Hour < 0
-  //             ? theme.priceDown
-  //             : "black"
-  //         }
-  //         borderColor={theme.lightGray}
-  //         bgColor={theme.skyBlue1}
-  //         // outline={lastTradePrice === price}
-  //         outline={outline}
-  //       >
-  //         <St.OrderPrice>{price.toLocaleString()}</St.OrderPrice>
-  //         <St.OrderPrcieRatio>{`${changeRate24Hour}%`}</St.OrderPrcieRatio>
-  //       </St.OrderPriceContainer>
-  //       <St.OrderAmount amountAlign={"left"} borderColor={theme.lightGray}>
-  //         {size}
-  //         <St.OrderAmountSize
-  //           witdhSize={`${Math.floor((size / maxOrderSize) * 100 - 10)}%`}
-  //           bgColor={theme.skyBlue2}
-  //         />
-  //       </St.OrderAmount>
-  //     </St.Btn>
-  //   </St.OrderLi>
-  // ) : (
-  //   <St.OrderLi>
-  //     <St.Btn
-  //       onClick={(_) => {
-  //         document.activeElement.blur();
-  //         dispatch(changePriceAndTotalPrice(price));
-  //       }}
-  //     >
-  //       <St.OrderPriceContainer
-  //         theme={theme}
-  //         fontColor={
-  //           changeRate24Hour > 0
-  //             ? theme.priceUp
-  //             : +changeRate24Hour < 0
-  //             ? theme.priceDown
-  //             : "black"
-  //         }
-  //         borderColor={theme.lightGray}
-  //         bgColor={theme.lightPink1}
-  //         // outline={lastTradePrice === price}
-  //         outline={outline}
-  //       >
-  //         <St.OrderPrice>{price.toLocaleString()}</St.OrderPrice>
-  //         <St.OrderPrcieRatio>{`${changeRate24Hour}%`}</St.OrderPrcieRatio>
-  //       </St.OrderPriceContainer>
-  //       <St.OrderAmount amountAlign={"left"} borderColor={theme.lightGray}>
-  //         {size}
-  //         <St.OrderAmountSize
-  //           witdhSize={`${Math.floor((size / maxOrderSize) * 100 - 10)}%`}
-  //           bgColor={theme.lightPink2}
-  //         />
-  //       </St.OrderAmount>
-  //     </St.Btn>
-  //   </St.OrderLi>
-  // );
 };
 
 export default React.memo(OrderbookItem, isEqual);

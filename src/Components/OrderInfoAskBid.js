@@ -9,12 +9,11 @@ import {
 import OrderInfoTradeList from "./OrderInfoTradeList";
 
 const St = {
-  Container: styled.div`
+  Container: styled.section`
     width: 100%;
     height: 50%;
     background-color: white;
   `,
-
   OrderTypeContainer: styled.div`
     display: flex;
     height: 40px;
@@ -25,7 +24,6 @@ const St = {
       font-size: 0.8rem;
     }
   `,
-
   OrderType: styled.button`
     width: 33.33%;
     height: 100%;
@@ -37,7 +35,6 @@ const St = {
     font-weight: 900;
     color: ${({ fontColor }) => fontColor || "black"};
   `,
-
   OrderInfoContainer: styled.div`
     width: 100%;
     padding: 15px;
@@ -47,7 +44,6 @@ const St = {
       padding: 5px;
     }
   `,
-
   OrderInfoDetailContainer: styled.div`
     display: flex;
     align-items: center;
@@ -60,7 +56,6 @@ const St = {
       margint-right: 10px;
     }
   `,
-
   OrderInfoDetailTitle: styled.span`
     display: block;
     width: 20%;
@@ -72,13 +67,11 @@ const St = {
     margin-left: 5px;
     margin-right: 5px;
   `,
-
   OrderInfoInputContainer: styled.div`
     display: flex;
     width: 100%;
     height: 100%;
   `,
-
   OrderInfoInput: styled.input`
     width: ${({ width }) => width || "100%"};
     height: 100%;
@@ -93,7 +86,6 @@ const St = {
       font-size: 0.6rem;
     }
   `,
-
   Button: styled.button`
     width: ${({ width }) => width || "50px"};
     min-width: ${({ minWidth }) => minWidth};
@@ -111,7 +103,6 @@ const St = {
     font-size: ${({ fontSize }) => fontSize};
     font-weight: 900;
   `,
-
   PossibleAmount: styled.span`
     display: block;
     width: 100%;
@@ -122,13 +113,11 @@ const St = {
       font-size: 1rem;
     }
   `,
-
   Unit: styled.span`
     margin-left: 5px;
     font-size: 0.8rem;
     font-weight: 500;
   `,
-
   OrderBtnContainer: styled.div`
     display: flex;
     justify-content: space-between;
@@ -176,7 +165,7 @@ const OrderInfoAskBid = ({
       ),
     [dispatch]
   );
-  // console.log("askbid order 리랜더");
+
   return (
     <St.OrderInfoContainer theme={theme}>
       {selectedAskBidOrder !== "tradeList" ? (

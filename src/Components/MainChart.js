@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { startAddMoreCandleData } from "../Reducer/coinReducer";
 
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
@@ -28,14 +30,14 @@ import {
   withDeviceRatio,
   withSize,
 } from "react-financial-charts";
+
+import Loading from "../styles/Loading";
+
 import withOHLCData from "../Container/withOHLCData";
 import withThemeData from "../Container/withThemeData";
 import withSelectedOption from "../Container/withSelectedOption";
-import Loading from "../styles/Loading";
-import isEqual from "react-fast-compare";
 import withLoadingData from "../Container/withLoadingData";
-import { useDispatch } from "react-redux";
-import { startAddMoreCandleData } from "../Reducer/coinReducer";
+import isEqual from "react-fast-compare";
 
 const barChartExtents = (data) => {
   return data.volume;
@@ -53,11 +55,22 @@ const volumeSeries = (data) => {
   return data.volume;
 };
 
-const ChartContainer = styled.div`
-  width: 100%;
-  height: 500px;
-  background-color: white;
-`;
+const St = {
+  ChartContainer: styled.section`
+    width: 100%;
+    height: 500px;
+    background-color: white;
+  `,
+  HiddenH3: styled.h3`
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0, 0);
+    clip-path: polygon(0, 0);
+    overflow: hidden;
+    text-indent: -9999px;
+  `,
+};
 
 const margin = { left: 10, right: 80, top: 20, bottom: 20 };
 const minHeight = 350;
@@ -136,7 +149,8 @@ const MainChart = ({
   const chartHeight = gridHeight - elderRayHeight;
 
   return (
-    <ChartContainer>
+    <St.ChartContainer>
+      <St.HiddenH3>캔들 차트</St.HiddenH3>
       {isCandleLoading ? (
         <Loading />
       ) : (
@@ -254,7 +268,7 @@ const MainChart = ({
           <CrossHairCursor snapX={false} />
         </ChartCanvas>
       )}
-    </ChartContainer>
+    </St.ChartContainer>
   );
 };
 

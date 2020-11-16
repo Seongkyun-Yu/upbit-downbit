@@ -60,13 +60,18 @@ const St = {
     flex-direction: column;
     /* margin-left: 250px; */
   `,
+  LinkTitle: styled.span`
+    height: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: gray;
+  `,
   LinkTag: styled.a`
     display: flex;
     align-items: center;
+    height: 30px;
     color: black;
     text-decoration: none;
-    /* margin-top: 5px; */
-    height: 30px;
   `,
   LinkSpan: styled.span`
     display: block;
@@ -92,21 +97,25 @@ const Footer = () => {
           </St.DescSpan>
         </St.Description>
         <St.ContactContainer>
+          <St.LinkTitle>Contact Me</St.LinkTitle>
           <ul>
             <li>
-              <St.LinkTag>
-                <St.LinkSpan marginLeft={"0px"}>Contact Me</St.LinkSpan>
-              </St.LinkTag>
-            </li>
-            <li>
               <St.LinkTag href="https://github.com/Seongkyun-Yu/upbit-clone">
-                <FontAwesomeIcon icon={faGithub} size="lg" />
+                <FontAwesomeIcon
+                  icon={faGithub}
+                  size="lg"
+                  title={"Github 아이콘"}
+                />
                 <St.LinkSpan>github.com/Seongkyun-Yu/upbit-clone</St.LinkSpan>
               </St.LinkTag>
             </li>
             <li>
               <St.LinkTag href="mailto:ysungkyun@gmail.com">
-                <FontAwesomeIcon icon={faEnvelope} size="lg" />
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  size="lg"
+                  title={"이메일 아이콘"}
+                />
                 <St.LinkSpan>ysungkyun@gmail.com</St.LinkSpan>
               </St.LinkTag>
             </li>

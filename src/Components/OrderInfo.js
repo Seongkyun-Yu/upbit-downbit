@@ -9,13 +9,21 @@ import OrderInfoAskBid from "./OrderInfoAskBid";
 import isEqual from "react-fast-compare";
 
 const St = {
-  Container: styled.div`
+  Container: styled.section`
     width: 100%;
     height: 50%;
     background-color: white;
   `,
-
-  OrderTypeContainer: styled.div`
+  HiddenH3: styled.h3`
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0, 0);
+    clip-path: polygon(0, 0);
+    overflow: hidden;
+    text-indent: -9999px;
+  `,
+  OrderTypeContainer: styled.ul`
     display: flex;
     height: 40px;
     align-items: center;
@@ -25,9 +33,12 @@ const St = {
       font-size: 0.8rem;
     }
   `,
-
-  OrderType: styled.button`
+  OrderTypeLi: styled.li`
     width: 33.3333%;
+    height: 100%;
+  `,
+  OrderTypeBtn: styled.button`
+    width: 100%;
     height: 100%;
     background-color: white;
     border: none;
@@ -50,28 +61,35 @@ const OrderInfo = ({
   const dispatch = useDispatch();
   return (
     <St.Container>
+      <St.HiddenH3>주문 정보</St.HiddenH3>
       <St.OrderTypeContainer>
-        <St.OrderType
-          borderBottom={selectedAskBidOrder === "bid" && theme.strongRed}
-          fontColor={selectedAskBidOrder === "bid" && theme.strongRed}
-          onClick={() => dispatch(changeAskBidOrder("bid"))}
-        >
-          매수
-        </St.OrderType>
-        <St.OrderType
-          borderBottom={selectedAskBidOrder === "ask" && theme.strongBlue}
-          fontColor={selectedAskBidOrder === "ask" && theme.strongBlue}
-          onClick={() => dispatch(changeAskBidOrder("ask"))}
-        >
-          매도
-        </St.OrderType>
-        <St.OrderType
-          borderBottom={selectedAskBidOrder === "tradeList" && "black"}
-          fontColor={selectedAskBidOrder === "tradeList" && "black"}
-          onClick={() => dispatch(changeAskBidOrder("tradeList"))}
-        >
-          거래내역
-        </St.OrderType>
+        <St.OrderTypeLi>
+          <St.OrderTypeBtn
+            borderBottom={selectedAskBidOrder === "bid" && theme.strongRed}
+            fontColor={selectedAskBidOrder === "bid" && theme.strongRed}
+            onClick={() => dispatch(changeAskBidOrder("bid"))}
+          >
+            매수
+          </St.OrderTypeBtn>
+        </St.OrderTypeLi>
+        <St.OrderTypeLi>
+          <St.OrderTypeBtn
+            borderBottom={selectedAskBidOrder === "ask" && theme.strongBlue}
+            fontColor={selectedAskBidOrder === "ask" && theme.strongBlue}
+            onClick={() => dispatch(changeAskBidOrder("ask"))}
+          >
+            매도
+          </St.OrderTypeBtn>
+        </St.OrderTypeLi>
+        <St.OrderTypeLi>
+          <St.OrderTypeBtn
+            borderBottom={selectedAskBidOrder === "tradeList" && "black"}
+            fontColor={selectedAskBidOrder === "tradeList" && "black"}
+            onClick={() => dispatch(changeAskBidOrder("tradeList"))}
+          >
+            거래내역
+          </St.OrderTypeBtn>
+        </St.OrderTypeLi>
       </St.OrderTypeContainer>
       <OrderInfoAskBid
         theme={theme}

@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import CoinListItem from "./CoinListItem";
-import { useHistory } from "react-router-dom";
 import { searchCoin } from "../Reducer/coinReducer";
 import { useDispatch } from "react-redux";
+
+import CoinListItem from "./CoinListItem";
+import Loading from "../styles/Loading";
+
 import withThemeData from "../Container/withThemeData";
 import withSelectedOption from "../Container/withSelectedOption";
 import withMarketNames from "../Container/withMarketNames";
-import Loading from "../styles/Loading";
 import withLatestCoinData from "../Container/withLatestCoinData";
 import withLoadingData from "../Container/withLoadingData";
 
@@ -41,19 +42,25 @@ const St = {
         `${heightSize + 80}px`}; // 모바일 풀 화면을 위해 다시 80px 더해줌
     }
   `,
-
+  HiddenH3: styled.h3`
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0, 0);
+    clip-path: polygon(0, 0);
+    overflow: hidden;
+    text-indent: -9999px;
+  `,
   CoinSearchContainer: styled.div`
     display: flex;
     width: 100%;
     border-bottom: 1px solid ${({ theme }) => theme.lightGray2};
   `,
-
   CoinSearchInput: styled.input`
     width: 100%;
     border: none;
     padding: 5px;
   `,
-
   CoinSearchBtn: styled.button`
     width: 30px;
     height: 30px;
@@ -64,7 +71,6 @@ const St = {
     padding-left: 20px;
     border: none;
   `,
-
   CoinSortContainer: styled.ul`
     display: flex;
     justify-content: space-between;
@@ -77,14 +83,12 @@ const St = {
     font-weight: 800;
     color: #666666;
   `,
-
   CoinSortList: styled.li`
     width: ${({ width }) => width || "20%"};
     text-align: ${({ textAlign }) => textAlign || "right"};
     margin-right: ${({ marginRight }) => marginRight || 0};
     font-size: 0.78rem;
   `,
-
   CoinUl: styled.ul`
     height: ${({ heightSize }) => `${heightSize + 70}px`};
     min-height: 800px;
@@ -120,15 +124,14 @@ const CoinList = ({
   searchCoinInput,
   isMarketNamesLoading,
   isInitCandleLoading,
-  widthSize,
   heightSize,
+  isRootURL,
 }) => {
-  const history = useHistory();
   const dispatch = useDispatch();
-  const isRootURL = history.location.pathname === "/";
 
   return (
     <St.CoinListContainer isRootURL={isRootURL} heightSize={heightSize - 80}>
+      <St.HiddenH3>코인 리스트</St.HiddenH3>
       <St.CoinSearchContainer>
         <St.CoinSearchInput
           type="search"

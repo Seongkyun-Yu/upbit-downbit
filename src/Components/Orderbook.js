@@ -1,23 +1,34 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import withOrderbookData from "../Container/withOrderbookData";
+
 import OrderbookItem from "./OrderbookItem";
-import isEqual from "react-fast-compare";
+import Loading from "../styles/Loading";
+
 import withThemeData from "../Container/withThemeData";
 import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
-import Loading from "../styles/Loading";
+import withOrderbookData from "../Container/withOrderbookData";
 import withSelectedOption from "../Container/withSelectedOption";
-import { useSelector } from "react-redux";
 import withLoadingData from "../Container/withLoadingData";
 
+import isEqual from "react-fast-compare";
+
 const St = {
-  Container: styled.div`
+  Container: styled.section`
     width: 46%;
     max-height: 722px;
     height: 100%;
     background-color: white;
   `,
-
+  HiddenH3: styled.h3`
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0, 0);
+    clip-path: polygon(0, 0);
+    overflow: hidden;
+    text-indent: -9999px;
+  `,
   OrderUl: styled.ul`
     width: 100%;
     height: 722px;
@@ -52,10 +63,9 @@ const Orderbook = ({
       state.Coin.tradeList.data[selectedMarket] &&
       state.Coin.tradeList.data[selectedMarket][0].trade_price
   );
-  // console.log(lastTradePrice);
-
   return (
     <St.Container>
+      <St.HiddenH3>호가창</St.HiddenH3>
       <St.OrderUl>
         {isOrderbookLoading ? (
           <Loading />

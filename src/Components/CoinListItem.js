@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { startChangeMarketAndData } from "../Reducer/coinReducer";
+
 import isEqual from "react-fast-compare";
 
 const St = {
@@ -16,7 +17,6 @@ const St = {
     }
     background-color: ${({ bgColor }) => bgColor};
   `,
-
   CoinBtn: styled.button`
     display: flex;
     justify-content: space-between;
@@ -29,7 +29,6 @@ const St = {
     cursor: pointer;
     text-align: left;
   `,
-
   CoinLogo: styled.i`
     display: inline-block;
     width: 20px;
@@ -42,7 +41,6 @@ const St = {
     margin-left: 5px;
     margin-right: 15px;
   `,
-
   CoinNameContainer: styled.div`
     display: flex;
     flex-direction: column;
@@ -51,7 +49,6 @@ const St = {
     min-width: 55px;
     height: 45px;
   `,
-
   CoinName: styled.strong`
     display: block;
     font-size: 12px;
@@ -60,12 +57,10 @@ const St = {
       font-weight: 500;
     }
   `,
-
   CoinNameEn: styled.span`
     display: block;
     font-size: 12px;
   `,
-
   Price: styled.strong`
     display: block;
     width: 20%;
@@ -108,7 +103,6 @@ const St = {
       font-weight: 500;
     }
   `,
-
   ChangRateContainer: styled.div`
     display: flex;
     flex-direction: column;
@@ -118,21 +112,18 @@ const St = {
     height: 100%;
     text-align: right;
   `,
-
   ChangeRate: styled.span`
     display: block;
     font-size: 12px;
     color: ${({ fontColor }) => fontColor};
     /* font-weight: 800; */
   `,
-
   ChangePrice: styled.span`
     display: block;
     font-size: 12px;
     color: ${({ fontColor }) => fontColor};
     /* font-weight: 800; */
   `,
-
   TradePrice: styled.span`
     display: flex;
     flex-direction: column;
@@ -185,7 +176,10 @@ const CoinListItem = ({
       bgColor={selectedMarket === marketName ? theme.lightGray : "white"}
     >
       <St.CoinBtn onClick={changeMarket}>
-        <St.CoinLogo coinNameEn={enCoinName.split("/")[0]} />
+        <St.CoinLogo
+          coinNameEn={enCoinName.split("/")[0]}
+          title={`${coinName} 로고`}
+        />
         <St.CoinNameContainer>
           <St.CoinName theme={theme}>{coinName}</St.CoinName>
           <St.CoinNameEn>{enCoinName}</St.CoinNameEn>

@@ -29,7 +29,7 @@ const St = {
       margin-bottom: 0;
     }
   `,
-  ChartAndTradeContainer: styled.div`
+  ChartAndTradeContainer: styled.section`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,6 +39,15 @@ const St = {
     @media ${(props) => (props.isRootURL ? props.theme.tablet : true)} {
       display: none;
     }
+  `,
+  HiddenH2: styled.h2`
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0, 0);
+    clip-path: polygon(0, 0);
+    overflow: hidden;
+    text-indent: -9999px;
   `,
   MainChartContainer: styled.div`
     width: 100%;
@@ -69,6 +78,7 @@ const Main = ({ match, widthSize, heightSize }) => {
           // 차트 및 주문 관련 뷰는 메인 페이지이면서 tablet 사이즈보다 크거나, 메인 페이지가 아닌 경우에만 그린다
           ((isRootURL && widthSize > viewSize.tablet) || !isRootURL) && (
             <St.ChartAndTradeContainer isRootURL={isRootURL}>
+              <St.HiddenH2>차트 및 주문 정보 창</St.HiddenH2>
               <CoinInfoHeader />
               <ChartDataConsole />
               <MainChart />
@@ -85,7 +95,11 @@ const Main = ({ match, widthSize, heightSize }) => {
         {
           // 코인 리스트 뷰는 메인 페이지이거나, 메인 페이지가 아니면서  tablet 사이즈보다 큰  경우에만 그린다
           (isRootURL || (!isRootURL && widthSize > viewSize.tablet)) && (
-            <CoinList widthSize={widthSize} heightSize={heightSize} />
+            <CoinList
+              widthSize={widthSize}
+              heightSize={heightSize}
+              isRootURL={isRootURL}
+            />
           )
         }
       </St.MainContentContainer>

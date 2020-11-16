@@ -1,12 +1,12 @@
 import React from "react";
-import isEqual from "react-fast-compare";
 import styled from "styled-components";
 import withSelectedCoinName from "../Container/withSelectedCoinName";
 import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
 import withThemeData from "../Container/withThemeData";
+import isEqual from "react-fast-compare";
 
 const St = {
-  CoinInfoContainer: styled.div`
+  CoinInfoContainer: styled.section`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,13 +15,20 @@ const St = {
     padding: 10px;
     border-bottom: 1px solid ${({ theme }) => theme.lightGray2};
   `,
-
+  HiddenH3: styled.h3`
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0, 0);
+    clip-path: polygon(0, 0);
+    overflow: hidden;
+    text-indent: -9999px;
+  `,
   CoinInfoMain: styled.div`
     display: flex;
     align-items: center;
     min-width: 380px;
   `,
-
   CoinLogo: styled.i`
     display: inline-block;
     width: 35px;
@@ -33,11 +40,9 @@ const St = {
     background-size: cover;
     margin-left: 5px;
   `,
-
   CoinNameContainer: styled.div`
     padding: 0 8px 0 13px;
   `,
-
   CoinName: styled.strong`
     font-size: 1.7rem;
     font-weight: 800;
@@ -47,7 +52,6 @@ const St = {
       font-size: 1.5rem;
     }
   `,
-
   CoinMarketName: styled.span`
     display: flex;
     font-size: 0.9rem;
@@ -55,12 +59,10 @@ const St = {
     padding-left: 5px;
     margin-top: 7px;
   `,
-
   PriceInfo: styled.div`
     display: flex;
     flex-direction: column;
   `,
-
   Price: styled.strong`
     color: ${({ priceColor }) => priceColor};
     font-size: 2rem;
@@ -70,31 +72,26 @@ const St = {
       font-size: 1.5rem;
     }
   `,
-
   PriceUnit: styled.span`
     font-size: 0.9rem;
     font-weight: 500;
     padding-left: 5px;
   `,
-
   ChangeContainer: styled.span`
     font-size: 0.8rem;
     margin-top: 5px;
   `,
-
   ChangeRate: styled.strong`
     font-size: 1rem;
     color: ${({ priceColor }) => priceColor};
     margin: 0 10px 0 5px;
     font-weight: 800;
   `,
-
   ChangePrice: styled.strong`
     font-size: 1rem;
     font-weight: 800;
     color: ${({ priceColor }) => priceColor};
   `,
-
   TradeInfoContainer: styled.dl`
     display: flex;
     justify-content: flex-end;
@@ -107,7 +104,6 @@ const St = {
       display: none;
     }
   `,
-
   InfoContainer: styled.div`
     height: 100%;
     margin-left: 15px;
@@ -118,7 +114,6 @@ const St = {
       display: none;
     }
   `,
-
   TradeInfo: styled.div`
     display: flex;
     justify-content: space-between;
@@ -128,13 +123,11 @@ const St = {
     padding: 5px 0 5px 0;
     font-size: 0.8rem;
   `,
-
   TradeDT: styled.dt`
     display: inline-block;
     min-width: 50px;
     height: 50%;
   `,
-
   TradeDD: styled.dd`
     margin: 0;
     display: inline-block;
@@ -160,8 +153,9 @@ const CoinInfoHeader = ({
   const priceColor = changeRate24Hour > 0 ? theme.priceUp : theme.priceDown;
   return (
     <St.CoinInfoContainer>
+      <St.HiddenH3>코인 가격 및 기타 정보</St.HiddenH3>
       <St.CoinInfoMain>
-        <St.CoinLogo coinSymbol={coinSymbol} />
+        <St.CoinLogo coinSymbol={coinSymbol} title={`${coinNameKor} 로고`} />
         <St.CoinNameContainer>
           <St.CoinName>{coinNameKor}</St.CoinName>
           <St.CoinMarketName>{coinNameAndMarketEng}</St.CoinMarketName>

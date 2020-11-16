@@ -12,6 +12,15 @@ const St = {
     background-color: white;
     border-bottom: 1px solid ${({ theme }) => theme.lightGray2};
   `,
+  HiddenH3: styled.h3`
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0, 0);
+    clip-path: polygon(0, 0);
+    overflow: hidden;
+    text-indent: -9999px;
+  `,
   TimeBtnContainer: styled.div`
     display: flex;
     align-items: center;
@@ -44,6 +53,7 @@ const ChartDataConsole = ({ theme, selectedTimeCount, selectedTimeType }) => {
 
   return (
     <St.Container theme={theme}>
+      <St.HiddenH3>차트에 표시할 캔들의 시간 선택</St.HiddenH3>
       <St.TimeBtnContainer>
         <St.TimeBtn
           onClick={changeChartTime(1, "minutes")}
