@@ -126,12 +126,12 @@ const CoinList = ({
   const history = useHistory();
   const dispatch = useDispatch();
   const isRootURL = history.location.pathname === "/";
-  console.log(heightSize - 80);
 
   return (
     <St.CoinListContainer isRootURL={isRootURL} heightSize={heightSize - 80}>
       <St.CoinSearchContainer>
         <St.CoinSearchInput
+          type="search"
           onChange={(e) => dispatch(searchCoin(e.target.value))}
           value={searchCoinInput}
         />

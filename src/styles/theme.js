@@ -1,8 +1,8 @@
-const size = {
-  mobileS: "480px",
-  mobileM: "770px",
-  tablet: "1279px",
-  desktop: "1280px",
+const viewSize = {
+  mobileS: 480,
+  mobileM: 770,
+  tablet: 1279,
+  desktop: 1280,
 };
 
 const theme = {
@@ -21,10 +21,11 @@ const theme = {
   lightGray: "rgb(244, 245, 248)",
   lightGray1: "rgb(249, 250, 252)",
   lightGray2: "rgb(212, 214, 220)",
-  mobileS: `(max-width: ${size.mobileS})`,
-  mobileM: `(max-width: ${size.mobileM})`,
-  tablet: `(max-width: ${size.tablet})`,
-  desktop: `(min-width: ${size.desktop})`,
+  mobileS: `(max-width: ${viewSize.mobileS}px)`,
+  mobileM: `(max-width: ${viewSize.mobileM}px)`,
+  tablet: `(max-width: ${viewSize.tablet}px)`,
+  desktop: `(min-width: ${viewSize.desktop}px)`,
 };
 
+export { viewSize };
 export default theme;
