@@ -20,8 +20,12 @@ const St = {
     max-width: 1360px;
     margin: 0 auto;
 
-    @media ${({ theme }) => theme.tablet} {
+    @media ${({ theme, isRootURL }) => (!isRootURL ? theme.tablet : true)} {
       max-width: 950px;
+    }
+
+    @media ${({ theme, isRootURL }) => (isRootURL ? theme.tablet : true)} {
+      max-width: 100%;
     }
   `,
 
@@ -43,10 +47,10 @@ const St = {
   `,
 };
 
-const Header = () => {
+const Header = ({ isRootURL }) => {
   return (
     <St.Header>
-      <St.Container>
+      <St.Container isRootURL={isRootURL}>
         <St.SiteHeading>
           <St.MainLink href="/" logo={logo} title={"메인으로 이동"}>
             업비트

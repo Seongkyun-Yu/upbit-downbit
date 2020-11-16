@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+import withSize from "../Container/withSize";
+import { viewSize } from "../styles/theme";
 
 import Header from "../Components/Global/Header";
-import CoinList from "../Components/CoinList";
-
+import CoinInfoHeader from "../Components/CoinInfoHeader";
+import ChartDataConsole from "../Components/ChartDataConsole";
 import MainChart from "../Components/MainChart";
 import Orderbook from "../Components/Orderbook";
-import CoinInfoHeader from "../Components/CoinInfoHeader";
 import OrderInfo from "../Components/OrderInfo";
 import TradeList from "../Components/TradeList";
-import ChartDataConsole from "../Components/ChartDataConsole";
+import CoinList from "../Components/CoinList";
 import Footer from "../Components/Global/Footer";
-import withSize from "../Container/withSize";
 
 const St = {
   MainContentContainer: styled.main`
@@ -29,7 +29,6 @@ const St = {
       margin-bottom: 0;
     }
   `,
-
   ChartAndTradeContainer: styled.div`
     display: flex;
     flex-direction: column;
@@ -45,13 +44,11 @@ const St = {
     width: 100%;
     height: 500;
   `,
-
   TradeInfoContainer: styled.div`
     display: flex;
     width: 100%;
     margin-top: 10px;
   `,
-
   TradeOrderContainer: styled.div`
     display: flex;
     flex-direction: column;
@@ -66,31 +63,31 @@ const Main = ({ match, widthSize, heightSize }) => {
 
   return (
     <>
-      <Header />
+      <Header isRootURL={isRootURL} />
       <St.MainContentContainer>
-        <St.ChartAndTradeContainer isRootURL={isRootURL}>
-          <CoinInfoHeader />
-          <ChartDataConsole />
-          <div // 스타일드 컴포넌트로는 차트 라이브러리 사이즈가 동적으로 설정되지 않아서 할 수 없이 이렇게 선언함
-            className="mainChartContainer"
-            style={{
-              width: "100%",
-              height: 500,
-            }}
-          >
-            <MainChart />
-          </div>
-
-          <St.TradeInfoContainer>
-            <Orderbook />
-            <St.TradeOrderContainer>
-              <OrderInfo />
-              <TradeList />
-            </St.TradeOrderContainer>
-          </St.TradeInfoContainer>
-        </St.ChartAndTradeContainer>
-
-        <CoinList widthSize={widthSize} heightSize={heightSize} />
+        {
+          // 차트 및 주문 관련 뷰는 메인 페이지이면서 tablet 사이즈보다 크거나, 메인 페이지가 아닌 경우에만 그린다
+          ((isRootURL && widthSize > viewSize.tablet) || !isRootURL) && (
+            <St.ChartAndTradeContainer isRootURL={isRootURL}>
+              <CoinInfoHeader />
+              <ChartDataConsole />
+              <MainChart />
+              <St.TradeInfoContainer>
+                <Orderbook />
+                <St.TradeOrderContainer>
+                  <OrderInfo />
+                  <TradeList />
+                </St.TradeOrderContainer>
+              </St.TradeInfoContainer>
+            </St.ChartAndTradeContainer>
+          )
+        }
+        {
+          // 코인 리스트 뷰는 메인 페이지이거나, 메인 페이지가 아니면서  tablet 사이즈보다 큰  경우에만 그린다
+          (isRootURL || (!isRootURL && widthSize > viewSize.tablet)) && (
+            <CoinList widthSize={widthSize} heightSize={heightSize} />
+          )
+        }
       </St.MainContentContainer>
       <Footer />
     </>

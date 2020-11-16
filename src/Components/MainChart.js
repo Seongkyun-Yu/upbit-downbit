@@ -1,4 +1,6 @@
 import React from "react";
+import styled from "styled-components";
+
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
 import {
@@ -27,7 +29,6 @@ import {
   withSize,
 } from "react-financial-charts";
 import withOHLCData from "../Container/withOHLCData";
-import styled from "styled-components";
 import withThemeData from "../Container/withThemeData";
 import withSelectedOption from "../Container/withSelectedOption";
 import Loading from "../styles/Loading";
@@ -71,7 +72,7 @@ const MainChart = ({
   isCandleLoading,
 }) => {
   // console.log(height, width);
-  // if (height > 500) height = 500;
+  if (height > 500) height = 500;
   // // if (width > 1000) width = 1000;
   // width = width / 2;
   // console.log("메인차트 리랜더");
@@ -261,7 +262,7 @@ export default withOHLCData()(
   withSize({
     style: {
       width: "100%",
-      height: "100%",
+      height: "500",
       minHeight,
     },
   })(
