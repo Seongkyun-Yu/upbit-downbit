@@ -137,7 +137,9 @@ const MainChart = ({
 
   // 확대 축소 초기 범위를 정하는 xExtendts설정, max와 min이 변하면 새로운 데이터 추가시 줌 설정이 풀린다
   const max = xAccessor(data[Math.min(199, data.length - 1)]);
-  const min = xAccessor(data[Math.min(50, Math.floor(data.length / 2))]);
+  const min = xAccessor(
+    data.length < 50 ? 0 : data[Math.min(50, Math.floor(data.length / 2))]
+  );
   const xExtents = [min, max + 5];
 
   const gridHeight = height - margin.top - margin.bottom;
