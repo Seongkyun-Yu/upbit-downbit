@@ -41,6 +41,10 @@ const St = {
       width: 50%;
       font-size: 0.7rem;
     }
+    @media ${({ theme }) => theme.mobileM} {
+      /* width: 50%; */
+      font-size: 0.8rem;
+    }
   `,
 
   TradeAmount: styled.span`
@@ -52,6 +56,11 @@ const St = {
     @media ${({ theme }) => theme.mobileS} {
       width: 50%;
       font-size: 0.7rem;
+    }
+
+    @media ${({ theme }) => theme.mobileM} {
+      /* width: 50%; */
+      font-size: 0.8rem;
     }
   `,
 

@@ -368,10 +368,18 @@ const candleDataUtils = {
     const selectedTimeCount = state.Coin.selectedTimeCount;
     const market = candles[0].market;
 
-    const newCandles = candles
-      .filter((candle) => candle.timestamp) // timestamp 정보가 없는 데이터 필터링
-      .map((candle) => {
-        return {
+    const newCandles = candles.reduce((acc, candle) => {
+      if (!candle.timestamp) return acc;
+      if (
+        candleStateData[market].candles.find(
+          (stateCandle) => stateCandle.timestamp === candle.timestamp
+        )
+      )
+        return acc;
+
+      return [
+        ...acc,
+        {
           date: dateFormat(
             timestampToDatetime(
               selectedTimeType,
@@ -391,8 +399,9 @@ const candleDataUtils = {
           close: candle.trade_price,
           volume: candle.candle_acc_trade_volume,
           tradePrice: candle.candle_acc_trade_price,
-        };
-      });
+        },
+      ];
+    }, []);
 
     const newData = {
       ...candleStateData,

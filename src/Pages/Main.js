@@ -57,6 +57,9 @@ const St = {
     display: flex;
     width: 100%;
     margin-top: 10px;
+    @media ${({ theme }) => theme.mobileM} {
+      margin-top: 0;
+    }
   `,
   TradeOrderContainer: styled.div`
     display: flex;
@@ -64,6 +67,13 @@ const St = {
     width: 55%;
     min-width: 180px;
     margin-left: 10px;
+    @media ${({ theme }) => theme.mobileM} {
+      margin-left: 0;
+      border: 2px solid ${({ theme }) => theme.lightGray1};
+      /* border-top: 1px solid ${({ theme }) => theme.lightGray1};
+      border-bottom: 1px solid ${({ theme }) => theme.lightGray1};
+      border-left: 1px solid ${({ theme }) => theme.lightGray1}; */
+    }
   `,
 };
 

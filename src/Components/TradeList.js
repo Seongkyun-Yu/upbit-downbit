@@ -16,6 +16,9 @@ const St = {
     height: 100%;
     background-color: white;
     margin-top: 10px;
+    @media ${({ theme }) => theme.mobileM} {
+      margin-top: 0;
+    }
   `,
   HiddenH3: styled.h3`
     position: absolute;
@@ -56,6 +59,8 @@ const St = {
   `,
   TitleListItem: styled.li`
     width: 20%;
+
+    min-width: 58px;
     text-align: ${({ textAlign }) => textAlign || "center"};
     @media ${({ theme, mobileSNone }) => (mobileSNone ? theme.mobileS : true)} {
       display: none;

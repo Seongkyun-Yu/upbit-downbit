@@ -60,6 +60,12 @@ const St = {
     width: 100%;
     border: none;
     padding: 5px;
+    padding-left: 12px;
+    &::placeholder {
+      font-size: 0.7rem;
+      color: gray;
+      font-weight: 700;
+    }
   `,
   CoinSearchBtn: styled.button`
     width: 30px;
@@ -137,6 +143,7 @@ const CoinList = ({
           type="search"
           onChange={(e) => dispatch(searchCoin(e.target.value))}
           value={searchCoinInput}
+          placeholder={"코인명/심볼검색"}
         />
         <St.CoinSearchBtn />
       </St.CoinSearchContainer>
