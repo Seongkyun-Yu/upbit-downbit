@@ -148,7 +148,6 @@ const CoinInfoHeader = ({
   volume24Hour,
   price,
 }) => {
-  console.log(price);
   const priceColor = changeRate24Hour > 0 ? theme.priceUp : theme.priceDown;
   return (
     <St.CoinInfoContainer>
