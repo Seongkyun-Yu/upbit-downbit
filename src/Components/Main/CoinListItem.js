@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { startChangeMarketAndData } from "../Reducer/coinReducer";
+import { startChangeMarketAndData } from "../../Reducer/coinReducer";
 
 import isEqual from "react-fast-compare";
 

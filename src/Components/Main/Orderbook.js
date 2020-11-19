@@ -3,13 +3,13 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import OrderbookItem from "./OrderbookItem";
-import Loading from "../styles/Loading";
+import Loading from "../../styles/Loading";
 
-import withThemeData from "../Container/withThemeData";
-import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
-import withOrderbookData from "../Container/withOrderbookData";
-import withSelectedOption from "../Container/withSelectedOption";
-import withLoadingData from "../Container/withLoadingData";
+import withThemeData from "../../Container/withThemeData";
+import withSelectedCoinPrice from "../../Container/withSelectedCoinPrice";
+import withOrderbookData from "../../Container/withOrderbookData";
+import withSelectedOption from "../../Container/withSelectedOption";
+import withLoadingData from "../../Container/withLoadingData";
 
 import isEqual from "react-fast-compare";
 

@@ -4,11 +4,11 @@ import Decimal from "decimal.js";
 import moment from "moment-timezone";
 
 import TradeListItem from "./TradeListItem";
-import Loading from "../styles/Loading";
+import Loading from "../../styles/Loading";
 
-import withTradeListData from "../Container/withTradeListData";
-import withThemeData from "../Container/withThemeData";
-import withLoadingData from "../Container/withLoadingData";
+import withTradeListData from "../../Container/withTradeListData";
+import withThemeData from "../../Container/withThemeData";
+import withLoadingData from "../../Container/withLoadingData";
 
 const St = {
   Container: styled.article`

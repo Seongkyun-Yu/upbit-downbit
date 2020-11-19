@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import withSelectedCoinName from "../Container/withSelectedCoinName";
-import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
-import withThemeData from "../Container/withThemeData";
+import withSelectedCoinName from "../../Container/withSelectedCoinName";
+import withSelectedCoinPrice from "../../Container/withSelectedCoinPrice";
+import withThemeData from "../../Container/withThemeData";
 import isEqual from "react-fast-compare";
 
 const St = {

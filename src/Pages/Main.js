@@ -4,13 +4,13 @@ import withSize from "../Container/withSize";
 import { viewSize } from "../styles/theme";
 
 import Header from "../Components/Global/Header";
-import CoinInfoHeader from "../Components/CoinInfoHeader";
-import ChartDataConsole from "../Components/ChartDataConsole";
-import MainChart from "../Components/MainChart";
-import Orderbook from "../Components/Orderbook";
-import OrderInfo from "../Components/OrderInfo";
-import TradeList from "../Components/TradeList";
-import CoinList from "../Components/CoinList";
+import CoinInfoHeader from "../Components/Main/CoinInfoHeader";
+import ChartDataConsole from "../Components/Main/ChartDataConsole";
+import MainChart from "../Components/Main/MainChart";
+import Orderbook from "../Components/Main/Orderbook";
+import OrderInfo from "../Components/Main/OrderInfo";
+import TradeList from "../Components/Main/TradeList";
+import CoinList from "../Components/Main/CoinList";
 import Footer from "../Components/Global/Footer";
 
 const St = {

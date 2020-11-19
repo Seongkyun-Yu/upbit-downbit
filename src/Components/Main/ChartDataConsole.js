@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import withSelectedOption from "../Container/withSelectedOption";
-import withThemeData from "../Container/withThemeData";
-import { changeTimeTypeAndData } from "../Reducer/coinReducer";
+import withSelectedOption from "../../Container/withSelectedOption";
+import withThemeData from "../../Container/withThemeData";
+import { changeTimeTypeAndData } from "../../Reducer/coinReducer";
 
 const St = {
   Container: styled.div`
