@@ -9,25 +9,51 @@
 
 <br>
 
+## Requirements
+
+- 사용 기술<br>
+  ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+  ![CSS3](https://img.shields.io/badge/-CSS3-1572B6?style=flat-square&logo=css3)
+  ![JavaScript](https://img.shields.io/badge/-JavaScript-black?style=flat-square&logo=javascript)
+  <br>
+  ![React](https://img.shields.io/badge/-React-black?style=flat-square&logo=react)
+  ![Redux](https://img.shields.io/badge/Redux-7F43C5?style=flat&logo=redux&logoColor=white)
+  ![Styled-Components](https://img.shields.io/badge/-Styled%20Component-pink?style=flat-square&logo=styled-components)
+  <br>
+  ![Amazon AWS](https://img.shields.io/badge/Amazon%20AWS-232F3E?style=flat-square&logo=amazon-aws)
+
+- 라이브러리
+  <details> 
+    <summary>접기/펼치기 버튼</summary>
+    <div markdown="1">
+      React v.16<br>
+      axios: ^0.20.0"<br>
+      d3: ^5.15.1"<br>
+      redux-saga v.1.1.3<br>
+      redux-thunk v.2.3.0<br>
+      react-router-dom v.5.2.0<br>
+      axios v.0.19.2<br>
+      node-sass v.4.14.1<br>
+      bootpay-js v.3.2.6<br>
+      http-proxy-middleware v.1.0.4<br>
+      react-chartjs-2 v.2.9.0<br>
+      react-cookies v.0.1.1<br>
+      react-flatpickr v.3.10.1<br>
+      react-google-login v.5.1.21<br>
+      react-loading-skeleton v.2.1.1<br>
+      react-naver-maps v.0.0.13<br>
+      react-player v.2.5.0<br>
+      react-slick v.0.26.1<br>
+    </div>
+  </details>
+
+<br>
+
 ## Getting Started
 
 $ git clone https://github.com/Seongkyun-Yu/upbit-clone.git<br>
 $ yarn install<br>
 \$ yarn start<br>
-
-<br>
-
-## Skill
-
-![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/-CSS3-1572B6?style=flat-square&logo=css3)
-![JavaScript](https://img.shields.io/badge/-JavaScript-black?style=flat-square&logo=javascript)
-<br>
-![React](https://img.shields.io/badge/-React-black?style=flat-square&logo=react)
-![Redux](https://img.shields.io/badge/Redux-7F43C5?style=flat&logo=redux&logoColor=white)
-![Styled-Components](https://img.shields.io/badge/-Styled%20Component-pink?style=flat-square&logo=styled-components)
-<br>
-![Amazon AWS](https://img.shields.io/badge/Amazon%20AWS-232F3E?style=flat-square&logo=amazon-aws)
 
 <br>
 
