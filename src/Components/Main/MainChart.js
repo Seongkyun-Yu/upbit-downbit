@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { startAddMoreCandleData } from "../Reducer/coinReducer";
+import { startAddMoreCandleData } from "../../Reducer/coinReducer";
 
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
@@ -31,12 +31,12 @@ import {
   withSize,
 } from "react-financial-charts";
 
-import Loading from "../styles/Loading";
+import Loading from "../Global/Loading";
 
-import withOHLCData from "../Container/withOHLCData";
-import withThemeData from "../Container/withThemeData";
-import withSelectedOption from "../Container/withSelectedOption";
-import withLoadingData from "../Container/withLoadingData";
+import withOHLCData from "../../Container/withOHLCData";
+import withThemeData from "../../Container/withThemeData";
+import withSelectedOption from "../../Container/withSelectedOption";
+import withLoadingData from "../../Container/withLoadingData";
 import isEqual from "react-fast-compare";
 
 const barChartExtents = (data) => {

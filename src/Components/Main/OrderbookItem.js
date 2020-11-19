@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { changePriceAndTotalPrice } from "../Reducer/coinReducer";
+import { changePriceAndTotalPrice } from "../../Reducer/coinReducer";
 import styled, { css } from "styled-components";
 
 import isEqual from "react-fast-compare";

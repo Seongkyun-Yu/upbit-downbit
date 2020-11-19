@@ -31,7 +31,7 @@ $ yarn install<br>
 
 <br>
 
-## Main Feature
+## Main Feature (프로젝트의 모든 기능을 혼자 개발했습니다)
 
 - 실시간 가격, 거래량 등의 데이터 수신 및 차트 랜더링
 - 실시간 호가창, 거래내역 랜더링
@@ -42,13 +42,221 @@ $ yarn install<br>
 
 <br>
 
+## 프로젝트 구조
+
+```bash
+├── node_modules
+├── public
+│   ├── blueLogo.png
+│   ├── whiteLogo.png
+│   ├── favicon.png
+│   └── index.html
+├── build
+├── src
+│   ├── Api
+│   │   └── api.js
+│   ├── Components
+│   │   ├── Global
+│   │   │   ├── Header.js
+│   │   │   ├── Footer.js
+│   │   │   └── Loading.js
+│   │   └── Main
+│   │       ├── ChartDataConsole.js
+│   │       ├── CoinInfoHeader.js
+│   │       ├── CoinList.js
+│   │       ├── CoinListItem.js
+│   │       ├── MainChart.js
+│   │       ├── Orderbook.js
+│   │       ├── OrderbookCoinInfo.js
+│   │       ├── OrderbookItem.js
+│   │       ├── OrderInfo.js
+│   │       ├── OrderInfoAskBid.js
+│   │       ├── OrderInfoTradeList.js
+│   │       ├── TradeList.js
+│   │       └── TradeListItem.js
+│   ├── Pages
+│   │   └── Main.js
+│   ├── Container                         <-- HOC
+│   │   ├── withLatestCoinData.js
+│   │   ├── withLoadingData.js
+│   │   ├── withMarketNames.js
+│   │   ├── withOHLCData.js
+│   │   └── ...etc
+│   ├── Lib
+│   │   ├── asyncUtil.js                  <-- redux-saga, thunk factory pattern
+│   │   └── utils.js                      <-- etc utils
+│   ├── Reducer
+│   │   ├── index.js
+│   │   ├── coinReducer.js
+│   │   └── loadingReducer.js
+│   ├── Router
+│   │   └── MainRouter.js
+│   ├── styles
+│   │   ├── fonts
+│   │   ├── GlobalStyle.js
+│   │   └── theme.js
+│   ├── App.js
+│   └── index.js
+├── README.md
+├── LICENSE
+├── package.json
+├── yarn.lock
+└── .gitignore
+```
+
+<br>
+
 ## Technical Issue: Optimization
 
 - 1초에 최대 150개의 데이터가 전송되어 상태를 변경시킴
+
+  - <details>
+    <summary>해결 코드 접기/펼치기 버튼</summary>
+    <div markdown="1">
+
+    ```javascript
+    import { call, put, select, flush, delay } from "redux-saga/effects";
+    import { buffers, eventChannel } from "redux-saga";
+
+    // 소켓 만들기
+    const createSocket = () => {
+      const client = new W3CWebSocket("wss://api.upbit.com/websocket/v1");
+      client.binaryType = "arraybuffer";
+
+      return client;
+    };
+
+    // 소켓 연결용
+    const connectSocekt = (socket, connectType, action, buffer) => {
+      return eventChannel((emit) => {
+        socket.onopen = () => {
+          socket.send(
+            JSON.stringify([
+              { ticket: "downbit-clone" },
+              { type: connectType, codes: action.payload },
+            ])
+          );
+        };
+
+        socket.onmessage = (evt) => {
+          const enc = new TextDecoder("utf-8");
+          const arr = new Uint8Array(evt.data);
+          const data = JSON.parse(enc.decode(arr));
+
+          emit(data);
+        };
+
+        socket.onerror = (evt) => {
+          emit(evt);
+        };
+
+        const unsubscribe = () => {
+          socket.close();
+        };
+
+        return unsubscribe;
+      }, buffer || buffers.none());
+    };
+
+    // 웹소켓 연결용 사가
+    const createConnectSocketSaga = (type, connectType, dataMaker) => {
+      const SUCCESS = `${type}_SUCCESS`;
+      const ERROR = `${type}_ERROR`;
+
+      return function* (action = {}) {
+        const client = yield call(createSocket);
+        const clientChannel = yield call(
+          connectSocekt,
+          client,
+          connectType,
+          action,
+          buffers.expanding(500)
+        );
+
+        while (true) {
+          try {
+            const datas = yield flush(clientChannel); // 버퍼 데이터 가져오기
+            const state = yield select();
+
+            if (datas.length) {
+              const sortedObj = {};
+              datas.forEach((data) => {
+                if (sortedObj[data.code]) {
+                  // 버퍼에 있는 데이터중 시간이 가장 최근인 데이터만 남김
+                  sortedObj[data.code] =
+                    sortedObj[data.code].timestamp > data.timestamp
+                      ? sortedObj[data.code]
+                      : data;
+                } else {
+                  sortedObj[data.code] = data; // 새로운 데이터면 그냥 넣음
+                }
+              });
+
+              const sortedData = Object.keys(sortedObj).map(
+                (data) => sortedObj[data]
+              );
+
+              yield put({
+                type: SUCCESS,
+                payload: dataMaker(sortedData, state),
+              });
+            }
+            yield delay(500); // 500ms 동안 대기
+          } catch (e) {
+            yield put({ type: ERROR, payload: e });
+          }
+        }
+      };
+    };
+    ```
+
+    </div>
+    </details>
+
   - Push 방식의 WebSocket을 Redux-Saga를 이용하여 Pull 방식으로 변경
   - Redux-Saga의 eventChannel을 이용하여 버퍼 생성
   - 0.5초에 한 번 버퍼를 확인하여 중복된 데이터 제거 후 변경내역을 상태에 한번에 업데이트
+
 - 반응형으로 제작시 보이지 않는 컴포넌트를 랜더링 처리
+
+  - <details>
+    <summary>해결 코드 접기/펼치기 버튼</summary>
+    <div markdown="1">
+
+    ```javascript
+    import React, { useCallback, useEffect, useState } from "react";
+    import { throttle } from "lodash";
+
+    const withSize = () => (OriginalComponent) => (props) => {
+      const [widthSize, setWidthSize] = useState(window.innerWidth);
+      const [heightSize, setHeightSize] = useState(window.innerHeight);
+
+      const handleSize = useCallback(() => {
+        setWidthSize(window.innerWidth);
+        setHeightSize(window.innerHeight);
+      }, []);
+
+      useEffect(() => {
+        window.addEventListener("resize", throttle(handleSize, 200));
+        return () => {
+          window.removeEventListener("resize", handleSize);
+        };
+      }, [handleSize]);
+
+      return (
+        <OriginalComponent
+          {...props}
+          widthSize={widthSize}
+          heightSize={heightSize}
+        />
+      );
+    };
+
+    export default withSize;
+    ```
+
+    </div>
+    </details>
 
   - display: none으로 처리해도 DOM에는 사라지지 않기 때문에 상태 변경시 랜더링 시도함
   - width 값을 측정하여 조건이 맞을 경우에만 컴포넌트를 랜더링 하게 함

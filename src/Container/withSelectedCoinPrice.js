@@ -16,10 +16,18 @@ const withSelectedCoinPrice = () => (OriginalComponent) => (props) => {
   );
 
   // 52주 고가 저가
-  const highestPrice52Week = selectedCoinData.highestPrice52Week;
-  const highestDate52Week = selectedCoinData.highestDate52Week;
-  const lowestPrice52Week = selectedCoinData.lowestPrice52Week;
-  const lowestDate52Week = selectedCoinData.lowestDate52Week;
+  const highestPrice52Week = useSelector(
+    (state) => state.Coin.candle.data[selectedMarket].highestPrice52Week
+  );
+  const highestDate52Week = useSelector(
+    (state) => state.Coin.candle.data[selectedMarket].highestDate52Week
+  );
+  const lowestPrice52Week = useSelector(
+    (state) => state.Coin.candle.data[selectedMarket].lowestPrice52Week
+  );
+  const lowestDate52Week = useSelector(
+    (state) => state.Coin.candle.data[selectedMarket].lowestDate52Week
+  );
 
   // 24시간 거래대금, 거래량
   const tradePrice24Hour = Math.floor(selectedCoinData.tradePrice24Hour);
@@ -33,13 +41,15 @@ const withSelectedCoinPrice = () => (OriginalComponent) => (props) => {
     : 0;
 
   // 전일, 당일 가격
-  const selecteCoinCadnles = selectedCoinData.candles;
+  const selecteCoinCadnles = useSelector(
+    (state) => state.Coin.candle.data[selectedMarket].candles
+  );
   const lastCandleIndex = selecteCoinCadnles.length - 1;
 
   const beforeDayPrice = selecteCoinCadnles.length
-    ? selecteCoinCadnles[lastCandleIndex].close -
-      selectedCoinData.changePrice24Hour
+    ? selecteCoinCadnles[lastCandleIndex].close - changePrice24Hour
     : 0;
+
   const price = selecteCoinCadnles.length
     ? selecteCoinCadnles[selecteCoinCadnles.length - 1].close
     : 0;

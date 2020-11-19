@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import withSelectedCoinName from "../Container/withSelectedCoinName";
-import withSelectedCoinPrice from "../Container/withSelectedCoinPrice";
-import withThemeData from "../Container/withThemeData";
+import withSelectedCoinName from "../../Container/withSelectedCoinName";
+import withSelectedCoinPrice from "../../Container/withSelectedCoinPrice";
+import withThemeData from "../../Container/withThemeData";
 import isEqual from "react-fast-compare";
 
 const St = {
@@ -148,6 +148,7 @@ const CoinInfoHeader = ({
   volume24Hour,
   price,
 }) => {
+  console.log(price);
   const priceColor = changeRate24Hour > 0 ? theme.priceUp : theme.priceDown;
   return (
     <St.CoinInfoContainer>
@@ -209,5 +210,5 @@ const CoinInfoHeader = ({
 };
 
 export default withSelectedCoinName()(
-  withSelectedCoinPrice()(withThemeData()(React.memo(CoinInfoHeader, isEqual)))
+  withSelectedCoinPrice()(withThemeData()(React.memo(CoinInfoHeader)))
 );

@@ -1,16 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { searchCoin } from "../Reducer/coinReducer";
+import { searchCoin } from "../../Reducer/coinReducer";
 import { useDispatch } from "react-redux";
 
 import CoinListItem from "./CoinListItem";
-import Loading from "../styles/Loading";
+import Loading from "../Global/Loading";
 
-import withThemeData from "../Container/withThemeData";
-import withSelectedOption from "../Container/withSelectedOption";
-import withMarketNames from "../Container/withMarketNames";
-import withLatestCoinData from "../Container/withLatestCoinData";
-import withLoadingData from "../Container/withLoadingData";
+import withThemeData from "../../Container/withThemeData";
+import withSelectedOption from "../../Container/withSelectedOption";
+import withMarketNames from "../../Container/withMarketNames";
+import withLatestCoinData from "../../Container/withLatestCoinData";
+import withLoadingData from "../../Container/withLoadingData";
 
 const St = {
   CoinListContainer: styled.article`

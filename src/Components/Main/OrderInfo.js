@@ -1,11 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import withSelectedOption from "../Container/withSelectedOption";
-import withThemeData from "../Container/withThemeData";
-import withSelectedCoinName from "../Container/withSelectedCoinName";
-import { changeAskBidOrder } from "../Reducer/coinReducer";
 import OrderInfoAskBid from "./OrderInfoAskBid";
+
+import withSelectedOption from "../../Container/withSelectedOption";
+import withThemeData from "../../Container/withThemeData";
+import withSelectedCoinName from "../../Container/withSelectedCoinName";
+
+import { changeAskBidOrder } from "../../Reducer/coinReducer";
 import isEqual from "react-fast-compare";
 
 const St = {
