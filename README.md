@@ -109,8 +109,7 @@ $ yarn install<br>
 ## Technical Issue: Optimization
 
 - 1초에 최대 150개의 데이터가 전송되어 상태를 변경시킴
-
-  - <details>
+  <!-- - <details>
     <summary>해결 코드 접기/펼치기 버튼</summary>
     <div markdown="1">
 
@@ -211,7 +210,7 @@ $ yarn install<br>
     ```
 
     </div>
-    </details>
+    </details> -->
 
   - Push 방식의 WebSocket을 Redux-Saga를 이용하여 Pull 방식으로 변경
   - Redux-Saga의 eventChannel을 이용하여 버퍼 생성
@@ -315,7 +314,7 @@ $ yarn install<br>
 
 - 반응형으로 제작시 보이지 않는 컴포넌트를 랜더링 처리
 
-  - <details>
+  <!-- - <details>
     <summary>해결 코드 접기/펼치기 버튼</summary>
     <div markdown="1">
 
@@ -352,9 +351,10 @@ $ yarn install<br>
     ```
 
     </div>
-    </details>
+    </details> -->
 
   - display: none으로 처리해도 DOM에는 사라지지 않기 때문에 상태 변경시 랜더링 시도함
+
   - width 값을 측정하여 조건이 맞을 경우에만 컴포넌트를 랜더링 하게 함
   - throttle 사용으로 과도한 width값 측정 방지
   - ```javascript
