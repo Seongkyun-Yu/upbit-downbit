@@ -31,7 +31,7 @@ import {
   withSize,
 } from "react-financial-charts";
 
-import Loading from "../../styles/Loading";
+import Loading from "../Global/Loading";
 
 import withOHLCData from "../../Container/withOHLCData";
 import withThemeData from "../../Container/withThemeData";

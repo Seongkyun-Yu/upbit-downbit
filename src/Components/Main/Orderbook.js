@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import OrderbookItem from "./OrderbookItem";
-import Loading from "../../styles/Loading";
+import Loading from "../Global/Loading";
 
 import withThemeData from "../../Container/withThemeData";
 import withSelectedCoinPrice from "../../Container/withSelectedCoinPrice";

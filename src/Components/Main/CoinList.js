@@ -4,7 +4,7 @@ import { searchCoin } from "../../Reducer/coinReducer";
 import { useDispatch } from "react-redux";
 
 import CoinListItem from "./CoinListItem";
-import Loading from "../../styles/Loading";
+import Loading from "../Global/Loading";
 
 import withThemeData from "../../Container/withThemeData";
 import withSelectedOption from "../../Container/withSelectedOption";

@@ -4,7 +4,7 @@ import Decimal from "decimal.js";
 import moment from "moment-timezone";
 
 import TradeListItem from "./TradeListItem";
-import Loading from "../../styles/Loading";
+import Loading from "../Global/Loading";
 
 import withTradeListData from "../../Container/withTradeListData";
 import withThemeData from "../../Container/withThemeData";
