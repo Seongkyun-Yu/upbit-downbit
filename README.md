@@ -44,9 +44,7 @@
       styled-components: 5.2.0<br>
       styled-normalize: 8.0.7<br>
       styled-reset": 4.3.0<br>
-      @fortawesome/fontawesome-svg-core: 1.2.32<br>
       @fortawesome/free-brands-svg-icons: 5.15.1<br>
-      @fortawesome/free-regular-svg-icons: 5.15.1<br>
       @fortawesome/free-solid-svg-icons: 5.15.1<br>
       @fortawesome/react-fontawesome: 0.1.12<br>
     </div>
