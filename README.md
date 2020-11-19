@@ -217,6 +217,102 @@ $ yarn install<br>
   - Redux-Saga의 eventChannel을 이용하여 버퍼 생성
   - 0.5초에 한 번 버퍼를 확인하여 중복된 데이터 제거 후 변경내역을 상태에 한번에 업데이트
 
+  - ```javascript
+    import { call, put, select, flush, delay } from "redux-saga/effects";
+    import { buffers, eventChannel } from "redux-saga";
+
+    // 소켓 만들기
+    const createSocket = () => {
+      const client = new W3CWebSocket("wss://api.upbit.com/websocket/v1");
+      client.binaryType = "arraybuffer";
+
+      return client;
+    };
+
+    // 소켓 연결용
+    const connectSocekt = (socket, connectType, action, buffer) => {
+      return eventChannel((emit) => {
+        socket.onopen = () => {
+          socket.send(
+            JSON.stringify([
+              { ticket: "downbit-clone" },
+              { type: connectType, codes: action.payload },
+            ])
+          );
+        };
+
+        socket.onmessage = (evt) => {
+          const enc = new TextDecoder("utf-8");
+          const arr = new Uint8Array(evt.data);
+          const data = JSON.parse(enc.decode(arr));
+
+          emit(data);
+        };
+
+        socket.onerror = (evt) => {
+          emit(evt);
+        };
+
+        const unsubscribe = () => {
+          socket.close();
+        };
+
+        return unsubscribe;
+      }, buffer || buffers.none());
+    };
+
+    // 웹소켓 연결용 사가
+    const createConnectSocketSaga = (type, connectType, dataMaker) => {
+      const SUCCESS = `${type}_SUCCESS`;
+      const ERROR = `${type}_ERROR`;
+
+      return function* (action = {}) {
+        const client = yield call(createSocket);
+        const clientChannel = yield call(
+          connectSocekt,
+          client,
+          connectType,
+          action,
+          buffers.expanding(500)
+        );
+
+        while (true) {
+          try {
+            const datas = yield flush(clientChannel); // 버퍼 데이터 가져오기
+            const state = yield select();
+
+            if (datas.length) {
+              const sortedObj = {};
+              datas.forEach((data) => {
+                if (sortedObj[data.code]) {
+                  // 버퍼에 있는 데이터중 시간이 가장 최근인 데이터만 남김
+                  sortedObj[data.code] =
+                    sortedObj[data.code].timestamp > data.timestamp
+                      ? sortedObj[data.code]
+                      : data;
+                } else {
+                  sortedObj[data.code] = data; // 새로운 데이터면 그냥 넣음
+                }
+              });
+
+              const sortedData = Object.keys(sortedObj).map(
+                (data) => sortedObj[data]
+              );
+
+              yield put({
+                type: SUCCESS,
+                payload: dataMaker(sortedData, state),
+              });
+            }
+            yield delay(500); // 500ms 동안 대기
+          } catch (e) {
+            yield put({ type: ERROR, payload: e });
+          }
+        }
+      };
+    };
+    ```
+
 - 반응형으로 제작시 보이지 않는 컴포넌트를 랜더링 처리
 
   - <details>
@@ -261,6 +357,36 @@ $ yarn install<br>
   - display: none으로 처리해도 DOM에는 사라지지 않기 때문에 상태 변경시 랜더링 시도함
   - width 값을 측정하여 조건이 맞을 경우에만 컴포넌트를 랜더링 하게 함
   - throttle 사용으로 과도한 width값 측정 방지
+  - ```javascript
+    import React, { useCallback, useEffect, useState } from "react";
+    import { throttle } from "lodash";
+
+    const withSize = () => (OriginalComponent) => (props) => {
+      const [widthSize, setWidthSize] = useState(window.innerWidth);
+      const [heightSize, setHeightSize] = useState(window.innerHeight);
+
+      const handleSize = useCallback(() => {
+        setWidthSize(window.innerWidth);
+        setHeightSize(window.innerHeight);
+      }, []);
+
+      useEffect(() => {
+        window.addEventListener("resize", throttle(handleSize, 200));
+        return () => {
+          window.removeEventListener("resize", handleSize);
+        };
+      }, [handleSize]);
+
+      return (
+        <OriginalComponent
+          {...props}
+          widthSize={widthSize}
+          heightSize={heightSize}
+        />
+      );
+    };
+    export default withSize;
+    ```
 
 - 초기 차트 데이터를 얼마나 가져와야 하는지에 대한 문제
   - 200개의 캔들을 먼저 가져오고 필요할 시 추가로 요청 후 랜더링
