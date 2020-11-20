@@ -9,6 +9,16 @@
 
 <br>
 
+## Skill
+
+![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/-CSS3-1572B6?style=flat-square&logo=css3)
+![JavaScript](https://img.shields.io/badge/-JavaScript-black?style=flat-square&logo=javascript)<br>
+![React](https://img.shields.io/badge/-React-black?style=flat-square&logo=react)
+![Redux](https://img.shields.io/badge/Redux-7F43C5?style=flat&logo=redux&logoColor=white)
+![Styled-Components](https://img.shields.io/badge/-Styled%20Component-pink?style=flat-square&logo=styled-components)<br>
+![Amazon AWS](https://img.shields.io/badge/Amazon%20AWS-232F3E?style=flat-square&logo=amazon-aws)
+
 ## Requirements
 
 - Library
@@ -38,18 +48,6 @@
       @fortawesome/react-fontawesome: 0.1.12<br>
     </div>
   </details>
-
-<br>
-
-## Skill
-
-![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/-CSS3-1572B6?style=flat-square&logo=css3)
-![JavaScript](https://img.shields.io/badge/-JavaScript-black?style=flat-square&logo=javascript)<br>
-![React](https://img.shields.io/badge/-React-black?style=flat-square&logo=react)
-![Redux](https://img.shields.io/badge/Redux-7F43C5?style=flat&logo=redux&logoColor=white)
-![Styled-Components](https://img.shields.io/badge/-Styled%20Component-pink?style=flat-square&logo=styled-components)<br>
-![Amazon AWS](https://img.shields.io/badge/Amazon%20AWS-232F3E?style=flat-square&logo=amazon-aws)
 
 ## Getting Started
 
