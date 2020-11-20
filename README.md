@@ -9,6 +9,16 @@
 
 <br>
 
+## Development motivation
+
+Upbit의 실제 거래 데이터를 통해<br>
+
+많은 데이터 수신시 프론트 엔드의 뷰를 최적화 하는 방법을 학습하고자<br>
+
+이번 프로젝트를 시작하였습니다.<br>
+
+<br>
+
 ## Skill
 
 ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
@@ -58,16 +68,6 @@
 $ git clone https://github.com/Seongkyun-Yu/upbit-clone.git<br>
 $ yarn install<br>
 \$ yarn start<br>
-
-<br>
-
-## Development motivation
-
-Upbit의 실제 거래 데이터를 통해<br>
-
-많은 데이터 수신시 프론트 엔드의 뷰를 최적화 하는 방법을 학습하고자<br>
-
-이번 프로젝트를 시작하였습니다.<br>
 
 <br>
 
