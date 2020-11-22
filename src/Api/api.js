@@ -32,7 +32,6 @@ export const coinApi = {
         });
   },
   getAdditionalCoinCandles: ({ coin, timeType, timeCount, datetime }) => {
-    // console.log(datetime);
     if (timeType === "minutes")
       return axios
         .get(

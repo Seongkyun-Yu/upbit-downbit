@@ -84,12 +84,7 @@ const MainChart = ({
   theme,
   isCandleLoading,
 }) => {
-  // console.log(height, width);
   if (height > 500) height = 500;
-  // // if (width > 1000) width = 1000;
-  // width = width / 2;
-  // console.log("메인차트 리랜더");
-  // console.log(initialData);
   const dispatch = useDispatch();
 
   const dateTimeFormat =
@@ -170,7 +165,6 @@ const MainChart = ({
           disableInteraction={false}
           zoomAnchor={mouseBasedZoomAnchor}
           onLoadBefore={() => {
-            // console.log("럴수럴수");
             dispatch(startAddMoreCandleData());
           }}
         >
