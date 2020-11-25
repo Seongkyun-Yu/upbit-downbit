@@ -1,4 +1,4 @@
-# Downbit 프로젝트
+# Downbit 프로젝트 [![HitCount](http://hits.dwyl.com/seongkyun-yu/upbit-clone.svg)](http://hits.dwyl.com/seongkyun-yu/upbit-clone)
 
 ![](https://user-images.githubusercontent.com/15887982/99421488-c6cf0080-2941-11eb-9c5f-624593075430.gif)
 
