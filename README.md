@@ -5,7 +5,8 @@
 2020년 9월 1일부터 매일 2시간씩 진행중인 업비트 클론 프로젝트 입니다.<br>
 (Front-End 완료, Back-End 공부중)
 
-[downbit.ml](https://downbit.ml)에서 배포된 프로젝트 내역을 확인하실 수 있습니다.<br>
+~~[downbit.ml](https://downbit.ml)에서 배포된 프로젝트 내역을 확인하실 수 있습니다.~~<br>
+두나무의 요청으로 배포가 중단 되었습니다.<br>
 
 <br>
 
