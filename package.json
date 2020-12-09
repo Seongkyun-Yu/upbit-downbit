@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-brands-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.12",
@@ -16,8 +17,10 @@
     "d3fc": "^15.0.16",
     "decimal.js": "^10.2.1",
     "hangul-js": "^0.2.6",
+    "install": "^0.13.0",
     "lodash": "^4.17.20",
     "moment-timezone": "^0.5.31",
+    "npm": "^6.14.9",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-fast-compare": "^3.2.0",
