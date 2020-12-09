@@ -1,6 +1,10 @@
 # Downbit 프로젝트 ![ViewCount](https://views.whatilearened.today/views/github/Seongkyun-Yu/upbit-clone.svg)
 
-![](https://user-images.githubusercontent.com/15887982/99421488-c6cf0080-2941-11eb-9c5f-624593075430.gif)
+| [![downbit_image](https://user-images.githubusercontent.com/15887982/99421488-c6cf0080-2941-11eb-9c5f-624593075430.gif)](https://youtu.be/zsuSvv9IfM8) |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                                          _이미지 클릭시 YouTube로 연결됩니다_                                                          |
+
+<br>
 
 2020년 9월 1일부터 11월 10일 동안 매일 2시간씩 진행한 업비트 클론 프로젝트 입니다.<br>
 (Front-End 완료, Back-End 공부중)
