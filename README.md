@@ -151,6 +151,17 @@ $ yarn install<br>
 
 <br>
 
+## 프로젝트 관련 생각들
+
+- [나는 어떻게 차트를 만들었나](https://velog.io/@seongkyun/%EB%82%98%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%B0%A8%ED%8A%B8%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%97%88%EB%82%98)
+- [나는 왜 Commit 단위를 작게 나누는가](https://velog.io/@seongkyun/%EB%82%98%EB%8A%94-%EC%99%9C-Commit-%EB%8B%A8%EC%9C%84%EB%A5%BC-%EC%9E%91%EA%B2%8C-%EC%AA%BC%EA%B0%9C%EB%8A%94%EA%B0%80)
+- [질문 잘 하는 방법](https://velog.io/@seongkyun/%EC%A7%88%EB%AC%B8-%EC%9E%98%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
+- [나는 왜 리액트를 선택했나](https://velog.io/@seongkyun/%EC%99%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8%EB%A5%BC-%EC%84%A0%ED%83%9D%ED%96%88%EB%82%98)
+- [나는 왜 AWS를 선택했나](https://velog.io/@seongkyun/%EB%82%98%EB%8A%94-%EC%99%9C-AWS%EB%A5%BC-%EC%84%A0%ED%83%9D%ED%96%88%EB%82%98)
+
+
+<br>
+
 ## Technical Issue: Optimization
 
 - 1초에 최대 150개의 데이터가 전송되어 상태를 변경시킴
