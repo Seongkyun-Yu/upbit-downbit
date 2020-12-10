@@ -7,7 +7,6 @@
 <br>
 
 2020년 9월 1일부터 11월 10일 동안 매일 2시간씩 진행한 업비트 클론 프로젝트 입니다.<br>
-(Front-End 완료, Back-End 공부중)
 
 ~~[downbit.ml](https://downbit.ml)에서 배포된 프로젝트 내역을 확인하실 수 있습니다.~~<br>
 두나무의 요청으로 배포를 중단했습니다.<br>
@@ -148,6 +147,16 @@ $ yarn install<br>
 ├── yarn.lock
 └── .gitignore
 ```
+
+<br>
+
+## 프로젝트 관련 생각들
+
+- [나는 어떻게 차트를 만들었나](https://velog.io/@seongkyun/%EB%82%98%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%B0%A8%ED%8A%B8%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%97%88%EB%82%98)
+- [나는 왜 Commit 단위를 작게 나누는가](https://velog.io/@seongkyun/%EB%82%98%EB%8A%94-%EC%99%9C-Commit-%EB%8B%A8%EC%9C%84%EB%A5%BC-%EC%9E%91%EA%B2%8C-%EC%AA%BC%EA%B0%9C%EB%8A%94%EA%B0%80)
+- [나는 왜 리액트를 선택했나](https://velog.io/@seongkyun/%EC%99%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8%EB%A5%BC-%EC%84%A0%ED%83%9D%ED%96%88%EB%82%98)
+- [나는 왜 AWS를 선택했나](https://velog.io/@seongkyun/%EB%82%98%EB%8A%94-%EC%99%9C-AWS%EB%A5%BC-%EC%84%A0%ED%83%9D%ED%96%88%EB%82%98)
+- [질문 잘 하는 방법](https://velog.io/@seongkyun/%EC%A7%88%EB%AC%B8-%EC%9E%98%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
 
 <br>
 
@@ -447,6 +456,3 @@ $ yarn install<br>
 - [x] 캔들 차트 드로잉<br>
 - [x] 호가 차트 드로잉<br>
 - [x] 주문 창 구현<br>
-
-- [ ] 회원가입/로그인<br>
-- [ ] 거래 구현<br>
