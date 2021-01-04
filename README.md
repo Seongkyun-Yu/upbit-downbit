@@ -33,7 +33,7 @@ Upbit의 실제 거래 데이터를 통해<br>
 ![Styled-Components](https://img.shields.io/badge/-Styled%20Component-pink?style=flat-square&logo=styled-components)<br>
 ![Amazon AWS](https://img.shields.io/badge/Amazon%20AWS-232F3E?style=flat-square&logo=amazon-aws)
 
-<br><br>
+<br>
 
 ## Requirements
 
