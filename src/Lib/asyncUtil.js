@@ -160,8 +160,8 @@ const createConnectSocketSaga = (type, connectType, dataMaker) => {
       buffers.expanding(500)
     );
 
-    while (true) {
-      try {
+    try {
+      while (true) {
         const datas = yield flush(clientChannel); // 버퍼 데이터 가져오기
         const state = yield select();
 
@@ -186,10 +186,10 @@ const createConnectSocketSaga = (type, connectType, dataMaker) => {
           yield put({ type: SUCCESS, payload: dataMaker(sortedData, state) });
         }
         yield delay(500); // 500ms 동안 대기
-      } catch (e) {
-        yield put({ type: ERROR, payload: e });
-        clientChannel.close(); // 에러가 나면 소켓 닫기
       }
+    } catch (e) {
+      yield put({ type: ERROR, payload: e });
+    } finally {
       clientChannel.close(); // emit(END) 접근시 소켓 닫기
     }
   };
