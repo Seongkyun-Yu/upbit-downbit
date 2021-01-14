@@ -2,7 +2,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { call, put, select, flush, delay } from "redux-saga/effects";
 import { startLoading, finishLoading } from "../Reducer/loadingReducer";
 import { throttle } from "lodash";
-import { buffers, eventChannel } from "redux-saga";
+import { buffers, eventChannel, END } from "redux-saga";
 
 // 캔들용 사가
 const createRequestSaga = (type, api, dataMaker) => {
@@ -134,6 +134,7 @@ const connectSocekt = (socket, connectType, action, buffer) => {
 
     socket.onerror = (evt) => {
       emit(evt);
+      emit(END);
     };
 
     const unsubscribe = () => {
@@ -187,7 +188,9 @@ const createConnectSocketSaga = (type, connectType, dataMaker) => {
         yield delay(500); // 500ms 동안 대기
       } catch (e) {
         yield put({ type: ERROR, payload: e });
+        clientChannel.close(); // 에러가 나면 소켓 닫기
       }
+      clientChannel.close(); // emit(END) 접근시 소켓 닫기
     }
   };
 };
