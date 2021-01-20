@@ -3,6 +3,7 @@ import { call, put, select, flush, delay } from "redux-saga/effects";
 import { startLoading, finishLoading } from "../Reducer/loadingReducer";
 import { throttle } from "lodash";
 import { buffers, eventChannel, END } from "redux-saga";
+import encoding from "text-encoding";
 
 // 캔들용 사가
 const createRequestSaga = (type, api, dataMaker) => {
@@ -53,7 +54,7 @@ const createConnectSocketThunk = (type, connectType, dataMaker) => {
     };
 
     client.onmessage = (evt) => {
-      const enc = new TextDecoder("utf-8");
+      const enc = new encoding.TextDecoder("utf-8");
       const arr = new Uint8Array(evt.data);
       const data = JSON.parse(enc.decode(arr));
       const state = getState();
@@ -89,7 +90,7 @@ const createConnectSocketThrottleThunk = (type, connectType, dataMaker) => {
     };
 
     client.onmessage = (evt) => {
-      const enc = new TextDecoder("utf-8");
+      const enc = new encoding.TextDecoder("utf-8");
       const arr = new Uint8Array(evt.data);
       const data = JSON.parse(enc.decode(arr));
       const state = getState();
@@ -125,9 +126,9 @@ const connectSocekt = (socket, connectType, action, buffer) => {
     };
 
     socket.onmessage = (evt) => {
-      const enc = new TextDecoder("utf-8");
-      const arr = new Uint8Array(evt.data);
-      const data = JSON.parse(enc.decode(arr));
+      const enc = new encoding.TextDecoder("utf-8");
+      // const arr = new Uint8Array(evt.data);
+      const data = JSON.parse(enc.decode(evt.data));
 
       emit(data);
     };

@@ -14,7 +14,7 @@ import CoinList from "../Components/Main/CoinList";
 import Footer from "../Components/Global/Footer";
 
 const St = {
-  MainContentContainer: styled.main`
+  MainContentContainer: styled.div`
     display: flex;
     justify-content: center;
     max-width: 1500px;
