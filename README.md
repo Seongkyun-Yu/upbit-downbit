@@ -152,15 +152,9 @@ $ yarn install<br>
 
 ## 프로젝트 관련 생각들
 
-- [나는 어떻게 차트를 만들었나](https://velog.io/@seongkyun/%EB%82%98%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%B0%A8%ED%8A%B8%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%97%88%EB%82%98)
+
 - [buffer를 활용하여 상태 갱신 줄이기](https://velog.io/@seongkyun/React-%EC%B5%9C%EC%A0%81%ED%99%94-buffer%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%98%EC%97%AC-%EC%83%81%ED%83%9C-%EA%B0%B1%EC%8B%A0-%EC%A4%84%EC%9D%B4%EA%B8%B0)
 - [throttle로 이벤트 캐치 줄이기](https://velog.io/@seongkyun/React-%EC%B5%9C%EC%A0%81%ED%99%94-%EB%B0%98%EC%9D%91%ED%98%95%EA%B3%BC-display-none)
-
-- [나는 왜 Commit 단위를 작게 나누는가](https://velog.io/@seongkyun/%EB%82%98%EB%8A%94-%EC%99%9C-Commit-%EB%8B%A8%EC%9C%84%EB%A5%BC-%EC%9E%91%EA%B2%8C-%EC%AA%BC%EA%B0%9C%EB%8A%94%EA%B0%80)
-- [나는 왜 리액트를 선택했나](https://velog.io/@seongkyun/%EC%99%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8%EB%A5%BC-%EC%84%A0%ED%83%9D%ED%96%88%EB%82%98)
-- [나는 왜 AWS를 선택했나](https://velog.io/@seongkyun/%EB%82%98%EB%8A%94-%EC%99%9C-AWS%EB%A5%BC-%EC%84%A0%ED%83%9D%ED%96%88%EB%82%98)
-- [질문 잘 하는 방법](https://velog.io/@seongkyun/%EC%A7%88%EB%AC%B8-%EC%9E%98%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
-
 <br>
 
 ## Technical Issue: Optimization
